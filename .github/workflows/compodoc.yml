@@ -1,0 +1,33 @@
+name: Generate Compodoc Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Generate Documentation
+      run: cd sogapeint-CRM/sogapaint-crm && compodoc -p tsconfig.doc.json -d documentation
+
+    - name: Commit Documentation
+      run: |
+        cd sogapeint-CRM/sogapaint-crm
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add documentation
+        git commit -m "Update documentation [skip ci]" || true
+        git push
