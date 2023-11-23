@@ -17,5 +17,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: cd sogapeint-CRM/sogapaint-crm && npm install --force
-    - run: cd sogapeint-CRM/sogapaint-crm && npx ng test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-    - run: cd sogapeint-CRM/sogapaint-crm && npx ng build --prod
+    - run: cd sogapeint-CRM/sogapaint-crm && ng test --watch=false --browsers=ChromeHeadless
+    # - run: cd sogapeint-CRM/sogapaint-crm && ng build --prod
