@@ -12,10 +12,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd sogapeint-CRM/sogapaint-crm && npm install --force
-    - run: cd sogapeint-CRM/sogapaint-crm && ng test --watch=false --browsers=ChromeHeadless
-    # - run: cd sogapeint-CRM/sogapaint-crm && ng build --prod
+
+    - name: Install npm@20.9.0
+      run: npm install -g npm@20.9.0
+
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli@15.1.4
+
+    - name: Install npm packages
+      run: cd sogapeint-CRM/sogapaint-crm && npm install --force
+
+    - name: Run tests
+      run: cd sogapeint-CRM/sogapaint-crm && ng test --watch=false --browsers=ChromeHeadless
+
+    # - name: Build
+    #   run: cd sogapeint-CRM/sogapaint-crm && ng build --prod
