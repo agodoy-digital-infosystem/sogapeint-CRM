@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // Configuration initiale du formulaire de connexion
     this.loginForm = this.formBuilder.group({
-      email: ['admin@themesdesign.in', [Validators.required, Validators.email]],
+      email: ['admin@sogapeint.corp', [Validators.required, Validators.email]],
       password: ['123456', [Validators.required]],
     });
 
