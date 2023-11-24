@@ -1,45 +1,52 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { LoginComponent } from './login.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../../../core/services/auth.service';
+import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
+import { of } from 'rxjs';
 
-// // Importation du composant LoginComponent à tester
-// import { LoginComponent } from './login.component';
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
 
-// /**
-//  * Suite de tests pour LoginComponent.
-//  *
-//  * Vise à tester les fonctionnalités de base et le rendu du composant LoginComponent.
-//  */
-// describe('LoginComponent', () => {
-//   // Déclaration des variables pour le composant et son environnement de test
-//   let component: LoginComponent;
-//   let fixture: ComponentFixture<LoginComponent>;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ LoginComponent ],
+      imports: [ 
+        RouterTestingModule, 
+        ReactiveFormsModule 
+      ],
+      providers: [
+        { 
+          provide: AuthenticationService, 
+          useValue: jasmine.createSpyObj('AuthenticationService', ['login']) 
+        },
+        { 
+          provide: AuthfakeauthenticationService, 
+          useValue: jasmine.createSpyObj('AuthfakeauthenticationService', ['login']) 
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParams: { returnUrl: '/' }
+            }
+          }
+        }
+      ]
+    })
+    .compileComponents();
+  }));
 
-//   /**
-//    * Configuration initiale pour chaque test.
-//    *
-//    * Configure l'environnement de test et compile les composants avant chaque test.
-//    */
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ LoginComponent ]  // Déclare le composant LoginComponent pour le test
-//     })
-//     .compileComponents();  // Compile les composants de manière asynchrone
-//   }));
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   /**
-//    * Initialisation avant chaque test.
-//    *
-//    * Crée une instance du composant LoginComponent et détecte les changements initiaux.
-//    */
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(LoginComponent);  // Crée l'environnement de test pour LoginComponent
-//     component = fixture.componentInstance;  // Obtient l'instance du composant
-//     fixture.detectChanges();  // Déclenche la détection des changements initiaux
-//   });
-
-//   /**
-//    * Test pour vérifier si le composant LoginComponent est créé correctement.
-//    */
-//   it('should create', () => {
-//     expect(component).toBeTruthy();  // Vérifie si l'instance du composant est créée et valide
-//   });
-// });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

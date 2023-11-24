@@ -1,45 +1,66 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { PasswordresetComponent } from './passwordreset.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../../../core/services/auth.service';
+import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
+import { of } from 'rxjs';
 
-// // Importation du composant PasswordresetComponent à tester
-// import { PasswordresetComponent } from './passwordreset.component';
+describe('PasswordresetComponent', () => {
+  let component: PasswordresetComponent;
+  let fixture: ComponentFixture<PasswordresetComponent>;
 
-// /**
-//  * Suite de tests pour PasswordresetComponent.
-//  *
-//  * Vise à tester le comportement de base et le rendu du composant PasswordresetComponent.
-//  */
-// describe('PasswordresetComponent', () => {
-//   // Variables pour le composant et son environnement de test
-//   let component: PasswordresetComponent;
-//   let fixture: ComponentFixture<PasswordresetComponent>;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ PasswordresetComponent ],
+      imports: [ 
+        RouterTestingModule, 
+        ReactiveFormsModule 
+      ],
+      providers: [
+        { 
+          provide: AuthenticationService, 
+          useValue: jasmine.createSpyObj('AuthenticationService', ['password-reset']) 
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParams: { returnUrl: '/' }
+            }
+          }
+        }
+      ]
+    })
+    .compileComponents();
+  }));
 
-//   /**
-//    * Configuration initiale pour chaque test.
-//    *
-//    * Configure l'environnement de test et compile les composants avant chaque test.
-//    */
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ PasswordresetComponent ]  // Déclare le composant pour le test
-//     })
-//     .compileComponents();  // Compile les composants de manière asynchrone
-//   }));
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PasswordresetComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   /**
-//    * Initialisation avant chaque test.
-//    *
-//    * Crée une instance du composant PasswordresetComponent et applique les changements initiaux.
-//    */
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(PasswordresetComponent);  // Crée l'environnement de test pour le composant
-//     component = fixture.componentInstance;  // Obtient l'instance du composant
-//     fixture.detectChanges();  // Déclenche la détection des changements initiaux
-//   });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   /**
-//    * Test pour vérifier si le composant PasswordresetComponent est créé correctement.
-//    */
-//   it('should create', () => {
-//     expect(component).toBeTruthy();  // Vérifie si l'instance du composant est bien créée
-//   });
-// });
+    it('form should be invalid when empty', () => {
+    expect(component.resetForm.valid).toBeFalsy();
+  });
+
+  it('email field validity', () => {
+    let email = component.resetForm.controls['email'];
+    expect(email.valid).toBeFalsy();
+
+    // Test email field with invalid email
+    email.setValue("test");
+    expect(email.hasError('email')).toBeTruthy();
+
+    // Test email field with valid email
+    email.setValue("test@test.com");
+    expect(email.hasError('email')).toBeFalsy();
+  });
+});
+

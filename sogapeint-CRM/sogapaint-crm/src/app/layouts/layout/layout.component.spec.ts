@@ -1,50 +1,63 @@
-// // import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { LayoutComponent } from './layout.component';
+import { LAYOUT_VERTICAL, LAYOUT_HORIZONTAL } from './layouts.model';
+import { EventService } from '../../core/services/event.service';
+import { Component } from '@angular/core';
 
-// // import { LayoutComponent } from './layout.component';
+// Mocks pour les composants enfants
+@Component({ selector: 'app-vertical', template: '' })
+class MockVerticalComponent {}
 
-// // describe('LayoutComponent', () => {
-// //   let component: LayoutComponent;
-// //   let fixture: ComponentFixture<LayoutComponent>;
+@Component({ selector: 'app-horizontal', template: '' })
+class MockHorizontalComponent {}
 
-// //   beforeEach(async () => {
-// //     await TestBed.configureTestingModule({
-// //       imports: [LayoutComponent]
-// //     })
-// //     .compileComponents();
-    
-// //     fixture = TestBed.createComponent(LayoutComponent);
-// //     component = fixture.componentInstance;
-// //     fixture.detectChanges();
-// //   });
+describe('LayoutComponent', () => {
+    let component: LayoutComponent;
+    let fixture: ComponentFixture<LayoutComponent>;
+    let eventService: EventService;
 
-// //   it('should create', () => {
-// //     expect(component).toBeTruthy();
-// //   });
-// // });
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [LayoutComponent, MockVerticalComponent, MockHorizontalComponent],
+            providers: [
+                {
+                    provide: EventService,
+                    useValue: {
+                        subscribe: jasmine.createSpy().and.callFake((eventType, callback) => {
+                            if (eventType === 'changeLayout') {
+                                callback(LAYOUT_HORIZONTAL);
+                            }
+                        })
+                    }
+                }
+            ]
+        }).compileComponents();
 
+        fixture = TestBed.createComponent(LayoutComponent);
+        component = fixture.componentInstance;
+        eventService = TestBed.inject(EventService);
+        fixture.detectChanges();
+    });
 
-// // VERSION 2:
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { LayoutComponent } from './layout.component';
+    it('should initialize with horizontal layout', () => {
+        expect(component.layoutType).toBe(LAYOUT_HORIZONTAL);
+    });
 
+    it('should change layout type when event is received', () => {
+        expect(component.layoutType).toBe(LAYOUT_HORIZONTAL);
+    });
 
-// describe('LayoutComponent', () => {
-//   let component: LayoutComponent;
-//   let fixture: ComponentFixture<LayoutComponent>;
+    it('should correctly determine if vertical layout is requested', () => {
+        component.layoutType = LAYOUT_VERTICAL;
+        expect(component.isVerticalLayoutRequested()).toBeTrue();
+    });
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [LayoutComponent],
-//     })
-//     .compileComponents();
-
-//     fixture = TestBed.createComponent(LayoutComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
-
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+    it('should correctly determine if horizontal layout is requested', () => {
+        component.layoutType = LAYOUT_HORIZONTAL;
+        expect(component.isHorizontalLayoutRequested()).toBeTrue();
+    });
+});

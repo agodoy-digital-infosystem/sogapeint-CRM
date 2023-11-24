@@ -1,45 +1,77 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SignupComponent } from './signup.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../../../core/services/auth.service';
+import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 
-// // Importation du composant SignupComponent à tester
-// import { SignupComponent } from './signup.component';
+describe('SignupComponent', () => {
+  let component: SignupComponent;
+  let fixture: ComponentFixture<SignupComponent>;
 
-// /**
-//  * Suite de tests pour SignupComponent.
-//  *
-//  * Vise à tester les fonctionnalités et le rendu de base du composant SignupComponent.
-//  */
-// describe('SignupComponent', () => {
-//   // Déclaration des variables pour le composant et son environnement de test
-//   let component: SignupComponent;
-//   let fixture: ComponentFixture<SignupComponent>;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ SignupComponent ],
+      imports: [ 
+        RouterTestingModule, 
+        ReactiveFormsModule,
+        HttpClientTestingModule 
+      ],
+      providers: [
+        { 
+          provide: AuthenticationService, 
+          useValue: jasmine.createSpyObj('AuthenticationService', ['signup']) 
+        },
+        { 
+          provide: AuthfakeauthenticationService, 
+          useValue: jasmine.createSpyObj('AuthfakeauthenticationService', ['signup']) 
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParams: { returnUrl: '/' }
+            }
+          }
+        }
+      ]
+    })
+    .compileComponents();
+  }));
 
-//   /**
-//    * Configuration initiale pour chaque test.
-//    *
-//    * Configure l'environnement de test, compile les composants et prépare les instances.
-//    */
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ SignupComponent ]  // Déclare le composant à tester
-//     })
-//     .compileComponents();  // Compile les composants asynchrones
-//   }));
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SignupComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   /**
-//    * Initialisation avant chaque test.
-//    *
-//    * Crée une instance du composant et détecte les changements initiaux.
-//    */
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(SignupComponent);  // Crée l'environnement de test pour SignupComponent
-//     component = fixture.componentInstance;  // Obtient l'instance du composant
-//     fixture.detectChanges();  // Déclenche la détection des changements initiaux
-//   });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   /**
-//    * Test pour vérifier si le composant est créé correctement.
-//    */
-//   it('should create', () => {
-//     expect(component).toBeTruthy();  // Vérifie si l'instance du composant existe
-//   });
-// });
+  it('form should be invalid when empty', () => {
+    expect(component.signupForm.valid).toBeFalsy();
+  });
+
+  it('form fields validity', () => {
+    let username = component.signupForm.controls['username'];
+    let email = component.signupForm.controls['email'];
+    let password = component.signupForm.controls['password'];
+
+    expect(username.valid).toBeFalsy();
+    expect(email.valid).toBeFalsy();
+    expect(password.valid).toBeFalsy();
+
+    // Test fields with valid input
+    username.setValue("testuser");
+    email.setValue("test@test.com");
+    password.setValue("password");
+
+    expect(username.valid).toBeTruthy();
+    expect(email.valid).toBeTruthy();
+    expect(password.valid).toBeTruthy();
+  });
+});
