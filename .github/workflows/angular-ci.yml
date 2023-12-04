@@ -32,3 +32,59 @@ jobs:
 
     # - name: Build
     #   run: cd sogapeint-CRM/sogapaint-crm && ng build --prod
+
+    # Étape de déploiement
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        script: |
+          # Vérifier et installer rsync si nécessaire
+          if ! command -v rsync > /dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y rsync
+          fi
+
+          # Transférer le code de l'application
+          rsync -avz --exclude 'node_modules' ./ sogapeint-CRM/sogapaint-crm ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/dis/dev/
+
+          # Se connecter au serveur et exécuter les commandes
+          ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'ENDSSH'
+            # Installer Node.js et npm si nécessaire
+            if ! command -v node > /dev/null || ! command -v npm > /dev/null; then
+              curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+            fi
+
+            # Installer Angular CLI globalement si nécessaire
+            if ! command -v ng > /dev/null; then
+              npm install -g @angular/cli
+            fi
+
+            # Installer pm2 si nécessaire
+            if ! command -v pm2 > /dev/null; then
+              npm install -g pm2
+            fi
+
+            # Aller dans le dossier de l'application
+            cd /home/dis/dev/sogapeint-CRM/sogapaint-crm
+
+            # Installer les dépendances
+            npm install
+
+            # Construire l'application
+            ng build --prod
+
+            # Lancer l'application avec pm2
+            pm2 start dist/sogapaint-crm/main.js
+
+            # Installer et configurer ngrok si nécessaire
+            if ! command -v ngrok > /dev/null; then
+              # Télécharger et installer ngrok, ajustez selon vos besoins
+            fi
+
+            # Lancer ngrok
+            ./ngrok http 80
+          ENDSSH
