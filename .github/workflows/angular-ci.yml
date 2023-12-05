@@ -32,6 +32,8 @@ jobs:
 
     # - name: Build
     #   run: cd sogapeint-CRM/sogapaint-crm && ng build --prod
+    - name: Compress Project
+      run: tar -czf sogapaint-crm.tar.gz -C sogapeint-CRM/sogapaint-crm .
 
     # Étape de déploiement
     - name: Deploy to Server
@@ -46,7 +48,9 @@ jobs:
           echo "Début du déploiement"
 
           # Transférer le fichier compressé
+          echo "debut du transfert"
           scp sogapaint-crm.tar.gz dis@46.105.52.105:/home/dis/dev/
+          echo "Transfert OK"
 
           # Connexion SSH et décompression du fichier
           ssh dis@46.105.52.105 "tar -xzf /home/dis/dev/sogapaint-crm.tar.gz -C /home/dis/dev/app"
