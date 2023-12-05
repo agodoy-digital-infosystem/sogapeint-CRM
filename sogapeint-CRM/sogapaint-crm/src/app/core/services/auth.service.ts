@@ -1,81 +1,38 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-// Utilitaire pour l'intégration avec le backend Firebase
-import { getFirebaseBackend } from '../../authUtils'; // TODO : Changer pour adapter à la bdd
-
-// Modèle utilisateur pour la gestion de l'authentification
+import { environment } from '../../../environments/environment';
 import { User } from '../models/auth.models';
 
-/**
- * Service d'authentification.
- *
- * Fournit des fonctionnalités d'authentification, y compris la connexion,
- * l'inscription, la réinitialisation du mot de passe et la déconnexion.
- * Interagit avec le backend Firebase pour ces opérations.
- */
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+    private currentUserSubject: BehaviorSubject<User>;
+    public currentUser: Observable<User>;
 
-    // L'utilisateur actuellement authentifié
-    user: User;
-
-    constructor() {
+    constructor(private http: HttpClient) {
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    /**
-     * Récupère l'utilisateur actuellement authentifié.
-     *
-     * @returns L'utilisateur authentifié ou null si aucun utilisateur n'est connecté.
-     */
-    public currentUser(): User {
-        return getFirebaseBackend().getAuthenticatedUser(); // TODO : Changer pour adapter à la bdd
+    public get currentUserValue(): User {
+        return this.currentUserSubject.value;
     }
 
-    /**
-     * Connecte un utilisateur avec un email et un mot de passe.
-     *
-     * @param email L'email de l'utilisateur.
-     * @param password Le mot de passe de l'utilisateur.
-     * @returns Une promesse résolue avec les détails de l'utilisateur après une connexion réussie.
-     */
     login(email: string, password: string) {
-        return getFirebaseBackend().loginUser(email, password).then((response: any) => { // TODO : Changer pour adapter à la bdd
-            const user = response;
-            return user;
-        });
+        return this.http.post<any>(`${environment.apiUrl}/api/auth/login`, { email, password })
+            .pipe(map(user => {
+                // stocker les détails de l'utilisateur et le jeton jwt dans le stockage local pour garder l'utilisateur connecté entre les rafraîchissements de page
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                this.currentUserSubject.next(user);
+                return user;
+            }));
     }
 
-    /**
-     * Enregistre un nouvel utilisateur avec un email et un mot de passe.
-     *
-     * @param email L'email de l'utilisateur.
-     * @param password Le mot de passe de l'utilisateur.
-     * @returns Une promesse résolue avec les détails de l'utilisateur après un enregistrement réussi.
-     */
-    register(email: string, password: string) {
-        return getFirebaseBackend().registerUser(email, password).then((response: any) => { // TODO : Changer pour adapter à la bdd
-            const user = response;
-            return user;
-        });
-    }
-
-    /**
-     * Envoie une demande de réinitialisation de mot de passe pour l'email donné.
-     *
-     * @param email L'email pour lequel réinitialiser le mot de passe.
-     * @returns Une promesse résolue avec un message de succès.
-     */
-    resetPassword(email: string) {
-        return getFirebaseBackend().forgetPassword(email).then((response: any) => { // TODO : Changer pour adapter à la bdd
-            const message = response.data;
-            return message;
-        });
-    }
-
-    /**
-     * Déconnecte l'utilisateur actuellement connecté.
-     */
     logout() {
-        getFirebaseBackend().logout(); // TODO : Changer pour adapter à la bdd
+        // supprimer l'utilisateur du stockage local pour déconnecter l'utilisateur
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
     }
 }

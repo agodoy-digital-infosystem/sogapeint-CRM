@@ -1,21 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-
-// Services d'authentification
 import { AuthenticationService } from '../../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
-
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 
-import { environment } from '../../../../environments/environment';
-
 /**
- * Composant Login.
- *
- * Gère la logique de la page de connexion, permettant aux utilisateurs de se connecter
- * avec leurs identifiants. Il utilise un formulaire réactif pour la saisie des données
- * et peut gérer l'authentification à l'aide de différents services selon l'environnement.
+ * Composant LoginComponent
+ * 
+ * Gère la page de connexion de l'application.
  */
 @Component({
   selector: 'app-login',
@@ -23,32 +15,39 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  // Déclaration des variables pour le formulaire, la soumission et les erreurs
+  // Déclaration et initialisation des propriétés
   loginForm: UntypedFormGroup;
   submitted = false;
   error = '';
   returnUrl: string;
-
-  // Variable pour stocker l'année actuelle, utile pour l'affichage dans le template
   year: number = new Date().getFullYear();
 
+  /**
+   * Constructeur du composant
+   * 
+   * @param formBuilder Construit les formulaires réactifs
+   * @param route Fournit l'accès aux informations de la route associée
+   * @param router Permet la navigation entre les pages
+   * @param authenticationService Service d'authentification
+   */
   constructor(
     private formBuilder: UntypedFormBuilder, 
     private route: ActivatedRoute, 
     private router: Router, 
-    public authenticationService: AuthenticationService, 
-    public authFackservice: AuthfakeauthenticationService
+    public authenticationService: AuthenticationService
   ) { }
 
+  /**
+   * Méthode d'initialisation du composant
+   */
   ngOnInit() {
-    // Configuration initiale du formulaire de connexion
+    // Initialisation du formulaire de connexion
     this.loginForm = this.formBuilder.group({
       email: ['admin@sogapeint.corp', [Validators.required, Validators.email]],
       password: ['123456', [Validators.required]],
     });
 
-    // Récupération du retour d'URL depuis les paramètres de la route, si disponible
+    // Récupération de l'URL de retour après la connexion
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
@@ -56,38 +55,27 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   /**
-   * Gère la soumission du formulaire de connexion.
-   *
-   * Valide le formulaire et utilise le service d'authentification approprié
-   * pour connecter l'utilisateur. Gère également les erreurs d'authentification.
+   * Méthode appelée lors de la soumission du formulaire
    */
   onSubmit() {
     this.submitted = true;
 
-    // Vérifie si le formulaire est invalide et arrête l'exécution si c'est le cas
+    // Vérification de la validité du formulaire
     if (this.loginForm.invalid) {
       return;
     } else {
-      // Traite la connexion en fonction de l'environnement d'authentification
-      if (environment.defaultauth === 'firebase') {
-        this.authenticationService.login(this.f.email.value, this.f.password.value).then((res: any) => {
-          this.router.navigate(['/']);
-        })
-          .catch(error => {
+      // Appel au service d'authentification
+      this.authenticationService.login(this.f.email.value, this.f.password.value)
+        .pipe(first())
+        .subscribe(
+          data => {
+            // Navigation vers la page d'accueil en cas de succès
+            this.router.navigate(['/']);
+          },
+          error => {
+            // Affichage d'un message d'erreur en cas d'échec
             this.error = error ? error : '';
           });
-      } else {
-        this.authFackservice.login(this.f.email.value, this.f.password.value)
-          .pipe(first())
-          .subscribe(
-            data => {
-              this.router.navigate(['/']);
-            },
-            error => {
-              this.error = error ? error : '';
-            });
-      }
     }
   }
-
 }

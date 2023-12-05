@@ -4,14 +4,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
 import { of } from 'rxjs';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
+  let authServiceSpy: jasmine.SpyObj<AuthenticationService>;
 
   beforeEach(async(() => {
+    authServiceSpy = jasmine.createSpyObj('AuthenticationService', ['login']);
+
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
       imports: [ 
@@ -21,11 +23,7 @@ describe('LoginComponent', () => {
       providers: [
         { 
           provide: AuthenticationService, 
-          useValue: jasmine.createSpyObj('AuthenticationService', ['login']) 
-        },
-        { 
-          provide: AuthfakeauthenticationService, 
-          useValue: jasmine.createSpyObj('AuthfakeauthenticationService', ['login']) 
+          useValue: authServiceSpy 
         },
         {
           provide: ActivatedRoute,
@@ -49,4 +47,5 @@ describe('LoginComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

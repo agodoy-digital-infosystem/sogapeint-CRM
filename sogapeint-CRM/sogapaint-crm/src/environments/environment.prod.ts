@@ -1,14 +1,6 @@
 export const environment = {
   production: true,
-  defaultauth: 'fackbackend',
-  firebaseConfig: {
-    apiKey: '',
-    authDomain: '',
-    databaseURL: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
-    measurementId: ''
-  }
+  defaultauth: 'backend',
+  apiUrl: 'https://the-production-api-url', // Remplacer par l'URL de l'API de production
 };
+

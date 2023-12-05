@@ -68,11 +68,11 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
     }
 
     // Envoie la demande de réinitialisation du mot de passe
-    if (environment.defaultauth === 'firebase') {
-      this.authenticationService.resetPassword(this.f.email.value)
-        .catch(error => {
-          this.error = error ? error : '';
-        });
+    if (environment.defaultauth === 'firebase') { // TODO remplacer
+      // this.authenticationService.resetPassword(this.f.email.value)
+      //   .catch(error => {
+      //     this.error = error ? error : '';
+      //   });
     }
   }
 }

@@ -4,8 +4,30 @@
 // custom-variables
 //
 
+// Prefix for :root CSS variables
+
+$variable-prefix: bs-; // Deprecated in v5.2.0 for the shorter `$prefix`
+$prefix: $variable-prefix;
+
+// Color system
+
+// scss-docs-start gray-color-variables
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #eff2f7;
+$gray-300: #f1f5f7;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #74788d;
+$gray-700: #2d3448;
+$gray-800: #252b3b;
+$gray-900: #212529;
+$black: #000;
+
+$border-color: $gray-300;
+
 // Vertical Sidebar - Default Light
-// $sidebar-bg: var(--#{$prefix}sidebar-bg);
+$sidebar-bg: var(--#{$prefix}sidebar-bg);
 $sidebar-menu-item-color: var(--#{$prefix}sidebar-menu-item-color);
 $sidebar-menu-sub-item-color: var(--#{$prefix}sidebar-menu-sub-item-color);
 $sidebar-menu-item-icon-color: var(--#{$prefix}sidebar-menu-item-icon-color);
@@ -571,8 +593,7 @@ $grid-breakpoints: (
 );
 // scss-docs-end grid-breakpoints
 
-@include _assert-ascending($grid-breakpoints, "$grid-breakpoints"
-);
+@include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
 @include _assert-starts-at-zero($grid-breakpoints, "$grid-breakpoints");
 
 

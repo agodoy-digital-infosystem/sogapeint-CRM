@@ -43,4 +43,15 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         command_timeout: 30m
         script: |
-          echo "Nice job!!!"
+          echo "Début du déploiement"
+
+          # Transférer le fichier compressé
+          scp sogapaint-crm.tar.gz dis@46.105.52.105:/home/dis/dev/
+
+          # Connexion SSH et décompression du fichier
+          ssh dis@46.105.52.105 "tar -xzf /home/dis/dev/sogapaint-crm.tar.gz -C /home/dis/dev/app"
+
+          # Nettoyage (optionnel)
+          ssh dis@46.105.52.105 "rm /home/dis/dev/sogapaint-crm.tar.gz"
+
+          echo "Déploiement effectué avec succès sur le serveur de test."
