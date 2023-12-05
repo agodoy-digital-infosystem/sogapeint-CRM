@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 // Importation des routes
-const authRoutes = require('./routes/authRoutes'); // Assurez-vous que le chemin est correct
+const authRoutes = require('./routes/authRoutes');
 
 // Initialisation d'Express
 const app = express();
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connexion à MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connecté à MongoDB'))
   .catch(err => console.error('Erreur de connexion à MongoDB', err));
 
