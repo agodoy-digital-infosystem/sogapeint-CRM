@@ -35,7 +35,14 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
-        enum: ['superAdmin', 'cocontractor', 'subcontractor', 'comanager', 'supermanager', "customer"]  // Ajouter d'autres rôles si nécessaire.
+        enum: [
+            'superAdmin', 
+            'cocontractor', 
+            'subcontractor', 
+            'comanager', 
+            'supermanager', 
+            'customer'
+    ]  
     },
     password: {
         type: String,
@@ -49,7 +56,6 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-    // Pas besoin de stocker le sel séparément en utilisant bcrypt, car il est intégré dans le hachage du mot de passe.
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -57,3 +57,7 @@ baseline.json
 # Husky
 .husky/_
 aio/content/examples/.DS_Store
+
+# Backend
+backend/node_modules/
+backend/.env
