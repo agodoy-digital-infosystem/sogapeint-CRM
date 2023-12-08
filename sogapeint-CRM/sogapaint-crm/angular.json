@@ -30,10 +30,6 @@
               "src/assets"
             ],
             "styles": [
-              // "node_modules/angular-archwizard/styles/archwizard.css",
-              // "./node_modules/ngx-ui-switch/ui-switch.component.css",
-              // "src/assets/scss/bootstrap.scss",
-              // "src/assets/scss/app.scss",
               "src/styles.scss"
             ],
             "scripts": []
@@ -43,8 +39,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -67,6 +63,9 @@
           "configurations": {
             "production": {
               "buildTarget": "sogapaint-crm:build:production"
+            },
+            "test": {
+              "buildTarget": "sogapaint-crm:build:test"
             },
             "development": {
               "buildTarget": "sogapaint-crm:build:development"

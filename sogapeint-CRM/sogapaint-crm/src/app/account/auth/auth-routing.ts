@@ -18,11 +18,11 @@ const routes: Routes = [
         path: 'login',
         component: LoginComponent
     },
-    {
-        // Route pour la page d'inscription
-        path: 'signup',
-        component: SignupComponent
-    },
+    // {
+    //     // Route pour la page d'inscription
+    //     path: 'signup',
+    //     component: SignupComponent
+    // },
     {
         // Route pour la page de réinitialisation du mot de passe
         path: 'reset-password',
