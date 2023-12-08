@@ -4,9 +4,14 @@ const User = require('../models/User');
 
 console.log('Importation du authController');
 
+const { isEmail } = require('validator');
+
 exports.login = async (req, res) => {
   try {
     console.log('Tentative de connexion');
+    if (!isEmail(email)) {
+      return res.status(400).json({ message: 'Adresse email invalide.' });
+    }
     const { email, password } = req.body;
     console.log('Email:', email);
 
