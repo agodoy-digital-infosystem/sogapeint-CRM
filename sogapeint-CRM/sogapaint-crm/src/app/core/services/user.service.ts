@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 // Importation du modèle User pour la gestion des données utilisateur
 import { User } from '../models/auth.models';
 
+import { AuthenticationService } from './auth.service';
+
 /**
  * Service pour la gestion des profils utilisateurs.
  *
@@ -16,7 +18,11 @@ export class UserProfileService {
      * Constructeur du service UserProfileService.
      * @param http HttpClient pour les requêtes HTTP.
      */
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private authService: AuthenticationService) { }
+
+    getCurrentUser(): User {
+        return this.authService.currentUserValue;
+    }
 
     /**
      * Récupère tous les utilisateurs.

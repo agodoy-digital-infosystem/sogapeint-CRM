@@ -1,0 +1,43 @@
+.user-info-bar {
+    width: 100%;
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+    padding: 10px;
+    box-shadow: var(--bs-box-shadow);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .user-details {
+        flex: 1; // Permet de prendre l'espace disponible et pousse les autres éléments à droite
+        display: flex;
+        align-items: center;
+
+        span {
+            margin-right: 10px;
+            color: var(--bs-light);
+        }
+    }
+    
+    .role-badge {
+        padding: 5px 10px;
+        border-radius: 15px;
+        color: var(--bs-white);
+        font-weight: bold;
+        
+        &.badge-superadmin { background-color: #e74c3c; } // Rouge pour superAdmin
+        &.badge-cocontractor { background-color: #3498db; } // Bleu pour cocontractor
+        &.badge-subcontractor { background-color: #2ecc71; } // Vert pour subcontractor
+        &.badge-customer { background-color: #f1c40f; } // Jaune pour customer
+        &.badge-comanager { background-color: #9b59b6; } // Violet pour comanager
+        &.badge-supermanager { background-color: #95a5a6; } // Gris pour supermanager
+    }
+    
+}
+
+

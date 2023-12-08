@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User } from '../models/auth.models';
 
+// localStorage.removeItem('currentUser'); // Temporary
+
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;

@@ -30,7 +30,11 @@ exports.login = async (req, res) => {
     const tokenPayload = { 
       userId: user._id, 
       role: user.role, 
-      email: user.email 
+      email: user.email,
+      firstName: user.firstname,
+      lastName: user.lastname,
+      phone: user.phone,
+      company: user.company
     };
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
@@ -38,7 +42,11 @@ exports.login = async (req, res) => {
     res.status(200).json({
       userId: user._id,
       token,
-      role: user.role
+      role: user.role,
+      firstName: user.firstname,
+      lastName: user.lastname,
+      phone: user.phone,
+      company: user.company
     });
   } catch (error) {
     console.error('Erreur lors de la connexion:', error.message);

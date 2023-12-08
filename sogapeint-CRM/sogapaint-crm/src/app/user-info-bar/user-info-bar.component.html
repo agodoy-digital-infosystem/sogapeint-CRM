@@ -1,0 +1,9 @@
+<div class="user-info-bar" *ngIf="currentUser">
+    <div class="user-details">
+      <span>{{ currentUser.firstName }}</span>
+      <span>{{ currentUser.lastName }}</span>
+    </div>
+    <div class="role-badge" [ngClass]="getRoleClass(currentUser.role)">
+      {{ currentUser.role }}
+    </div>
+</div>

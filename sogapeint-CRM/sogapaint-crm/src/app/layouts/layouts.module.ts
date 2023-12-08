@@ -10,6 +10,8 @@ import { VerticalComponent } from './vertical/vertical.component';
 import { HorizontalComponent } from './horizontal/horizontal.component';
 import { LayoutComponent } from './layout/layout.component';
 
+import { UserInfoBarComponent } from '../user-info-bar/user-info-bar.component';
+
 /**
  * Module pour la gestion des layouts dans l'application.
  *
@@ -20,7 +22,8 @@ import { LayoutComponent } from './layout/layout.component';
   declarations: [
     VerticalComponent,  // Composant pour la disposition verticale
     HorizontalComponent,  // Composant pour la disposition horizontale
-    LayoutComponent  // Composant principal de mise en page
+    LayoutComponent,  // Composant principal de mise en page
+    UserInfoBarComponent
   ],
   imports: [
     CommonModule,  // Module commun pour les directives Angular de base
