@@ -42,16 +42,42 @@ exec > >(tee -a $LOG_FILE) 2>&1
 #########################
 
 # Fonction log_message
-# Cette fonction est utilisée pour écrire des messages de log formatés.
+# Cette fonction est utilisée pour écrire et afficher des messages de log formatés avec prise en charge des couleurs dans le terminal.
 # Arguments :
-#   - $1 : Message à logger.
+#   - $1 : Type de message (SUCCESS, ERROR, ou autre pour un message normal).
+#   - $2 : Message à logger.
 # Fonctionnement :
-#   - Utilise `echo` pour afficher le message, précédé d'un horodatage.
-#   - Les messages sont formatés avec un horodatage pour faciliter le suivi temporel dans les logs.
-#   - Chaque appel à cette fonction écrit un message dans le fichier de log et l'affiche également dans le terminal.
+#   - Utilise `echo -e` pour afficher le message avec prise en charge des séquences d'échappement (pour les couleurs).
+#   - Les messages sont précédés d'un horodatage pour faciliter le suivi temporel dans les logs.
+#   - Les messages de type ERROR sont affichés en rouge, et ceux de type SUCCESS en vert. Les messages sans type spécifique sont affichés sans couleur.
+#   - Les messages sont écrits dans le fichier de log sans les codes de couleur ANSI pour une meilleure lisibilité.
+#   - Les messages d'erreur sont également redirigés vers la sortie d'erreur standard (stderr).
 log_message() {
-    echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1"
+    local message_type=$1
+    local message=$2
+
+    # Définition des codes de couleur
+    local RED='\033[0;31m'
+    local GREEN='\033[0;32m'
+    local NC='\033[0m' # Pas de couleur
+
+    # Horodatage
+    local timestamp="[$(date +'%Y-%m-%d %H:%M:%S')]"
+
+    # Sélection de la couleur en fonction du type de message
+    case $message_type in
+        ERROR)
+            echo -e "${RED}${timestamp} ${message}${NC}" | tee -a $LOG_FILE >&2
+            ;;
+        SUCCESS)
+            echo -e "${GREEN}${timestamp} ${message}${NC}" | tee -a $LOG_FILE
+            ;;
+        *)
+            echo "${timestamp} ${message}" | tee -a $LOG_FILE
+            ;;
+    esac
 }
+
 
 # check_installation
 # Vérifie si un logiciel spécifique est installé et si sa version est à jour.
@@ -107,29 +133,68 @@ install_software() {
     log_message "Vérification de $software_name..."
     if [ "$install_needed" -eq 1 ]; then
         if eval "$install_command"; then
-            log_message "$software_name installé avec succès."
+            log_message SUCCESS "$software_name installé avec succès."
         else
-            log_message "Échec de l'installation de $software_name. Vérifiez votre connexion Internet ou la configuration de votre système."
+            log_message ERROR "Échec de l'installation de $software_name. Vérifiez votre connexion Internet ou la configuration de votre système."
             exit 1
         fi
     elif [ "$install_needed" -eq 2 ]; then
         if eval "$update_command"; then
-            log_message "$software_name mis à jour avec succès."
+            log_message SUCCESS "$software_name mis à jour avec succès."
         else
-            log_message "Échec de la mise à jour de $software_name. Vérifiez votre connexion Internet ou la configuration de votre système."
+            log_message ERROR "Échec de la mise à jour de $software_name. Vérifiez votre connexion Internet ou la configuration de votre système."
             exit 1
         fi
     fi
+}
+
+# print_logo
+# affiche le logo Digital Info System
+print_logo() {
+    # Couleurs ANSI
+    local RED='\033[0;31m'
+    local YELLOW='\033[0;33m'
+    local GREEN='\033[0;32m'
+    local BLUE='\033[0;34m'
+    local PURPLE='\033[0;35m'
+    local NC='\033[0m' # Pas de couleur
+
+    # ASCII Art "Digital Info System"
+    echo -e "${RED}______ _       _ _        _   _____       __        _____           _                 ${NC}"
+    echo -e "${YELLOW}|  _  (_)     (_) |      | | |_   _|     / _|      /  ___|         | |                ${NC}"
+    echo -e "${GREEN}| | | |_  __ _ _| |_ __ _| |   | | _ __ | |_ ___   \\ \`--. _   _ ___| |_ ___ _ __ ___  ${NC}"
+    echo -e "${BLUE}| | | | |/ _\` | | __/ _\` | |   | || '_ \\|  _/ _ \\   \`--. \\ | | / __| __/ _ \\ '_ \` _ \\ ${NC}"
+    echo -e "${PURPLE}| |/ /| | (_| | | || (_| | |  _| || | | | || (_) | /\\__/ / |_| \\__ \\ ||  __/ | | | | |${NC}"
+    echo -e "${RED}|___/ |_|\\__, |_|\\__\\__,_|_|  \\___/_| |_|_| \\___/  \\____/ \\__, |___/\\__\\___|_| |_| |_|${NC}"
+    echo -e "${YELLOW}          __/ |                                            __/ |                      ${NC}"
+    echo -e "${GREEN}         |___/                                            |___/                       ${NC}"
 }
 
 #######################################################
 
 log_message "Début du script d'installation"
 
+print_logo
+
 ########################################################
 # Installation des logiciels                           #
 # Node.js, npm, PM2, MongoDB, Angular CLI, Tmux, Nginx #
 ########################################################
+
+# Vérifier si NVM est installé, et l'installer si besoin
+if ! command -v nvm &> /dev/null; then
+    log_message "NVM n'est pas installé. Installation de NVM en cours."
+    if curl -o- $NVM_INSTALL_URL | bash; then
+        log_message SUCCESS "NVM installé avec succès."
+        export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+    else
+        log_message ERROR "Échec de l'installation de NVM."
+        exit 1
+    fi
+else
+    log_message "NVM est déjà installé."
+fi
 
 # Installation de Node.js
 check_installation "node" $NODE_VERSION
@@ -146,6 +211,22 @@ check_installation "pm2" $PM2_VERSION
 pm2_status=$?
 install_software "PM2" "npm install pm2@$PM2_VERSION -g" "npm install pm2@$PM2_VERSION -g" $pm2_status
 
+# Vérification et installation de gnupg, gnupg2, et gnupg1
+packages=("gnupg" "gnupg2" "gnupg1")
+for package in "${packages[@]}"; do
+    if ! command -v $package &> /dev/null; then
+        log_message "Le paquet $package n'est pas installé. Installation en cours."
+        if sudo apt-get install -y $package; then
+            log_message SUCCESS "Le paquet $package a été installé avec succès."
+        else
+            log_message ERROR "Échec de l'installation du paquet $package."
+            exit 1
+        fi
+    else
+        log_message "Le paquet $package est déjà installé."
+    fi
+done
+
 # Installation de MongoDB
 check_installation "mongod" $MONGODB_VERSION
 mongodb_status=$?
@@ -154,7 +235,7 @@ if [ $mongodb_status -ne 0 ]; then
         install_command="wget -qO - $MONGODB_GPG_KEY_URL | sudo apt-key add - && echo 'deb [ arch=amd64,arm64 ] $MONGODB_REPO_URL' | sudo tee $MONGODB_SOURCES_LIST && sudo apt-get update && sudo apt-get install -y mongodb-org=$MONGODB_VERSION mongodb-org-server=$MONGODB_VERSION mongodb-org-shell=$MONGODB_VERSION mongodb-org-mongos=$MONGODB_VERSION mongodb-org-tools=$MONGODB_VERSION"
         install_software "MongoDB" "$install_command" "$install_command" 1
     else
-        log_message "Version non prise en charge de MongoDB. Installation annulée."
+        log_message ERROR "Version non prise en charge de MongoDB. Installation annulée."
         exit 1
     fi
 fi
@@ -175,10 +256,18 @@ nginx_status=$?
 install_software "Nginx" "sudo apt install nginx" "sudo apt install nginx" $nginx_status
 
 
-# Configuration de nginx
+# Configuration de Nginx
+log_message "Configuration de Nginx."
 PUBLIC_IP=$(curl -s ifconfig.me) # Obtention de l'IP publique
-sudo touch $NGINX_CONFIG_FILE
-echo "server {
+if sudo touch $NGINX_CONFIG_FILE; then
+    log_message SUCCESS "Fichier de configuration Nginx $NGINX_CONFIG_FILE créé."
+else
+    log_message ERROR "Échec de la création du fichier de configuration Nginx $NGINX_CONFIG_FILE."
+    exit 1
+fi
+
+log_message "Écriture de la configuration Nginx."
+if echo "server {
     listen 80;
     server_name $PUBLIC_IP;
 
@@ -186,7 +275,7 @@ echo "server {
         proxy_pass http://localhost:$FRONTEND_PORT;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection "upgrade";
+        proxy_set_header Connection \"upgrade\";
         proxy_set_header Host \$host;
         proxy_cache_bypass \$http_upgrade;
     }
@@ -196,16 +285,43 @@ echo "server {
         proxy_http_version 1.1;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection "upgrade";
+        proxy_set_header Connection \"upgrade\";
         proxy_set_header Host \$host;
         proxy_cache_bypass \$http_upgrade;
     }
-}" | sudo tee $CONFIG_FILE
+}" | sudo tee $NGINX_CONFIG_FILE; then
+    log_message SUCCESS "Configuration Nginx écrite dans $NGINX_CONFIG_FILE."
+else
+    log_message ERROR "Échec de l'écriture de la configuration Nginx dans $NGINX_CONFIG_FILE."
+    exit 1
+fi
 
-# Activer la configuration nginx
-sudo ln -s $NGINX_CONFIG_FILE $NGINX_ENABLED
-sudo nginx -t
-sudo systemctl restart nginx
+
+# Activer la configuration nginx et vérifier sa validité
+log_message "Activation de la configuration Nginx."
+if sudo ln -s $NGINX_CONFIG_FILE $NGINX_ENABLED; then
+    log_message SUCCESS "Lien symbolique pour Nginx créé avec succès."
+else
+    log_message ERROR "Échec de la création du lien symbolique pour Nginx."
+    exit 1
+fi
+
+log_message "Vérification de la configuration Nginx."
+if sudo nginx -t; then
+    log_message SUCCESS "La configuration Nginx est valide."
+    
+    log_message "Redémarrage du service Nginx."
+    if sudo systemctl restart nginx; then
+        log_message SUCCESS "Nginx redémarré avec succès."
+    else
+        log_message ERROR "Échec du redémarrage de Nginx."
+        exit 1
+    fi
+else
+    log_message ERROR "Erreur dans la configuration Nginx. Veuillez vérifier le fichier de configuration."
+    exit 1
+fi
+
 
 # Vérification et ouverture du port 3000 avec UFW
 sudo ufw status | grep "$BACKEND_PORT" || sudo ufw allow "$BACKEND_PORT/tcp"
