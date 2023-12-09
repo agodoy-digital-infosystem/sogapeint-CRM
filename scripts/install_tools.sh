@@ -25,6 +25,9 @@ do
     fi
 done
 
+# Initialisation de la liste des erreurs
+declare -a errors
+
 # Vérification des outils nécessaires
 command -v curl &> /dev/null || { apt-get update; apt-get install -y curl; }
 command -v wget &> /dev/null || { apt-get update; apt-get install -y wget; }
@@ -82,6 +85,7 @@ log_message() {
     case $message_type in
         ERROR)
             echo -e "${RED}${timestamp} ${message}${NC}" | tee -a $LOG_FILE >&2
+            errors+=("$message")
             ;;
         SUCCESS)
             echo -e "${GREEN}${timestamp} ${message}${NC}" | tee -a $LOG_FILE
@@ -186,6 +190,16 @@ check_and_log_version() {
     fi
 }
 
+# Affiche la liste des erreurs rencontrées
+display_errors() {
+    if [ ${#errors[@]} -ne 0 ]; then
+        echo "Erreurs rencontrées durant l'installation :"
+        for error in "${errors[@]}"; do
+            echo "- $error"
+        done
+    fi
+}
+
 # print_logo
 # affiche le logo Digital Info System
 print_logo() {
@@ -252,7 +266,9 @@ if ! command -v nvm &> /dev/null; then
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
     else
         log_message ERROR "Échec de l'installation de NVM."
-        exit 1
+        if [ "$CONTINUE_ON_ERROR" = false ]; then
+            exit 1
+        fi
     fi
 else
     log_message "NVM est déjà installé."
@@ -282,7 +298,9 @@ for package in "${packages[@]}"; do
             log_message SUCCESS "Le paquet $package a été installé avec succès."
         else
             log_message ERROR "Échec de l'installation du paquet $package."
-            exit 1
+            if [ "$CONTINUE_ON_ERROR" = false ]; then
+                exit 1
+            fi
         fi
     else
         log_message "Le paquet $package est déjà installé."
@@ -298,7 +316,9 @@ if [ $mongodb_status -ne 0 ]; then
         install_software "MongoDB" "$install_command" "$install_command" 1
     else
         log_message ERROR "Version non prise en charge de MongoDB. Installation annulée."
-        exit 1
+        if [ "$CONTINUE_ON_ERROR" = false ]; then
+            exit 1
+        fi
     fi
 fi
 
@@ -325,7 +345,9 @@ if sudo touch $NGINX_CONFIG_FILE; then
     log_message SUCCESS "Fichier de configuration Nginx $NGINX_CONFIG_FILE créé."
 else
     log_message ERROR "Échec de la création du fichier de configuration Nginx $NGINX_CONFIG_FILE."
-    exit 1
+    if [ "$CONTINUE_ON_ERROR" = false ]; then
+        exit 1
+    fi
 fi
 
 log_message "Écriture de la configuration Nginx."
@@ -355,7 +377,9 @@ if echo "server {
     log_message SUCCESS "Configuration Nginx écrite dans $NGINX_CONFIG_FILE."
 else
     log_message ERROR "Échec de l'écriture de la configuration Nginx dans $NGINX_CONFIG_FILE."
-    exit 1
+    if [ "$CONTINUE_ON_ERROR" = false ]; then
+        exit 1
+    fi
 fi
 
 
@@ -365,7 +389,9 @@ if sudo ln -s $NGINX_CONFIG_FILE $NGINX_ENABLED; then
     log_message SUCCESS "Lien symbolique pour Nginx créé avec succès."
 else
     log_message ERROR "Échec de la création du lien symbolique pour Nginx."
-    exit 1
+    if [ "$CONTINUE_ON_ERROR" = false ]; then
+        exit 1
+    fi
 fi
 
 log_message "Vérification de la configuration Nginx."
@@ -377,11 +403,15 @@ if sudo nginx -t; then
         log_message SUCCESS "Nginx redémarré avec succès."
     else
         log_message ERROR "Échec du redémarrage de Nginx."
-        exit 1
+        if [ "$CONTINUE_ON_ERROR" = false ]; then
+            exit 1
+        fi
     fi
 else
     log_message ERROR "Erreur dans la configuration Nginx. Veuillez vérifier le fichier de configuration."
-    exit 1
+    if [ "$CONTINUE_ON_ERROR" = false ]; then
+        exit 1
+    fi
 fi
 
 
@@ -432,6 +462,11 @@ check_and_log_version "Nginx" "$NGINX_VERSION" "$nginx_version"
 # Afficher l'émoticône si tout est OK
 if [ "$all_ok" = true ]; then
     display_success_emoticon
+fi
+
+# Afficher les erreurs s'il y en a
+if [ "$CONTINUE_ON_ERROR" = true ]; then
+    display_errors
 fi
 
 log_message "Fin du script d'installation"
