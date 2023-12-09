@@ -11,6 +11,20 @@ if [ "$(id -u)" != "0" ]; then
     exit 1
 fi
 
+# Configuration du comportement du script
+# - par défaut, le script s'arrête s'il y a une erreur
+# - si le script est lancé avec le flag --continue-on-error, alors le script continue meme en cas d'échecs lors des installations
+CONTINUE_ON_ERROR=false
+
+# Vérifie si le flag --continue-on-error est présent
+for arg in "$@"
+do
+    if [ "$arg" == "--continue-on-error" ] || [ "$arg" == "-c" ]; then
+        CONTINUE_ON_ERROR=true
+        break
+    fi
+done
+
 # Vérification des outils nécessaires
 command -v curl &> /dev/null || { apt-get update; apt-get install -y curl; }
 command -v wget &> /dev/null || { apt-get update; apt-get install -y wget; }
@@ -136,15 +150,39 @@ install_software() {
             log_message SUCCESS "$software_name installé avec succès."
         else
             log_message ERROR "Échec de l'installation de $software_name. Vérifiez votre connexion Internet ou la configuration de votre système."
-            exit 1
+            if [ "$CONTINUE_ON_ERROR" = false ]; then
+                exit 1
+            fi
         fi
     elif [ "$install_needed" -eq 2 ]; then
         if eval "$update_command"; then
             log_message SUCCESS "$software_name mis à jour avec succès."
         else
             log_message ERROR "Échec de la mise à jour de $software_name. Vérifiez votre connexion Internet ou la configuration de votre système."
-            exit 1
+            if [ "$CONTINUE_ON_ERROR" = false ]; then
+                exit 1
+            fi
         fi
+    fi
+}
+
+# Fonction pour vérifier et logger les versions
+check_and_log_version() {
+    local software=$1
+    local expected_version=$2
+    local installed_version=$3
+
+    local YELLOW='\033[0;33m'
+    local GREEN='\033[0;32m'
+    local RED='\033[0;31m'
+    local NC='\033[0m' # Pas de couleur
+
+    if [ "$installed_version" == "not_installed" ]; then
+        echo -e "${RED}${software} n'est pas installé${NC}"
+    elif [ "$installed_version" == "$expected_version" ]; then
+        echo -e "${GREEN}${software} version ${installed_version} (comme attendu)${NC}"
+    else
+        echo -e "${YELLOW}${software} version ${installed_version} (attendu ${expected_version})${NC}"
     fi
 }
 
@@ -168,6 +206,30 @@ print_logo() {
     echo -e "${RED}|___/ |_|\\__, |_|\\__\\__,_|_|  \\___/_| |_|_| \\___/  \\____/ \\__, |___/\\__\\___|_| |_| |_|${NC}"
     echo -e "${YELLOW}          __/ |                                            __/ |                      ${NC}"
     echo -e "${GREEN}         |___/                                            |___/                       ${NC}"
+}
+
+# Fonction pour afficher l'émoticône ASCII en cas de succès total
+display_success_emoticon() {
+    local GREEN='\033[0;32m'
+    local NC='\033[0m' # Pas de couleur
+
+    echo -e "${GREEN}"
+    echo "░░░░░░░░░░░░░░░░░░░░░░█████████"
+    echo "░░███████░░░░░░░░░░███▒▒▒▒▒▒▒▒███"
+    echo "░░█▒▒▒▒▒▒█░░░░░░░███▒▒▒▒▒▒▒▒▒▒▒▒▒███"
+    echo "░░░█▒▒▒▒▒▒█░░░░██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██"
+    echo "░░░░█▒▒▒▒▒█░░░██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███"
+    echo "░░░░░█▒▒▒█░░░█▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██"
+    echo "░░░█████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██"
+    echo "░░░█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██"
+    echo "░██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██"
+    echo "██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██"
+    echo "█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██"
+    echo "██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██"
+    echo "░█▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██"
+    echo "░██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█"
+    echo "░░████████████░░░█████████████████"
+    echo -e "${NC}"
 }
 
 #######################################################
@@ -326,5 +388,50 @@ fi
 # Vérification et ouverture du port 3000 avec UFW
 sudo ufw status | grep "$BACKEND_PORT" || sudo ufw allow "$BACKEND_PORT/tcp"
 sudo ufw reload
+
+# Vérifications finales
+echo "Récapitulatif des versions des logiciels installés :"
+all_ok=true
+
+# Vérifier et normaliser Node.js
+node_version=$(node --version 2>/dev/null || echo "not_installed")
+check_and_log_version "Node.js" "$NODE_VERSION" "$node_version"
+[ "$node_version" != "$NODE_VERSION" ] && all_ok=false
+
+# Vérifier et journaliser la version de npm
+npm_version=$(npm --version 2>/dev/null || echo "not_installed")
+check_and_log_version "npm" "$NPM_VERSION" "$npm_version"
+[ "$npm_version" != "$NPM_VERSION" ] && all_ok=false
+
+# Vérifier et journaliser la version de PM2
+pm2_version=$(pm2 --version 2>/dev/null || echo "not_installed")
+check_and_log_version "PM2" "$PM2_VERSION" "$pm2_version"
+[ "$pm2_version" != "$PM2_VERSION" ] && all_ok=false
+
+# Vérifier et journaliser la version de MongoDB
+mongodb_version=$(mongod --version | grep 'db version' | awk '{print $3}' 2>/dev/null || echo "not_installed")
+check_and_log_version "MongoDB" "$MONGODB_VERSION" "$mongodb_version"
+[ "$mongodb_version" != "$MONGODB_VERSION" ] && all_ok=false
+
+# Vérifier et journaliser la version d'Angular CLI
+angular_cli_version=$(ng --version | grep 'Angular CLI:' | awk '{print $3}' 2>/dev/null || echo "not_installed")
+check_and_log_version "Angular CLI" "$ANGULAR_CLI_VERSION" "$angular_cli_version"
+[ "$angular_cli_version" != "$ANGULAR_CLI_VERSION" ] && all_ok=false
+
+# Vérifier et journaliser la version de Tmux
+tmux_version=$(tmux -V | awk '{print $2}' 2>/dev/null || echo "not_installed")
+check_and_log_version "Tmux" "$TMUX_VERSION" "$tmux_version"
+[ "$tmux_version" != "$TMUX_VERSION" ] && all_ok=false
+
+# Vérifier et journaliser la version de Nginx
+nginx_version=$(nginx -v 2>&1 | grep 'nginx version' | awk -F/ '{print $2}' 2>/dev/null || echo "not_installed")
+check_and_log_version "Nginx" "$NGINX_VERSION" "$nginx_version"
+[ "$nginx_version" != "$NGINX_VERSION" ] && all_ok=false
+
+
+# Afficher l'émoticône si tout est OK
+if [ "$all_ok" = true ]; then
+    display_success_emoticon
+fi
 
 log_message "Fin du script d'installation"
