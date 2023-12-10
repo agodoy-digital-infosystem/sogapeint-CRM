@@ -1,24 +1,55 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UserInfoBarComponent } from './user-info-bar.component';
+import { UserProfileService } from '../core/services/user.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { User } from '../core/models/auth.models';
 
-// import { UserInfoBarComponent } from './user-info-bar.component';
+describe('UserInfoBarComponent', () => {
+  let component: UserInfoBarComponent;
+  let fixture: ComponentFixture<UserInfoBarComponent>;
+  let mockUserProfileService: jasmine.SpyObj<UserProfileService>;
 
-// describe('UserInfoBarComponent', () => {
-//   let component: UserInfoBarComponent;
-//   let fixture: ComponentFixture<UserInfoBarComponent>;
+  beforeEach(async () => {
+    mockUserProfileService = jasmine.createSpyObj('UserProfileService', ['getCurrentUser']);
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [UserInfoBarComponent]
-//     })
-//     .compileComponents();
-    
-//     fixture = TestBed.createComponent(UserInfoBarComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+    await TestBed.configureTestingModule({
+      declarations: [ UserInfoBarComponent ],
+      providers: [
+        { provide: UserProfileService, useValue: mockUserProfileService },
+        ChangeDetectorRef
+      ]
+    })
+    .compileComponents();
+  });
 
-//   it('should create', () => {
-//     // expect(component).toBeTruthy();
-//     expect(true).toBeTruthy();
-//   });
-// });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UserInfoBarComponent);
+    component = fixture.componentInstance;
+
+    const mockUser: User = {
+      id: 1,
+      username: 'testuser',
+      password: 'password',
+      firstName: 'Test',
+      lastName: 'User',
+      email: 'test@example.com',
+      role: 'customer',
+      token: 'fake-token'
+    };
+
+    mockUserProfileService.getCurrentUser.and.returnValue(mockUser);
+
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should fetch current user on init', () => {
+    expect(mockUserProfileService.getCurrentUser).toHaveBeenCalled();
+    expect(component.currentUser).toEqual(jasmine.objectContaining({ username: 'testuser' }));
+  });
+
+  // Tests pour getRoleClass et autres fonctionnalités...
+});

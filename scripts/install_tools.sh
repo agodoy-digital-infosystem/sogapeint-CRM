@@ -96,6 +96,14 @@ log_message() {
     esac
 }
 
+# draw_line
+# trace une ligne
+draw_line() {
+    local cols=$(tput cols)
+    printf '%*s\n' "${cols}" '' | tr ' ' '-'
+}
+
+
 
 # check_installation
 # Vérifie si un logiciel spécifique est installé et si sa version est à jour.
@@ -115,6 +123,8 @@ check_installation() {
     local required_version=$2
     local installed_version
 
+    draw_line
+
     installed_version=$($software --version 2>&1 | head -n1 | grep -oE '[0-9]+(\.[0-9]+)+')
     if [ $? -eq 0 ]; then
         log_message "$software installé, version actuelle: $installed_version"
@@ -129,6 +139,8 @@ check_installation() {
         log_message "$software n'est pas installé."
         return 2
     fi
+
+    draw_line
 }
 
 # install_software
@@ -190,6 +202,7 @@ check_and_log_version() {
     fi
 }
 
+# display_errors
 # Affiche la liste des erreurs rencontrées
 display_errors() {
     if [ ${#errors[@]} -ne 0 ]; then
@@ -199,6 +212,8 @@ display_errors() {
         done
     fi
 }
+
+
 
 # print_logo
 # affiche le logo Digital Info System
@@ -258,6 +273,7 @@ print_logo
 ########################################################
 
 # Vérifier si NVM est installé, et l'installer si besoin
+draw_line
 if ! command -v nvm &> /dev/null; then
     log_message "NVM n'est pas installé. Installation de NVM en cours."
     if curl -o- $NVM_INSTALL_URL | bash; then
@@ -275,21 +291,25 @@ else
 fi
 
 # Installation de Node.js
+draw_line
 check_installation "node" $NODE_VERSION
 node_status=$?
 install_software "Node.js" "curl -o- $NVM_INSTALL_URL | bash && (source ~/.bashrc || source ~/.nvm/nvm.sh) && nvm install $NODE_VERSION && nvm use $NODE_VERSION" "nvm install $NODE_VERSION && nvm use $NODE_VERSION" $node_status
 
 # Installation de npm
+draw_line
 check_installation "npm" $NPM_VERSION
 npm_status=$?
 install_software "npm" "npm install -g npm@$NPM_VERSION" "npm install -g npm@$NPM_VERSION" $npm_status
 
 # Installation de PM2
+draw_line
 check_installation "pm2" $PM2_VERSION
 pm2_status=$?
 install_software "PM2" "npm install pm2@$PM2_VERSION -g" "npm install pm2@$PM2_VERSION -g" $pm2_status
 
 # Vérification et installation de gnupg, gnupg2, et gnupg1
+draw_line
 packages=("gnupg" "gnupg2" "gnupg1")
 for package in "${packages[@]}"; do
     if ! command -v $package &> /dev/null; then
@@ -308,6 +328,7 @@ for package in "${packages[@]}"; do
 done
 
 # Installation de MongoDB
+draw_line
 check_installation "mongod" $MONGODB_VERSION
 mongodb_status=$?
 if [ $mongodb_status -ne 0 ]; then
@@ -323,22 +344,26 @@ if [ $mongodb_status -ne 0 ]; then
 fi
 
 # Installation de Angular CLI
+draw_line
 check_installation "ng" $ANGULAR_CLI_VERSION
 angular_cli_status=$?
 install_software "Angular CLI" "npm install -g @angular/cli@$ANGULAR_CLI_VERSION" "npm install -g @angular/cli@$ANGULAR_CLI_VERSION" $angular_cli_status
 
 # Installation de Tmux
+draw_line
 check_installation "tmux" $TMUX_VERSION
 tmux_status=$?
 install_software "Tmux" "sudo apt install tmux" "sudo apt install tmux" $tmux_status
 
 # Installation de Nginx
+draw_line
 check_installation "nginx" $NGINX_VERSION
 nginx_status=$?
 install_software "Nginx" "sudo apt install nginx" "sudo apt install nginx" $nginx_status
 
 
 # Configuration de Nginx
+draw_line
 log_message "Configuration de Nginx."
 PUBLIC_IP=$(curl -s ifconfig.me) # Obtention de l'IP publique
 if sudo touch $NGINX_CONFIG_FILE; then
@@ -420,6 +445,7 @@ sudo ufw status | grep "$BACKEND_PORT" || sudo ufw allow "$BACKEND_PORT/tcp"
 sudo ufw reload
 
 # Vérifications finales
+draw_line
 echo "Récapitulatif des versions des logiciels installés :"
 all_ok=true
 
@@ -461,12 +487,15 @@ check_and_log_version "Nginx" "$NGINX_VERSION" "$nginx_version"
 
 # Afficher l'émoticône si tout est OK
 if [ "$all_ok" = true ]; then
+    draw_line
     display_success_emoticon
 fi
 
 # Afficher les erreurs s'il y en a
 if [ "$CONTINUE_ON_ERROR" = true ]; then
+    draw_line
     display_errors
 fi
 
+draw_line
 log_message "Fin du script d'installation"
