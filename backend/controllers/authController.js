@@ -9,10 +9,11 @@ const { isEmail } = require('validator');
 exports.login = async (req, res) => {
   try {
     console.log('Tentative de connexion');
+    const { email, password } = req.body;
     if (!isEmail(email)) {
       return res.status(400).json({ message: 'Adresse email invalide.' });
     }
-    const { email, password } = req.body;
+
     console.log('Email:', email);
 
     // Recherche de l'utilisateur avec des conditions supplémentaires (actif et autorisé)
