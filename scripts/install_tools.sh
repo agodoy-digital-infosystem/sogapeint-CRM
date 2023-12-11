@@ -214,14 +214,19 @@ check_and_log_version() {
 
     if [ "$normalized_installed_version" == "not_installed" ]; then
         echo -e "${RED}${software} n'est pas installé${NC}"
+        return 0
     elif [ "$normalized_expected_version" == "non spécifié" ]; then
         echo -e "${GREEN}${software} version ${installed_version} (version spécifique non requise)${NC}"
+        return 1
     elif [ "$normalized_installed_version" == "$normalized_expected_version" ]; then
         echo -e "${GREEN}${software} version ${installed_version} (comme attendu)${NC}"
+        return 1
     else
         echo -e "${YELLOW}${software} version ${installed_version} (attendu ${expected_version})${NC}"
+        return 0
     fi
 }
+
 
 
 
@@ -483,55 +488,48 @@ echo "Récapitulatif des versions des logiciels installés :"
 all_ok=true
 
 # Vérifier et normaliser Node.js
-node_version=$(node --version 2>/dev/null || echo "not_installed")
+node_version=$(node --version 2>/dev/null | sed 's/^v//')
 check_and_log_version "Node.js" "$NODE_VERSION" "$node_version"
-[ "$node_version" != "$NODE_VERSION" ] && all_ok=false
-echo $all_ok
+all_ok=$(( $all_ok && $? ))
 
 # Vérifier et journaliser la version de npm
-npm_version=$(npm --version 2>/dev/null || echo "not_installed")
+npm_version=$(npm --version 2>/dev/null)
 check_and_log_version "npm" "$NPM_VERSION" "$npm_version"
-[ "$npm_version" != "$NPM_VERSION" ] && all_ok=false
-echo $all_ok
+all_ok=$(( $all_ok && $? ))
 
 # Vérifier et journaliser la version de PM2
-pm2_version=$(pm2 --version 2>/dev/null || echo "not_installed")
+pm2_version=$(pm2 --version 2>/dev/null)
 check_and_log_version "PM2" "$PM2_VERSION" "$pm2_version"
-[ "$pm2_version" != "$PM2_VERSION" ] && all_ok=false
-echo $all_ok
+all_ok=$(( $all_ok && $? ))
 
 # Vérifier et journaliser la version de MongoDB
-mongodb_version=$(mongod --version | grep 'db version' | awk '{print $3}' 2>/dev/null || echo "not_installed")
+mongodb_version=$(mongod --version | grep 'db version' | awk '{print $3}' 2>/dev/null)
 check_and_log_version "MongoDB" "$MONGODB_VERSION" "$mongodb_version"
-[ "$mongodb_version" != "$MONGODB_VERSION" ] && all_ok=false
-echo $all_ok
+all_ok=$(( $all_ok && $? ))
 
 # Vérifier et journaliser la version d'Angular CLI
-angular_cli_version=$(ng version | grep 'Angular CLI:' | awk '{print $3}' 2>/dev/null || echo "not_installed")
+angular_cli_version=$(ng version | grep 'Angular CLI:' | awk '{print $3}' 2>/dev/null)
 check_and_log_version "Angular CLI" "$ANGULAR_CLI_VERSION" "$angular_cli_version"
-[ "$angular_cli_version" != "$ANGULAR_CLI_VERSION" ] && all_ok=false
-echo $all_ok
+all_ok=$(( $all_ok && $? ))
 
 # Vérifier et journaliser la version de Tmux
-tmux_version=$(tmux -V | awk '{print $2}' 2>/dev/null || echo "not_installed")
+tmux_version=$(tmux -V | awk '{print $2}' 2>/dev/null)
 check_and_log_version "Tmux" "non spécifié" "$tmux_version"
-[ "$tmux_version" != "$TMUX_VERSION" ] && all_ok=false
-echo $all_ok
+all_ok=$(( $all_ok && $? ))
 
 # Vérifier et journaliser la version de Git
-git_version=$(git --version | awk '{print $3}' 2>/dev/null || echo "not_installed")
+git_version=$(git --version | awk '{print $3}' 2>/dev/null)
 check_and_log_version "Git" "non spécifié" "$git_version"
-echo $all_ok
+all_ok=$(( $all_ok && $? ))
 
 # Vérifier et journaliser la version de Nginx
-nginx_version=$(nginx -v 2>&1 | grep 'nginx version' | awk -F/ '{print $2}' 2>/dev/null || echo "not_installed")
+nginx_version=$(nginx -v 2>&1 | grep 'nginx version' | awk -F/ '{print $2}' 2>/dev/null)
 check_and_log_version "Nginx" "$NGINX_VERSION" "$nginx_version"
-[ "$nginx_version" != "$NGINX_VERSION" ] && all_ok=false
-echo $all_ok
+all_ok=$(( $all_ok && $? ))
 
 
 # Afficher l'émoticône si tout est OK
-if [ "$all_ok" = true ]; then
+if [ "$all_ok" -eq 1 ]; then
     draw_line
     display_success_emoticon
 fi
