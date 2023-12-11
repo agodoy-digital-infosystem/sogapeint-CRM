@@ -36,14 +36,14 @@ command -v wget &> /dev/null || { apt-get update; apt-get install -y wget; }
 NODE_VERSION="20.10.0"
 NPM_VERSION="10.2.3"
 PM2_VERSION="5.3.0"
-MONGODB_VERSION="3.6.8"
 ANGULAR_CLI_VERSION="17.0.5"
 TMUX_VERSION="2.9a"
 NGINX_VERSION="1.18.0"
 NVM_INSTALL_URL="https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh"
-MONGODB_REPO_URL="http://repo.mongodb.org/apt/ubuntu focal/mongodb-org/3.6 multiverse"
-MONGODB_GPG_KEY_URL="https://www.mongodb.org/static/pgp/server-3.6.asc"
-MONGODB_SOURCES_LIST="/etc/apt/sources.list.d/mongodb-org-3.6.list"
+MONGODB_VERSION="7.0"
+MONGODB_GPG_KEY_URL="https://pgp.mongodb.com/server-7.0.asc"
+OS_VERSION="$(lsb_release -cs)"
+MONGODB_SOURCES_LIST="/etc/apt/sources.list.d/mongodb-org-7.0.list"
 NGINX_CONFIG_FILE="/etc/nginx/sites-available/sogapeint.conf"
 NGINX_ENABLED="/etc/nginx/sites-enabled/"
 BACKEND_PORT="3000"
@@ -69,7 +69,6 @@ exec > >(tee -a $LOG_FILE) 2>&1
 #   - Les messages de type ERROR sont affichés en rouge, ceux de type SUCCESS en vert, ceux de type WARNING en jaune, et ceux de type INFO en bleu. Les messages sans type spécifique sont affichés sans couleur.
 #   - Les messages sont écrits dans le fichier de log sans les codes de couleur ANSI pour une meilleure lisibilité.
 #   - Les messages d'erreur (ERROR) sont également redirigés vers la sortie d'erreur standard (stderr).
-
 log_message() {
     local message_type=$1
     local message=$2
@@ -242,6 +241,32 @@ display_errors() {
 }
 
 
+# Fonction pour installer MongoDB
+install_mongodb() {
+    # Installation de gnupg et curl
+    sudo apt-get install gnupg curl
+
+    # Importation de la clé GPG publique de MongoDB
+    curl -fsSL $MONGODB_GPG_KEY_URL | sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
+
+    # Création du fichier de liste pour MongoDB
+    echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu $OS_VERSION/mongodb-org/7.0 multiverse" | sudo tee $MONGODB_SOURCES_LIST
+
+    # Rechargement de la base de données des paquets locaux
+    sudo apt-get update
+
+    # Installation des paquets MongoDB
+    sudo apt-get install -y mongodb-org
+
+    # Vérification si MongoDB est correctement installé
+    if command -v mongod &> /dev/null; then
+        log_message "SUCCESS" "MongoDB installé avec succès."
+    else
+        log_message "ERROR" "Échec de l'installation de MongoDB."
+        exit 1
+    fi
+}
+
 
 # print_logo
 # affiche le logo Digital Info System
@@ -330,6 +355,16 @@ check_installation "npm" $NPM_VERSION
 npm_status=$?
 install_software "npm" "npm install -g npm@$NPM_VERSION" "npm install -g npm@$NPM_VERSION" $npm_status
 
+# Utiliser la version de Node.js installée
+if [ $node_status -eq 0 ]; then
+    nvm use $NODE_VERSION
+    if [ $? -eq 0 ]; then
+        log_message "SUCCESS" "La version $NODE_VERSION de Node.js est maintenant active."
+    else
+        log_message "ERROR" "Impossible de passer à la version $NODE_VERSION de Node.js."
+    fi
+fi
+
 # Installation de PM2
 draw_line
 check_installation "pm2" $PM2_VERSION
@@ -357,18 +392,14 @@ done
 
 # Installation de MongoDB
 draw_line
+log_message "INFO" "Vérification du statut d'installation de MongoDB."
 check_installation "mongod" $MONGODB_VERSION
 mongodb_status=$?
 if [ $mongodb_status -ne 0 ]; then
-    if [ $MONGODB_VERSION = "3.6.8" ]; then
-        install_command="wget -qO - $MONGODB_GPG_KEY_URL | sudo apt-key add - && echo 'deb [ arch=amd64,arm64 ] $MONGODB_REPO_URL' | sudo tee $MONGODB_SOURCES_LIST && sudo apt-get update && sudo apt-get install -y mongodb-org=$MONGODB_VERSION mongodb-org-server=$MONGODB_VERSION mongodb-org-shell=$MONGODB_VERSION mongodb-org-mongos=$MONGODB_VERSION mongodb-org-tools=$MONGODB_VERSION"
-        install_software "MongoDB" "$install_command" "$install_command" 1
-    else
-        log_message ERROR "Version non prise en charge de MongoDB. Installation annulée."
-        if [ "$CONTINUE_ON_ERROR" = false ]; then
-            exit 1
-        fi
-    fi
+    log_message "INFO" "Installation de MongoDB."
+    install_mongodb
+else
+    log_message "INFO" "MongoDB est déjà installé."
 fi
 
 # Installation de Angular CLI
