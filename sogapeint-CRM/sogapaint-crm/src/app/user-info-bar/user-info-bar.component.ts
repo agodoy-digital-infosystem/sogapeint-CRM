@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserProfileService } from '../core/services/user.service';
 import { User } from '../core/models/auth.models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-info-bar',
@@ -12,7 +13,8 @@ export class UserInfoBarComponent implements OnInit {
 
   constructor(
     private userProfileService: UserProfileService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -31,5 +33,13 @@ export class UserInfoBarComponent implements OnInit {
       'supermanager': 'badge-supermanager'
     };
     return roleClassMap[role] || 'badge-default';
+  }
+
+  logout() {
+    // Effacer le token du stockage local ou de la session
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/account/login']);
+    // Peut-être faire un appel API pour informer le backend de la déconnexion ?
   }
 }

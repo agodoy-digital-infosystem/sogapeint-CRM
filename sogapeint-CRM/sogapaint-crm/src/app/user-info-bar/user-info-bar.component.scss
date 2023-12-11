@@ -37,6 +37,21 @@
         &.badge-comanager { background-color: #9b59b6; } // Violet pour comanager
         &.badge-supermanager { background-color: #95a5a6; } // Gris pour supermanager
     }
+
+    .logout-button {
+        background: none;
+        border: none;
+        color: var(--bs-white);
+        cursor: pointer;
+
+        &:hover {
+            color: var(--bs-light);
+        }
+
+        i {
+            font-size: 1.5rem; // Taille de l'icône
+        }
+    }
     
 }
 

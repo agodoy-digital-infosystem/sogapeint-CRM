@@ -6,4 +6,7 @@
     <div class="role-badge" [ngClass]="getRoleClass(currentUser.role)">
       {{ currentUser.role }}
     </div>
+    <button class="logout-button" (click)="logout()" title="Déconnexion">
+        <i class="fas fa-sign-out-alt"></i>
+    </button>
 </div>
