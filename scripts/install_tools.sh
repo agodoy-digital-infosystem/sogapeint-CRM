@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Script d'installation et de configuration d'un serveur web
-# Ce script automatise l'installation et la configuration d'un ensemble de logiciels essentiels pour un serveur web, y compris Node.js, npm, PM2, MongoDB, Angular CLI, Tmux et Nginx. Il est conçu pour garantir que toutes les installations sont à jour et configurées correctement pour un environnement de production ou de développement.
+# Script d'installation et de configuration des logiciels nécessaires à l'appli web sogapeint
+# Ce script automatise l'installation et la configuration d'un ensemble de logiciels essentiels pour l'appli web sogapeint, y compris Node.js, npm, PM2, MongoDB, Angular CLI, Tmux et Nginx. Il est conçu pour garantir que toutes les installations sont à jour et configurées correctement pour un environnement de production ou de développement.
 # Le script comprend également des vérifications et des journaux détaillés pour faciliter le suivi des installations et des configurations.
 # Réalisé par Adrien Godoy de Digital Info System.
 
@@ -61,14 +61,15 @@ exec > >(tee -a $LOG_FILE) 2>&1
 # Fonction log_message
 # Cette fonction est utilisée pour écrire et afficher des messages de log formatés avec prise en charge des couleurs dans le terminal.
 # Arguments :
-#   - $1 : Type de message (SUCCESS, ERROR, ou autre pour un message normal).
+#   - $1 : Type de message (SUCCESS, ERROR, WARNING, INFO ou autre pour un message normal).
 #   - $2 : Message à logger.
 # Fonctionnement :
 #   - Utilise `echo -e` pour afficher le message avec prise en charge des séquences d'échappement (pour les couleurs).
 #   - Les messages sont précédés d'un horodatage pour faciliter le suivi temporel dans les logs.
-#   - Les messages de type ERROR sont affichés en rouge, et ceux de type SUCCESS en vert. Les messages sans type spécifique sont affichés sans couleur.
+#   - Les messages de type ERROR sont affichés en rouge, ceux de type SUCCESS en vert, ceux de type WARNING en jaune, et ceux de type INFO en bleu. Les messages sans type spécifique sont affichés sans couleur.
 #   - Les messages sont écrits dans le fichier de log sans les codes de couleur ANSI pour une meilleure lisibilité.
-#   - Les messages d'erreur sont également redirigés vers la sortie d'erreur standard (stderr).
+#   - Les messages d'erreur (ERROR) sont également redirigés vers la sortie d'erreur standard (stderr).
+
 log_message() {
     local message_type=$1
     local message=$2
@@ -76,6 +77,8 @@ log_message() {
     # Définition des codes de couleur
     local RED='\033[0;31m'
     local GREEN='\033[0;32m'
+    local YELLOW='\033[0;33m'
+    local BLUE='\033[0;34m'
     local NC='\033[0m' # Pas de couleur
 
     # Horodatage
@@ -90,11 +93,19 @@ log_message() {
         SUCCESS)
             echo -e "${GREEN}${timestamp} ${message}${NC}" | tee -a $LOG_FILE
             ;;
+        WARNING)
+            echo -e "${YELLOW}${timestamp} ${message}${NC}" | tee -a $LOG_FILE
+            ;;
+        INFO)
+            echo -e "${BLUE}${timestamp} ${message}${NC}" | tee -a $LOG_FILE
+            ;;
         *)
             echo "${timestamp} ${message}" | tee -a $LOG_FILE
             ;;
     esac
 }
+
+
 
 # draw_line
 # trace une ligne
@@ -106,42 +117,46 @@ draw_line() {
 
 
 # check_installation
-# Vérifie si un logiciel spécifique est installé et si sa version est à jour.
+# Vérifie si un logiciel spécifique est installé et si sa version est à jour ou recommande une mise à jour si la version requise n'est pas spécifiée.
 # Arguments :
 #   - software : nom du logiciel à vérifier.
-#   - required_version : la version requise du logiciel.
+#   - required_version : la version requise du logiciel. Si "non spécifié", toute version installée sera acceptable, mais une mise à jour est recommandée.
 # Comportement :
 #   - Extrait la version actuellement installée du logiciel.
-#   - Compare la version installée avec la version requise.
-#   - Affiche un message indiquant si le logiciel est installé et si sa version est à jour.
+#   - Compare la version installée avec la version requise, ou vérifie simplement la présence du logiciel si "non spécifié".
+#   - Affiche un message indiquant si le logiciel est installé et si sa version est à jour ou recommande une mise à jour si la version requise est "non spécifié".
 # Valeurs de retour :
-#   - 0 : si le logiciel est installé et à jour.
-#   - 1 : si le logiciel est installé mais pas à la version requise.
+#   - 0 : si le logiciel est installé et à jour ou si "non spécifié" et le logiciel est installé.
+#   - 1 : si le logiciel est installé mais pas à la version requise ou si "non spécifié" et une mise à jour est recommandée.
 #   - 2 : si le logiciel n'est pas installé.
 check_installation() {
     local software=$1
     local required_version=$2
+    local version_command=${3:-"$software --version"}
     local installed_version
 
-    draw_line
+    installed_version=$($version_command 2>&1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)
+    installed_version=${installed_version#v}  # Supprimer 'v' si présent
+    installed_version=${installed_version%% *}  # Supprimer tout après un espace
 
-    installed_version=$($software --version 2>&1 | head -n1 | grep -oE '[0-9]+(\.[0-9]+)+')
-    if [ $? -eq 0 ]; then
-        log_message "$software installé, version actuelle: $installed_version"
-        if [ "$installed_version" = "$required_version" ]; then
-            log_message "$software est à jour."
+    if [ -n "$installed_version" ]; then
+        if [ "$required_version" = "non spécifié" ]; then
+            log_message "SUCCESS" "$software est installé."
+            return 0
+        elif [ "$installed_version" = "$required_version" ]; then
+            log_message "SUCCESS" "$software est à jour."
             return 0
         else
-            log_message "$software n'est pas à la version requise, mise à jour nécessaire."
+            log_message "WARNING" "$software n'est pas à la version requise ($required_version), version actuelle: $installed_version"
             return 1
         fi
     else
-        log_message "$software n'est pas installé."
+        log_message "ERROR" "$software n'est pas installé."
         return 2
     fi
-
-    draw_line
 }
+
+
 
 # install_software
 # Installe ou met à jour un logiciel en fonction de la nécessité.
@@ -160,7 +175,7 @@ install_software() {
     local update_command=$3
     local install_needed=$4
 
-    log_message "Vérification de $software_name..."
+    log_message "INFO" "Vérification de $software_name..."
     if [ "$install_needed" -eq 1 ]; then
         if eval "$install_command"; then
             log_message SUCCESS "$software_name installé avec succès."
@@ -193,14 +208,22 @@ check_and_log_version() {
     local RED='\033[0;31m'
     local NC='\033[0m' # Pas de couleur
 
-    if [ "$installed_version" == "not_installed" ]; then
+    # Normalise les versions en supprimant les 'v' au début et en ignorant les suffixes après la version
+    local normalized_installed_version=$(echo $installed_version | sed -e 's/^v//' -e 's/ .*$//')
+    local normalized_expected_version=$(echo $expected_version | sed 's/^v//')
+
+    if [ "$normalized_installed_version" == "not_installed" ]; then
         echo -e "${RED}${software} n'est pas installé${NC}"
-    elif [ "$installed_version" == "$expected_version" ]; then
+    elif [ "$normalized_expected_version" == "non spécifié" ]; then
+        echo -e "${GREEN}${software} version ${installed_version} (version spécifique non requise)${NC}"
+    elif [ "$normalized_installed_version" == "$normalized_expected_version" ]; then
         echo -e "${GREEN}${software} version ${installed_version} (comme attendu)${NC}"
     else
         echo -e "${YELLOW}${software} version ${installed_version} (attendu ${expected_version})${NC}"
     fi
 }
+
+
 
 # display_errors
 # Affiche la liste des erreurs rencontrées
@@ -313,7 +336,7 @@ draw_line
 packages=("gnupg" "gnupg2" "gnupg1")
 for package in "${packages[@]}"; do
     if ! command -v $package &> /dev/null; then
-        log_message "Le paquet $package n'est pas installé. Installation en cours."
+        log_message "INFO" "Le paquet $package n'est pas installé. Installation en cours."
         if sudo apt-get install -y $package; then
             log_message SUCCESS "Le paquet $package a été installé avec succès."
         else
@@ -323,7 +346,7 @@ for package in "${packages[@]}"; do
             fi
         fi
     else
-        log_message "Le paquet $package est déjà installé."
+        log_message "INFO" "Le paquet $package est déjà installé."
     fi
 done
 
@@ -345,38 +368,38 @@ fi
 
 # Installation de Angular CLI
 draw_line
-check_installation "ng" $ANGULAR_CLI_VERSION
+check_installation "Angular CLI" "$ANGULAR_CLI_VERSION" "$(ng version | grep 'Angular CLI:' | awk '{print $3}')"
 angular_cli_status=$?
 install_software "Angular CLI" "npm install -g @angular/cli@$ANGULAR_CLI_VERSION" "npm install -g @angular/cli@$ANGULAR_CLI_VERSION" $angular_cli_status
 
 # Installation de Tmux
 draw_line
-check_installation "tmux" $TMUX_VERSION
+check_installation "Tmux" "non spécifié" "tmux -V"
 tmux_status=$?
 install_software "Tmux" "sudo apt install tmux" "sudo apt install tmux" $tmux_status
 
+# Installation de Git
+draw_line
+check_installation "git" "non spécifié"
+git_status=$?
+install_software "Git" "sudo apt-get install -y git" "sudo apt-get install -y git" $git_status
+
 # Installation de Nginx
 draw_line
-check_installation "nginx" $NGINX_VERSION
+check_installation "Nginx" "$NGINX_VERSION" "$(nginx -v 2>&1 | awk -F/ '{print $2}' | awk '{print $1}')"
 nginx_status=$?
 install_software "Nginx" "sudo apt install nginx" "sudo apt install nginx" $nginx_status
 
 
 # Configuration de Nginx
 draw_line
-log_message "Configuration de Nginx."
-PUBLIC_IP=$(curl -s ifconfig.me) # Obtention de l'IP publique
-if sudo touch $NGINX_CONFIG_FILE; then
-    log_message SUCCESS "Fichier de configuration Nginx $NGINX_CONFIG_FILE créé."
-else
-    log_message ERROR "Échec de la création du fichier de configuration Nginx $NGINX_CONFIG_FILE."
-    if [ "$CONTINUE_ON_ERROR" = false ]; then
-        exit 1
-    fi
-fi
+log_message "INFO" "Configuration de Nginx."
 
-log_message "Écriture de la configuration Nginx."
-if echo "server {
+# Obtention de l'IP publique
+PUBLIC_IP=$(curl -s ifconfig.me)
+
+# Configuration attendue de Nginx
+expected_nginx_config="server {
     listen 80;
     server_name $PUBLIC_IP;
 
@@ -398,46 +421,56 @@ if echo "server {
         proxy_set_header Host \$host;
         proxy_cache_bypass \$http_upgrade;
     }
-}" | sudo tee $NGINX_CONFIG_FILE; then
-    log_message SUCCESS "Configuration Nginx écrite dans $NGINX_CONFIG_FILE."
-else
-    log_message ERROR "Échec de l'écriture de la configuration Nginx dans $NGINX_CONFIG_FILE."
-    if [ "$CONTINUE_ON_ERROR" = false ]; then
-        exit 1
-    fi
-fi
+}"
 
+# Vérifiez et écrivez la configuration Nginx si nécessaire
+if [ -f $NGINX_CONFIG_FILE ]; then
+    existing_config=$(cat $NGINX_CONFIG_FILE)
+    if [ "$existing_config" != "$expected_nginx_config" ]; then
+        echo "$expected_nginx_config" | sudo tee $NGINX_CONFIG_FILE
+        log_message "INFO" "La configuration Nginx a été mise à jour."
+    else
+        log_message "INFO" "La configuration Nginx est déjà correcte."
+    fi
+else
+    echo "$expected_nginx_config" | sudo tee $NGINX_CONFIG_FILE
+    log_message "SUCCESS" "Fichier de configuration Nginx $NGINX_CONFIG_FILE créé."
+fi
 
 # Activer la configuration nginx et vérifier sa validité
-log_message "Activation de la configuration Nginx."
-if sudo ln -s $NGINX_CONFIG_FILE $NGINX_ENABLED; then
-    log_message SUCCESS "Lien symbolique pour Nginx créé avec succès."
+log_message "INFO" "Activation de la configuration Nginx."
+if [ -L $NGINX_ENABLED/sogapeint.conf ] || [ -f $NGINX_ENABLED/sogapeint.conf ]; then
+    log_message "INFO" "Le lien symbolique pour Nginx existe déjà."
 else
-    log_message ERROR "Échec de la création du lien symbolique pour Nginx."
-    if [ "$CONTINUE_ON_ERROR" = false ]; then
-        exit 1
+    if sudo ln -s $NGINX_CONFIG_FILE $NGINX_ENABLED; then
+        log_message "SUCCESS" "Lien symbolique pour Nginx créé avec succès."
+    else
+        log_message "ERROR" "Échec de la création du lien symbolique pour Nginx."
+        if [ "$CONTINUE_ON_ERROR" = false ]; then
+            exit 1
+        fi
     fi
 fi
 
-log_message "Vérification de la configuration Nginx."
+log_message "INFO" "Vérification de la configuration Nginx."
 if sudo nginx -t; then
-    log_message SUCCESS "La configuration Nginx est valide."
-    
-    log_message "Redémarrage du service Nginx."
+    log_message "SUCCESS" "La configuration Nginx est valide."
+    log_message "INFO" "Redémarrage du service Nginx."
     if sudo systemctl restart nginx; then
-        log_message SUCCESS "Nginx redémarré avec succès."
+        log_message "SUCCESS" "Nginx redémarré avec succès."
     else
-        log_message ERROR "Échec du redémarrage de Nginx."
+        log_message "ERROR" "Échec du redémarrage de Nginx."
         if [ "$CONTINUE_ON_ERROR" = false ]; then
             exit 1
         fi
     fi
 else
-    log_message ERROR "Erreur dans la configuration Nginx. Veuillez vérifier le fichier de configuration."
+    log_message "ERROR" "Erreur dans la configuration Nginx. Veuillez vérifier le fichier de configuration."
     if [ "$CONTINUE_ON_ERROR" = false ]; then
         exit 1
     fi
 fi
+
 
 
 # Vérification et ouverture du port 3000 avec UFW
@@ -453,36 +486,48 @@ all_ok=true
 node_version=$(node --version 2>/dev/null || echo "not_installed")
 check_and_log_version "Node.js" "$NODE_VERSION" "$node_version"
 [ "$node_version" != "$NODE_VERSION" ] && all_ok=false
+echo $all_ok
 
 # Vérifier et journaliser la version de npm
 npm_version=$(npm --version 2>/dev/null || echo "not_installed")
 check_and_log_version "npm" "$NPM_VERSION" "$npm_version"
 [ "$npm_version" != "$NPM_VERSION" ] && all_ok=false
+echo $all_ok
 
 # Vérifier et journaliser la version de PM2
 pm2_version=$(pm2 --version 2>/dev/null || echo "not_installed")
 check_and_log_version "PM2" "$PM2_VERSION" "$pm2_version"
 [ "$pm2_version" != "$PM2_VERSION" ] && all_ok=false
+echo $all_ok
 
 # Vérifier et journaliser la version de MongoDB
 mongodb_version=$(mongod --version | grep 'db version' | awk '{print $3}' 2>/dev/null || echo "not_installed")
 check_and_log_version "MongoDB" "$MONGODB_VERSION" "$mongodb_version"
 [ "$mongodb_version" != "$MONGODB_VERSION" ] && all_ok=false
+echo $all_ok
 
 # Vérifier et journaliser la version d'Angular CLI
-angular_cli_version=$(ng --version | grep 'Angular CLI:' | awk '{print $3}' 2>/dev/null || echo "not_installed")
+angular_cli_version=$(ng version | grep 'Angular CLI:' | awk '{print $3}' 2>/dev/null || echo "not_installed")
 check_and_log_version "Angular CLI" "$ANGULAR_CLI_VERSION" "$angular_cli_version"
 [ "$angular_cli_version" != "$ANGULAR_CLI_VERSION" ] && all_ok=false
+echo $all_ok
 
 # Vérifier et journaliser la version de Tmux
 tmux_version=$(tmux -V | awk '{print $2}' 2>/dev/null || echo "not_installed")
-check_and_log_version "Tmux" "$TMUX_VERSION" "$tmux_version"
+check_and_log_version "Tmux" "non spécifié" "$tmux_version"
 [ "$tmux_version" != "$TMUX_VERSION" ] && all_ok=false
+echo $all_ok
+
+# Vérifier et journaliser la version de Git
+git_version=$(git --version | awk '{print $3}' 2>/dev/null || echo "not_installed")
+check_and_log_version "Git" "non spécifié" "$git_version"
+echo $all_ok
 
 # Vérifier et journaliser la version de Nginx
 nginx_version=$(nginx -v 2>&1 | grep 'nginx version' | awk -F/ '{print $2}' 2>/dev/null || echo "not_installed")
 check_and_log_version "Nginx" "$NGINX_VERSION" "$nginx_version"
 [ "$nginx_version" != "$NGINX_VERSION" ] && all_ok=false
+echo $all_ok
 
 
 # Afficher l'émoticône si tout est OK
@@ -498,4 +543,4 @@ if [ "$CONTINUE_ON_ERROR" = true ]; then
 fi
 
 draw_line
-log_message "Fin du script d'installation"
+log_message "INFO" "Fin du script d'installation"
