@@ -48,9 +48,10 @@ NGINX_CONFIG_FILE="/etc/nginx/sites-available/sogapeint.conf"
 NGINX_ENABLED="/etc/nginx/sites-enabled/"
 BACKEND_PORT="3000"
 FRONTEND_PORT="4200"
+WEBHOOK_PORT="5000"
 
 # Définir le fichier de log
-LOG_FILE="installation_log_$(date +'%Y%m%d_%H%M%S').log"
+LOG_FILE="../logs/installation_log_$(date +'%Y%m%d_%H%M%S').log"
 exec > >(tee -a $LOG_FILE) 2>&1
 
 
@@ -457,6 +458,16 @@ expected_nginx_config="server {
         proxy_set_header Host \$host;
         proxy_cache_bypass \$http_upgrade;
     }
+
+    location /webhook {
+        proxy_pass http://localhost:$WEBHOOK_PORT;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-GitHub-Event \$http_x_github_event;
+        proxy_set_header X-Hub-Signature-256 \$http_x_hub_signature_256;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    }
 }"
 
 # Vérifiez et écrivez la configuration Nginx si nécessaire
@@ -511,6 +522,9 @@ fi
 
 # Vérification et ouverture du port 3000 avec UFW
 sudo ufw status | grep "$BACKEND_PORT" || sudo ufw allow "$BACKEND_PORT/tcp"
+sudo ufw reload
+# Vérification et ouverture du port 5000 avec UFW
+sudo ufw status | grep "$WEBHOOK_PORT" || sudo ufw allow "$WEBHOOK_PORT/tcp"
 sudo ufw reload
 
 # Vérifications finales

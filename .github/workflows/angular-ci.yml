@@ -30,32 +30,17 @@ jobs:
     - name: Run tests
       run: cd sogapeint-CRM/sogapaint-crm && ng test --watch=false --browsers=ChromeHeadless
 
-    # - name: Build
-    #   run: cd sogapeint-CRM/sogapaint-crm && ng build --prod
-    - name: Compress Project
-      run: tar -czf sogapaint-crm.tar.gz -C sogapeint-CRM/sogapaint-crm .
+    - name: Déclencher le webhook pour la branche de test
+      if: github.ref == 'refs/heads/dev' && success() 
+      env:
+        WEBHOOK_URL: ${{ secrets.WEBHOOK_URL_TEST_SERVER }}
+        WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+      run: |
+        PAYLOAD=$(echo -n '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}')
+        SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" | sed 's/^.* //')
+        curl -X POST -H "Content-Type: application/json" -H "X-Hub-Signature-256: sha256=$SIGNATURE" -d "$PAYLOAD" "$WEBHOOK_URL"
 
-    # Étape de déploiement
-    - name: Deploy to Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        port: ${{ secrets.SSH_PORT }}
-        command_timeout: 30m
-        script: |
-          echo "Début du déploiement"
-
-          # Transférer le fichier compressé
-          echo "debut du transfert"
-          scp sogapaint-crm.tar.gz dis@46.105.52.105:/home/dis/dev/
-          echo "Transfert OK"
-
-          # Connexion SSH et décompression du fichier
-          ssh dis@46.105.52.105 "tar -xzf /home/dis/dev/sogapaint-crm.tar.gz -C /home/dis/dev/app"
-
-          # Nettoyage (optionnel)
-          ssh dis@46.105.52.105 "rm /home/dis/dev/sogapaint-crm.tar.gz"
-
-          echo "Déploiement effectué avec succès sur le serveur de test."
+    - name: Déclencher le webhook pour la branche principale
+      if: github.ref == 'refs/heads/main' && success()
+      run: |
+        echo "aucune commande de déploiement en production n'a encore été défini"

@@ -28,6 +28,7 @@ NC='\033[0m' # No Color
 # Configuration des ports
 BACKEND_PORT='3000'
 FRONTEND_PORT='4200'
+WEBHOOK_PORT='5000'
 
 # Récupération de l'adresse IP publique
 PUBLIC_IP=$(curl -s ifconfig.me)
@@ -124,6 +125,11 @@ cp $CONFIG_FILE_PATH $REPO_PATH
 tmux new-session -d -s session-node.js
 tmux send-keys -t session-node.js "cd $BACKEND_PATH" C-m
 tmux send-keys -t session-node.js "pm2 start server.js" C-m
+
+# Démarrage du webhook dans une session tmux
+tmux new-session -d -s session-node.js
+tmux send-keys -t session-node.js "cd $BACKEND_PATH" C-m
+tmux send-keys -t session-node.js "pm2 start webhookServer.js" C-m
 
 # Démarrage du serveur Angular dans une autre session tmux
 tmux new-session -d -s session-angular
