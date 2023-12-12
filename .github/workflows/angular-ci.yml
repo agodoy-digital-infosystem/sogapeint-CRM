@@ -30,15 +30,15 @@ jobs:
     - name: Run tests
       run: cd sogapeint-CRM/sogapaint-crm && ng test --watch=false --browsers=ChromeHeadless
 
-    - name: Déclencher le webhook pour la branche de test
-      if: github.ref == 'refs/heads/dev' && success() 
-      env:
-        WEBHOOK_URL: ${{ secrets.WEBHOOK_URL_TEST_SERVER }}
-        WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
-      run: |
-        PAYLOAD=$(echo -n '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}')
-        SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" | sed 's/^.* //')
-        curl -X POST -H "Content-Type: application/json" -H "X-Hub-Signature-256: sha256=$SIGNATURE" -d "$PAYLOAD" "$WEBHOOK_URL"
+    # - name: Déclencher le webhook pour la branche de test
+    #   if: github.ref == 'refs/heads/dev' && success() 
+    #   env:
+    #     WEBHOOK_URL: ${{ secrets.WEBHOOK_URL_TEST_SERVER }}
+    #     WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+    #   run: |
+    #     PAYLOAD=$(echo -n '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}')
+    #     SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" | sed 's/^.* //')
+    #     curl -X POST -H "Content-Type: application/json" -H "X-Hub-Signature-256: sha256=$SIGNATURE" -d "$PAYLOAD" "$WEBHOOK_URL"
 
     - name: Déclencher le webhook pour la branche principale
       if: github.ref == 'refs/heads/main' && success()
