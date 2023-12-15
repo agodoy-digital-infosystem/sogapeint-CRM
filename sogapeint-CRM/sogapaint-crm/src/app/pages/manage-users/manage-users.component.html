@@ -11,9 +11,21 @@
               <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'firstname' && sortDirection === 'asc'"></i>
               <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'firstname' && sortDirection === 'desc'"></i>
             </th>
-            <th scope="col" (click)="onSort('lastname')">Nom</th>
-            <th scope="col" (click)="onSort('email')">Email</th>
-            <th scope="col" (click)="onSort('role')">Rôle</th>
+            <th scope="col" (click)="onSort('lastname')">Nom
+              <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'lastname'"></i>
+              <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'lastname' && sortDirection === 'asc'"></i>
+              <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'lastname' && sortDirection === 'desc'"></i>
+            </th>
+            <th scope="col" (click)="onSort('email')">Email
+              <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'email'"></i>
+              <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'email' && sortDirection === 'asc'"></i>
+              <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'email' && sortDirection === 'desc'"></i>
+            </th>
+            <th scope="col" (click)="onSort('role')">Rôle
+              <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'role'"></i>
+              <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'role' && sortDirection === 'asc'"></i>
+              <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'role' && sortDirection === 'desc'"></i>
+            </th>
           </tr>
         </thead>
       </table>
