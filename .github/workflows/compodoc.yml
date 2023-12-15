@@ -21,7 +21,9 @@ jobs:
       run: npm install --force
 
     - name: Generate Documentation
-      run: cd sogapeint-CRM/sogapaint-crm && compodoc -p tsconfig.doc.json -d documentation
+      run: |
+        cd sogapeint-CRM/sogapaint-crm && compodoc -p tsconfig.doc.json -d documentation
+        cp -R ./documentation ./src/assets/
 
     - name: Commit Documentation
       run: |
@@ -31,3 +33,4 @@ jobs:
         git add documentation
         git commit -m "Update documentation [skip ci]" || true
         git push
+        

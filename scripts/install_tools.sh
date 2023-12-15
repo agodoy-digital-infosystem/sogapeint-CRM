@@ -463,7 +463,6 @@ expected_nginx_config="server {
         proxy_pass http://localhost:$WEBHOOK_PORT;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-GitHub-Event \$http_x_github_event;
         proxy_set_header X-Hub-Signature-256 \$http_x_hub_signature_256;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;

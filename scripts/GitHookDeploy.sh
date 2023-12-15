@@ -43,7 +43,7 @@ declare -a ERROR_LOGS
 # Fonction pour logger avec horodatage et couleur dans le terminal
 log() {
     # Écrire dans le fichier de log (sans couleur)
-    echo "$(date '+%Y-%m-%d %H:%M:%S'): $2" >> $LOG_FILE
+    echo "$(date '+%Y-%m-%d %H:%M:%S'): $2" >> "$LOG_FILE"
 
     # Afficher dans le terminal avec couleur
     echo -e "${1}$2${NC}"
@@ -54,7 +54,12 @@ add_error() {
     ERROR_LOGS+=("$1")
 }
 
+touch $LOG_FILE
+chmod 777 $LOG_FILE
+SCRIPTS_PATH=$(pwd)
+
 log $GREEN "Début de la mise à jour"
+
 
 # ------------------------
 # Vérification des dépendances
@@ -77,7 +82,7 @@ log $YELLOW "Arrêt des serveurs"
 
 # Tuer les processus écoutant sur le port 3000 (Node.js)
 log $YELLOW "Arrêt du serveur Node.js sur le port 3000"
-fuser -k 3000/tcp
+fuser -k 3000/tcp # utiliser un lsof et kill, instead
 
 # Tuer les processus écoutant sur le port 4200 (Angular)
 log $YELLOW "Arrêt du serveur Angular sur le port 4200"
@@ -86,7 +91,8 @@ fuser -k 4200/tcp
 # ------------------------
 # Backup du projet
 # ------------------------
-
+cd ../..
+echo "chemin : $(pwd)"
 log $YELLOW "Création du backup"
 tar --exclude='*/node_modules/*' \
     --exclude='*.log' \
@@ -96,21 +102,25 @@ tar --exclude='*/node_modules/*' \
     --exclude='*/tmp/*' \
     --exclude='*.tmp' \
     --exclude='*.bak' \
-    -czvf "backup_$(date '+%Y%m%d_%H%M%S').tar.gz" $BACKEND_PATH $ANGULAR_PATH
+    -czvf "../../backup/backup_$(date '+%Y%m%d_%H%M%S').tar.gz" -C ../../sogapeint-crm
+
 
 # ------------------------
 # Mise à jour du projet
 # ------------------------
 
 # Mise à jour du projet depuis le dépôt Git
-log $YELLOW "Mise à jour du projet depuis la branche $BRANCH"
-if [ ! -d "$REPO_PATH" ]; then
-    log $YELLOW "Clonage du dépôt"
-    git clone $GIT_REPO_URL $REPO_PATH
+if [ -d "$REPO_PATH" ]; then
+    log $YELLOW "Mise à jour du projet depuis la branche $BRANCH"
+    cd $REPO_PATH
+    git config core.sparseCheckout true
+    echo "*" > .git/info/sparse-checkout
+    echo "!./scripts/GitHookDeploy.sh" >> .git/info/sparse-checkout
+    git checkout $BRANCH
+    git pull origin $BRANCH
 fi
-cd $REPO_PATH
-git checkout $BRANCH
-git pull origin $BRANCH
+
+cd $SCRIPTS_PATH
 
 # Copie du fichier .env
 log $YELLOW "Copie du fichier .env pour le projet"

@@ -8,7 +8,7 @@
     "webhook": "npm run webhookServer.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Digital Info System",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",

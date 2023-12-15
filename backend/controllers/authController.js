@@ -59,3 +59,19 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+// Fonction pour obtenir tous les utilisateurs
+exports.getAllUsers = async (req, res) => {
+  try {
+    console.log('Fetching all users');
+    const users = await User.find();
+    console.log(`Found ${users.length} users`);
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error retrieving users:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
