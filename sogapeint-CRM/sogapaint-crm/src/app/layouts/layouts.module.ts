@@ -11,6 +11,7 @@ import { HorizontalComponent } from './horizontal/horizontal.component';
 import { LayoutComponent } from './layout/layout.component';
 
 import { UserInfoBarComponent } from '../user-info-bar/user-info-bar.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Module pour la gestion des layouts dans l'application.
@@ -26,6 +27,7 @@ import { UserInfoBarComponent } from '../user-info-bar/user-info-bar.component';
     UserInfoBarComponent
   ],
   imports: [
+    TranslateModule.forChild(),
     CommonModule,  // Module commun pour les directives Angular de base
     SharedModule,  // Module partagé pour les composants réutilisables
     RouterModule  // Module pour la gestion des routes dans l'application

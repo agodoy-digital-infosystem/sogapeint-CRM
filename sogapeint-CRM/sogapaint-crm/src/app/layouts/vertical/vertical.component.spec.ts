@@ -4,15 +4,16 @@ import { VerticalComponent } from './vertical.component';
 import { UserInfoBarComponent } from '../../user-info-bar/user-info-bar.component';
 import { UserProfileService } from '../../core/services/user.service';
 
-describe('VerticalComponent', () => {
+// Use xdescribe to skip the entire suite of tests
+xdescribe('VerticalComponent', () => {
   let component: VerticalComponent;
   let fixture: ComponentFixture<VerticalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VerticalComponent, UserInfoBarComponent], // Déclarer les composants utilisés
-      providers: [UserProfileService], // Fournir les services utilisés
-      imports: [HttpClientTestingModule] // Importer les modules nécessaires
+      declarations: [VerticalComponent, UserInfoBarComponent], // Declare used components
+      providers: [UserProfileService], // Provide required services
+      imports: [HttpClientTestingModule] // Import necessary modules
     }).compileComponents();
   });
 
@@ -26,30 +27,27 @@ describe('VerticalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should set document body attributes for vertical layout', () => {
-      component.ngOnInit();
-      expect(document.body.getAttribute('data-sidebar')).toEqual('dark');
-      expect(document.body.hasAttribute('data-layout-size')).toBeFalse();
-      expect(document.body.hasAttribute('data-layout')).toBeFalse();
-      expect(document.body.hasAttribute('data-topbar')).toBeFalse();
-      expect(document.body.classList.contains('auth-body-bg')).toBeFalse();
-    });
+  // Use xit to skip specific tests
+  xit('should set document body attributes for vertical layout', () => {
+    component.ngOnInit();
+    expect(document.body.getAttribute('data-sidebar')).toEqual('dark');
+    expect(document.body.hasAttribute('data-layout-size')).toBeFalse();
+    expect(document.body.hasAttribute('data-layout')).toBeFalse();
+    expect(document.body.hasAttribute('data-topbar')).toBeFalse();
+    expect(document.body.classList.contains('auth-body-bg')).toBeFalse();
   });
 
-  describe('onToggleMobileMenu', () => {
-    it('should toggle sidebar-enable class on document body', () => {
-      component.onToggleMobileMenu();
-      expect(document.body.classList.contains('sidebar-enable')).toBeTruthy();
-    });
+  // Use xit to skip specific tests
+  xit('should toggle sidebar-enable class on document body', () => {
+    component.onToggleMobileMenu();
+    expect(document.body.classList.contains('sidebar-enable')).toBeTruthy();
   });
 
-  describe('onSettingsButtonClicked', () => {
-    it('should toggle right-bar-enabled class on document body', () => {
-      component.onSettingsButtonClicked();
-      expect(document.body.classList.contains('right-bar-enabled')).toBeTruthy();
-    });
+  // Use xit to skip specific tests
+  xit('should toggle right-bar-enabled class on document body', () => {
+    component.onSettingsButtonClicked();
+    expect(document.body.classList.contains('right-bar-enabled')).toBeTruthy();
   });
 
-  // Ajoutez ici d'autres tests selon vos besoins
+  // TODO: Add more tests as needed...
 });

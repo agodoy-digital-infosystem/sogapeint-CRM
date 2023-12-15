@@ -16,13 +16,16 @@ import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { AuthenticationService } from './core/services/auth.service';
 
+import { ProtectedDocumentationComponent } from "./protected-documentation/protected-documentation.component";
+
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProtectedDocumentationComponent
   ],
   imports: [
     BrowserModule,

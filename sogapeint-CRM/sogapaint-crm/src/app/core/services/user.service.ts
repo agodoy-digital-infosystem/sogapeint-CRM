@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 // Importation du modèle User pour la gestion des données utilisateur
 import { User } from '../models/auth.models';
+import { environment } from '../../../environments/environment';
 
 import { AuthenticationService } from './auth.service';
 
@@ -31,7 +32,7 @@ export class UserProfileService {
      * @returns Un Observable contenant un tableau d'utilisateurs.
      */
     getAll() {
-        return this.http.get<User[]>(`/api/login`);
+        return this.http.get<User[]>(`${environment.apiUrl}/api/auth/allUsers`);
     }
 
     /**
