@@ -14,6 +14,15 @@ export class ManageUsersComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
   filter: string = ''; // La chaîne de recherche
   filteredUsers: any[] = []; // Les utilisateurs filtrés affichés dans la vue
+  columns = [
+    { name: 'firstname', displayName: 'Prénom' },
+    { name: 'lastname', displayName: 'Nom' },
+    { name: 'email', displayName: 'Email' },
+    { name: 'role', displayName: 'Rôle' },
+    { name: 'company', displayName: 'Entreprise' },
+    { name: 'phone', displayName: 'Téléphone' },
+    // Ajoutez d'autres colonnes au besoin
+  ];
 
 
   constructor(private userProfileService: UserProfileService){}
@@ -64,17 +73,30 @@ export class ManageUsersComponent implements OnInit {
     });
   }
 
+  // onSearch(): void {
+  //   if (!this.filter) {
+  //     this.filteredUsers = this.users; // Pas de filtre, affichez tous les utilisateurs
+  //   } else {
+  //     this.filteredUsers = this.users.filter(user => {
+  //       const searchTerm = this.filter.toLowerCase();
+  //       return (user.firstname && user.firstname.toLowerCase().includes(searchTerm)) ||
+  //            (user.lastname && user.lastname.toLowerCase().includes(searchTerm)) ||
+  //            (user.email && user.email.toLowerCase().includes(searchTerm)) ||
+  //            (user.role && user.role.toLowerCase().includes(searchTerm));
+  //       // Ajoutez autant de conditions que vous avez de champs à filtrer
+  //     });
+  //   }
+  // }
   onSearch(): void {
     if (!this.filter) {
-      this.filteredUsers = this.users; // Pas de filtre, affichez tous les utilisateurs
+      this.filteredUsers = this.users; // Pas de filtre, affiche tous les utilisateurs
     } else {
       this.filteredUsers = this.users.filter(user => {
         const searchTerm = this.filter.toLowerCase();
-        return (user.firstname && user.firstname.toLowerCase().includes(searchTerm)) ||
-             (user.lastname && user.lastname.toLowerCase().includes(searchTerm)) ||
-             (user.email && user.email.toLowerCase().includes(searchTerm)) ||
-             (user.role && user.role.toLowerCase().includes(searchTerm));
-        // Ajoutez autant de conditions que vous avez de champs à filtrer
+        return this.columns.some(column => {
+          const userData = user[column.name];
+          return userData && userData.toLowerCase().includes(searchTerm);
+        });
       });
     }
   }

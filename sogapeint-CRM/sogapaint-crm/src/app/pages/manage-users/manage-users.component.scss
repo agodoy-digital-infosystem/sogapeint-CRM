@@ -1,17 +1,44 @@
+// .tbody-scrollable {
+//     display: block;
+//     max-height: 400px; /* Faire des ajustements */
+//     overflow-y: scroll;
+//     overflow-x: hidden;
+//   }
+  
+//   .table-responsive {
+//     overflow-x: unset;
+//   }
+  
+//   /* Vérifier si les largeurs des colonnes des deux tableaux correspondent */
+//   .table > thead > tr > th,
+//   .table > tbody > tr > td {
+//     width: 25%; /* Répartir la largeur selon le nombre de colonnes */
+//   }
+  
 .tbody-scrollable {
-    display: block;
-    max-height: 400px; /* Faire des ajustements */
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  
-  .table-responsive {
-    overflow-x: unset;
-  }
-  
-  /* Vérifier si les largeurs des colonnes des deux tableaux correspondent */
-  .table > thead > tr > th,
-  .table > tbody > tr > td {
-    width: 25%; /* Répartir la largeur selon le nombre de colonnes */
-  }
-  
+  max-height: 400px; /* Faire des ajustements */
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.table-responsive {
+  overflow-x: auto; /* Permettre le défilement horizontal si nécessaire */
+}
+
+/* Utiliser table-layout: fixed pour maintenir les largeurs synchronisées */
+.table {
+  table-layout: fixed;
+  width: 100%; /* Assurer que la table utilise toute la largeur disponible */
+}
+
+/* Retirer la largeur fixe pour permettre l'ajustement automatique */
+.table > thead > tr > th,
+.table > tbody > tr > td {
+  width: auto; /* Permettre à la table de gérer la largeur des colonnes */
+}
+
+table > tbody > tr > td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

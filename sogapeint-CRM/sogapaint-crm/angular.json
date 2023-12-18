@@ -30,9 +30,21 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/leaflet/dist/leaflet.css",
+              "src/assets/scss/bootstrap.scss",
+              "src/assets/scss/app.scss",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "apexcharts",
+              "dropzone",
+              "sweetalert2",
+              "leaflet",
+              "@ckeditor/ckeditor5-build-classic",
+              "bs-custom-file-input"
+            ]
           },
           "configurations": {
             "production": {

@@ -5,19 +5,29 @@ export const MENU: MenuItem[] = [
         id: 1,
         label: 'Gestion des contacts',
         icon: "ri-contacts-book-fill",
-        link: "/manageUsers"
+        link: "/manageUsers",
         // isTitle: true
+        // subItems: [
+        //     {
+        //         id: 2,
+        //         label: 'AJouter un contact',
+        //         icon: 'ri-dashboard-line',
+        //         // badge: {
+        //         //     variant: 'success',
+        //         //     text: 'MENUITEMS.DASHBOARDS.BADGE',
+        //         // },
+        //         link: '/addContact'
+        //     },
+        // ]
     },
-    // {
-    //     id: 2,
-    //     label: 'MENUITEMS.DASHBOARDS.TEXT',
-    //     icon: 'ri-dashboard-line',
-    //     badge: {
-    //         variant: 'success',
-    //         text: 'MENUITEMS.DASHBOARDS.BADGE',
-    //     },
-    //     link: '/'
-    // },
+    
+    {
+        id: 2,
+        label: 'AJouter un contact',
+        icon: 'ri-contacts-book-upload-line',
+        link: '/addContact'
+    },
+    
     // {
     //     id: 3,
     //     label: 'MENUITEMS.CALENDAR.TEXT',
@@ -483,7 +493,7 @@ export const MENU: MenuItem[] = [
     //                     parentId: 71,
     //                 }
     //             ]
-            // },
-        // ]
+    // },
+    // ]
     // }
 ];

@@ -13,11 +13,16 @@ File: Main Css File
 //Core files
 // @import "./node_modules/bootstrap/scss/functions";
 // @import "./node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
 @import "variables";
 @import "variables-dark";
-@import "./node_modules/bootstrap/scss/mixins.scss";
+// @import "./node_modules/bootstrap/scss/m";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
 
 // Structure
+// @import "custom/structure/_general";
 @import "custom/structure/general";
 @import "custom/structure/topbar";
 @import "custom/structure/page-head";

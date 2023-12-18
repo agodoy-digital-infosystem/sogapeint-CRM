@@ -2,7 +2,7 @@
     width: 100%;
     background-color: var(--bs-primary);
     color: var(--bs-white);
-    padding: 10px;
+    padding: 20px;
     box-shadow: var(--bs-box-shadow);
     position: fixed;
     top: 0;
@@ -11,6 +11,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 0 !important;
+    // margin: 0 auto;
     
     .user-details {
         flex: 1; // Permet de prendre l'espace disponible et pousse les autres éléments à droite

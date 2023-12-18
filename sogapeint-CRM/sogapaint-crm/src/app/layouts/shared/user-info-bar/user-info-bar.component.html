@@ -1,0 +1,20 @@
+<!-- <p>user-info-bar works!</p> -->
+<header id="page-topbar">
+    <div class="navbar-header">
+    <!-- Intégration du user-info-bar -->
+    <div class="user-info-bar" *ngIf="currentUser">
+        <div class="user-details">
+            <span>{{ currentUser.firstName }}</span>
+            <span>{{ currentUser.lastName }}</span>
+        </div>
+        <div class="role-badge" [ngClass]="getRoleClass(currentUser.role)">
+            {{ currentUser.role }}
+        </div>
+        <button class="logout-button" (click)="logout()" title="Déconnexion">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
+</div>
+</header>
+
+

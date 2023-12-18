@@ -10,7 +10,8 @@ import { VerticalComponent } from './vertical/vertical.component';
 import { HorizontalComponent } from './horizontal/horizontal.component';
 import { LayoutComponent } from './layout/layout.component';
 
-import { UserInfoBarComponent } from '../user-info-bar/user-info-bar.component';
+// import { UserInfoBarComponent } from '../user-info-bar/user-info-bar.component';
+import { UserInfoBarComponent } from './shared/user-info-bar/user-info-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 /**

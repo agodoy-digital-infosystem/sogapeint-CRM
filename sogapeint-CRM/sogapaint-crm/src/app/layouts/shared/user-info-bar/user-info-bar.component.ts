@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { UserProfileService } from '../core/services/user.service';
-import { User } from '../core/models/auth.models';
+import { UserProfileService } from '../../../core/services/user.service';
+import { User } from '../../../core/models/auth.models';
 import { Router } from '@angular/router';
 
 @Component({
