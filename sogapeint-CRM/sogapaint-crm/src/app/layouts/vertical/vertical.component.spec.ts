@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { VerticalComponent } from './vertical.component';
-import { UserInfoBarComponent } from '../../user-info-bar/user-info-bar.component';
+// import { UserInfoBarComponent } from '../../user-info-bar/user-info-bar.component';
 import { UserProfileService } from '../../core/services/user.service';
 
 // Use xdescribe to skip the entire suite of tests
@@ -11,7 +11,7 @@ xdescribe('VerticalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VerticalComponent, UserInfoBarComponent], // Declare used components
+      declarations: [VerticalComponent], // Declare used components
       providers: [UserProfileService], // Provide required services
       imports: [HttpClientTestingModule] // Import necessary modules
     }).compileComponents();
