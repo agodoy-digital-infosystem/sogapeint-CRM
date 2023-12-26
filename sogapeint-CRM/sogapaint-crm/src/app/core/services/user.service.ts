@@ -39,10 +39,20 @@ export class UserProfileService {
      * Enregistre un nouvel utilisateur.
      *
      * Envoie une requête POST pour créer un nouvel utilisateur avec les données fournies.
-     * @param user Les données de l'utilisateur à enregistrer.
+     * @param user Les données de l'utilisateur à créer.
      * @returns Un Observable pour la réponse de la requête.
      */
-    register(user: User) {
-        return this.http.post(`/users/register`, user);
+    create(user: User) {
+        return this.http.post(`${environment.apiUrl}/api/auth/addUser`, {
+            email: user.email, 
+            password: user.password, 
+            firstname: user.firstName, 
+            lastname: user.lastName, 
+            role: user.role,
+            company: user.company,
+            phone: user.phone,
+            active: user.active,
+            authorized_connection: user.authorized_connection
+        });
     }
 }

@@ -200,8 +200,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       // Ajoutez l'élément de menu pour la documentation si l'utilisateur est un superAdmin
       this.menuItems.push({
         id: 666, /* un nouvel ID unique */
-        label: 'Documentation', // ou tout autre titre que vous souhaitez donner
-        icon: 'ri-file-text-line', // Icone de votre choix
+        label: 'Documentation',
+        icon: 'ri-file-text-line', /* icône de documentation */
         link: '/documentation'
       });
     }

@@ -75,3 +75,58 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+// Fonction pour ajouter un nouvel utilisateur
+exports.addUser = async (req, res) => {
+  try {
+    console.log('Adding new user');
+    const { email, password, firstname, lastname, phone, company, role, active, authorized_connection } = req.body;
+    if (!isEmail(email)) {
+      return res.status(400).json({ message: 'Adresse email invalide.' });
+    }
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ message: 'Un utilisateur avec cette adresse email existe déjà.' });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+      firstname,
+      lastname,
+      phone,
+      company,
+      role,
+      active,
+      authorized_connection,
+    });
+    await newUser.save();
+    console.log('New user added');
+    res.status(201).json({ message: 'Utilisateur créé avec succès.' });
+  } catch (error) {
+    console.error('Error adding new user:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+//// ENTREPRISES TEST
+exports.getCompanies = async (req, res) => {
+  try {
+    const companies = await User.distinct("company"); // Ceci va chercher toutes les valeurs distinctes pour le champ 'company'
+    res.json(companies);
+  } catch (error) {
+    res.status(500).send({ message: "Erreur lors de la récupération des entreprises", error });
+  }
+};
+
+exports.searchCompanies = async (req, res) => {
+  try {
+    const query = req.query.q;
+    const companies = await User.find({ 
+      company: new RegExp(query, 'i') 
+    }).distinct("company");
+    res.json(companies);
+  } catch (error) {
+    res.status(500).send({ message: "Erreur lors de la recherche des entreprises", error });
+  }
+};

@@ -1,20 +1,3 @@
-// .tbody-scrollable {
-//     display: block;
-//     max-height: 400px; /* Faire des ajustements */
-//     overflow-y: scroll;
-//     overflow-x: hidden;
-//   }
-  
-//   .table-responsive {
-//     overflow-x: unset;
-//   }
-  
-//   /* Vérifier si les largeurs des colonnes des deux tableaux correspondent */
-//   .table > thead > tr > th,
-//   .table > tbody > tr > td {
-//     width: 25%; /* Répartir la largeur selon le nombre de colonnes */
-//   }
-  
 .tbody-scrollable {
   max-height: 400px; /* Faire des ajustements */
   overflow-y: scroll;

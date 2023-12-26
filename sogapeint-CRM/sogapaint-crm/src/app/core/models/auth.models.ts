@@ -1,6 +1,6 @@
 export class User {
-    id: number;
-    username: string;
+    id?: number;
+    username?: string;
     password: string;
     firstName?: string;
     lastName?: string;
@@ -13,4 +13,5 @@ export class User {
     authorized_connection?: boolean;
     dateUpd?: Date;
     dateAdd?: Date;
+    address?: string;
 }

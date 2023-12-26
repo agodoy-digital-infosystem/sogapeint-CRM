@@ -82,18 +82,18 @@ export class SignupComponent implements OnInit, AfterViewInit {
         //     this.error = error ? error : '';
         //   });
       } else {
-        this.userService.register(this.signupForm.value)
-          .pipe(first())
-          .subscribe(
-            data => {
-              this.successmsg = true;
-              if (this.successmsg) {
-                this.router.navigate(['/account/login']);
-              }
-            },
-            error => {
-              this.error = error ? error : '';
-            });
+        // this.userService.register(this.signupForm.value)
+        //   .pipe(first())
+        //   .subscribe(
+        //     data => {
+        //       this.successmsg = true;
+        //       if (this.successmsg) {
+        //         this.router.navigate(['/account/login']);
+        //       }
+        //     },
+        //     error => {
+        //       this.error = error ? error : '';
+        //     });
       }
     }
   }

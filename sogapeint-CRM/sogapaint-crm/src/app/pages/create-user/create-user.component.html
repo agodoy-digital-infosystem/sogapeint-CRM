@@ -1,0 +1,249 @@
+<div class="container-fluid">
+    <app-pagetitle title="Créer un utilisateur" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Informations de l'utilisateur</h4>
+                    <!-- Messages (erreur/succès)-->
+                    <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = ''">
+                        {{ successMessage }}
+                      </ngb-alert>
+                      <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = ''">
+                        {{ errorMessage }}
+                      </ngb-alert>
+                    <!-- Formulaire -->
+                    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="scrollable-form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="firstName" class="form-label">Prénom</label>
+                                    <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    [ngClass]="{'is-invalid': userForm.get('firstName').invalid && userForm.get('firstName').touched}" 
+                                    id="firstName" 
+                                    formControlName="firstName" 
+                                    placeholder="Prénom" 
+                                    required>
+                                    <div *ngIf="userForm.get('firstName').invalid && userForm.get('firstName').touched" class="text-danger">
+                                        Le prénom est requis.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="lastName" class="form-label">Nom</label>
+                                    <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    [ngClass]="{'is-invalid': userForm.get('lastName').invalid && userForm.get('lastName').touched}" 
+                                    id="lastName" 
+                                    formControlName="lastName" 
+                                    placeholder="Nom" 
+                                    required>
+                                    <div *ngIf="userForm.get('lastName').invalid && userForm.get('lastName').touched" class="text-danger">
+                                        Le nom est requis.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Adresse email</label>
+                                    <input 
+                                    type="email" 
+                                    class="form-control" 
+                                    [ngClass]="{'is-invalid': userForm.get('email').invalid && userForm.get('email').touched}"  
+                                    id="email" 
+                                    formControlName="email" 
+                                    placeholder="Adresse email" 
+                                    required>
+                                    <div *ngIf="userForm.get('email').errors?.['required'] && userForm.get('email').touched" class="text-danger">
+                                        L'adresse email est requise.
+                                    </div>
+                                    <div *ngIf="userForm.get('email').errors?.['email'] && userForm.get('email').touched" class="text-danger">
+                                        Veuillez saisir une adresse email valide.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Mot de passe</label>
+                                    <div class="input-group">
+                                        <input 
+                                        [type]="hidePassword ? 'password' : 'text'" 
+                                        class="form-control" 
+                                        id="password" 
+                                        formControlName="password" 
+                                        placeholder="Mot de passe" 
+                                        (input)="checkPasswordStrength(userForm.get('password').value)"   
+                                        required>
+                                        <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
+                                            <i [class]="hidePassword ? 'fa fa-eye-slash' : 'fa fa-eye'" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-outline-secondary" type="button" (click)="suggestPassword()">Suggérer un mot de passe</button>
+                                    </div>
+                                    <div class="progress mt-2" *ngIf="passwordStrength !== undefined">
+                                        <div class="progress-bar"
+                                        role="progressbar"
+                                        [style.width]="(passwordStrength?.score + 1) * 25 + '%'"
+                                        [ngClass]="{
+                                            'bg-success': passwordStrength?.score === 4,
+                                            'bg-info': passwordStrength?.score === 3,
+                                            'bg-warning': passwordStrength?.score === 2,
+                                            'bg-danger': passwordStrength?.score < 2
+                                        }">
+                                    </div>
+                                </div>
+                                <div *ngIf="passwordStrength && passwordStrength.feedback">
+                                    {{ passwordStrength.feedback.suggestions.join(', ') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Rôle</label>
+                                <ng-select id="role" formControlName="role" [items]="roles" bindLabel="name" bindValue="value" placeholder="Sélectionner un rôle" required></ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Téléphone</label>
+                                <input 
+                                type="text" 
+                                class="form-control" 
+                                [ngClass]="{'is-invalid': userForm.get('phone').invalid && userForm.get('phone').touched}" 
+                                id="phone" 
+                                formControlName="phone" 
+                                placeholder="Téléphone"
+                                required>
+                                <div *ngIf="userForm.get('phone').touched">
+                                    <div *ngIf="userForm.get('phone').errors?.['required']" class="text-danger">
+                                        Le numéro de téléphone est requis.
+                                    </div>
+                                    <div *ngIf="userForm.get('phone').errors?.['pattern']" class="text-danger">
+                                        Veuillez saisir un numéro de téléphone valide.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Adresse</label>
+                                <input type="text" class="form-control" id="address" formControlName="address" placeholder="Adresse">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="company" class="form-label">Entreprise</label>
+                                <ng-select id="company" 
+                                           formControlName="company" 
+                                           [items]="companies" 
+                                           bindLabel="name" 
+                                           bindValue="id" 
+                                           placeholder="Sélectionner une entreprise"
+                                           [typeahead]="companyInput$"
+                                           [virtualScroll]="true">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Statut</label>
+                                <div class="d-block">
+                                    <ui-switch id="status-switch" formControlName="status" [checkedLabel]="'Actif'" [uncheckedLabel]="'Inactif'" size="small"  ariaLabel="Statut"></ui-switch>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="authorized" class="form-label">Autorisé à se connecter</label>
+                                    <div class="d-block">
+                                        <ui-switch id="authorized" formControlName="authorized" [checkedLabel]="'Oui'" [uncheckedLabel]="'Non'" size="small" ariaLabel="Autorisé à se connecter"></ui-switch>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <!-- <button type="submit" class="btn btn-primary">Créer</button> -->
+                        <button type="button" class="btn btn-primary" (click)="openConfirmationModal(content)">Créer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Template pour le Modal de Confirmation -->
+<ng-template #confirmationModal #content let-modal>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation</h5>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Prénom</th>
+                                <td>{{ userForm.value.firstName }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nom</th>
+                                <td>{{ userForm.value.lastName }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Email</th>
+                                <td>{{ userForm.value.email }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Téléphone</th>
+                                <td>{{ userForm.value.phone }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Adresse</th>
+                                <td>{{ userForm.value.address }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Entreprise</th>
+                                <td>{{ userForm.value.company }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Rôle</th>
+                                <td>{{ userForm.value.role }}</td> 
+                            </tr>
+                            <tr>
+                                <th scope="row">Statut</th>
+                                <td>{{ userForm.value.status ? 'Actif' : 'Inactif' }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Autorisé à se connecter</th>
+                                <td>{{ userForm.value.authorized ? 'Oui' : 'Non' }}</td>
+                            </tr>
+
+                            <!-- Ajoutez d'autres lignes pour chaque champ -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Annuler</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmit(); modal.close()">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+

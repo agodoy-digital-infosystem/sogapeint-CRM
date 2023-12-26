@@ -17,11 +17,21 @@ const loginLimiter = rateLimit({
 // Route pour l'inscription
 // router.post('/signup', authController.signup);
 
+// Route pour ajouter un nouvel utilisateur
+router.post('/addUser', isAdminOrSuperAdmin, authController.addUser);
+
 // Route pour obtenir tous les utilisateurs (protégée par le middleware)
 router.get('/allUsers', isAdminOrSuperAdmin, authController.getAllUsers);
 
 
 // Route pour la connexion
 router.post('/login',loginLimiter, authController.login);
+
+
+//// ENTREPRISES 
+// Route pour obtenir la liste de toutes les entreprises
+router.get('/entreprises', isAdminOrSuperAdmin, authController.getCompanies);
+// Route pour rechercher des entreprises
+router.get('/entreprises/search', isAdminOrSuperAdmin, authController.searchCompanies);
 
 module.exports = router;

@@ -25,7 +25,7 @@ export const MENU: MenuItem[] = [
         id: 2,
         label: 'AJouter un contact',
         icon: 'ri-contacts-book-upload-line',
-        link: '/addContact'
+        link: '/createUser'
     },
     
     // {

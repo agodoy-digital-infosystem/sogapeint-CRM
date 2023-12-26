@@ -18,8 +18,8 @@ const userSchema = new mongoose.Schema({
         enum: ['superAdmin', 'cocontractor', 'subcontractor', 'customer', 'comanager', 'supermanager']
     },
     authorized_connection: { type: Boolean, default: true },
-    access_token: { type: String, required: true },
-    salt: { type: String, required: true },
+    access_token: { type: String, required: false },
+    salt: { type: String, required: false },
     customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: false },
     bgcolor: String,
     dateUpd: { type: Date, default: Date.now },

@@ -9,6 +9,7 @@ import { UserProfileService } from '../../core/services/user.service';
 export class ManageUsersComponent implements OnInit {
 
   breadCrumbItems: Array<{ label: string; url?: string; active?: boolean }> = [];
+  pageTitle: string = 'Gestion des contacts';
   users: any[] = [];
   sortColumn: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -28,7 +29,7 @@ export class ManageUsersComponent implements OnInit {
   constructor(private userProfileService: UserProfileService){}
 
   ngOnInit(): void {
-    this.breadCrumbItems = [{ label: 'Sogapeint' }, { label: 'Gestion des contacts', active: true }];
+    this.breadCrumbItems = [{ label: 'Sogapeint' }, { label: this.pageTitle, active: true }];
     this._fetchData();
 
   }
@@ -73,20 +74,6 @@ export class ManageUsersComponent implements OnInit {
     });
   }
 
-  // onSearch(): void {
-  //   if (!this.filter) {
-  //     this.filteredUsers = this.users; // Pas de filtre, affichez tous les utilisateurs
-  //   } else {
-  //     this.filteredUsers = this.users.filter(user => {
-  //       const searchTerm = this.filter.toLowerCase();
-  //       return (user.firstname && user.firstname.toLowerCase().includes(searchTerm)) ||
-  //            (user.lastname && user.lastname.toLowerCase().includes(searchTerm)) ||
-  //            (user.email && user.email.toLowerCase().includes(searchTerm)) ||
-  //            (user.role && user.role.toLowerCase().includes(searchTerm));
-  //       // Ajoutez autant de conditions que vous avez de champs à filtrer
-  //     });
-  //   }
-  // }
   onSearch(): void {
     if (!this.filter) {
       this.filteredUsers = this.users; // Pas de filtre, affiche tous les utilisateurs
