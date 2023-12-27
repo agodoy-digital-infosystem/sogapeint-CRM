@@ -1,0 +1,1559 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>sogapaint-crm documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">sogapaint-crm documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  RangesliderComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/ui/rangeslider/rangeslider.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-rangeslider</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./rangeslider.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./rangeslider.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#breadCrumbItems" >breadCrumbItems</a>
+                            </li>
+                            <li>
+                                <a href="#custom" >custom</a>
+                            </li>
+                            <li>
+                                <a href="#customOption" >customOption</a>
+                            </li>
+                            <li>
+                                <a href="#defaultVal" >defaultVal</a>
+                            </li>
+                            <li>
+                                <a href="#draggablemaxValue" >draggablemaxValue</a>
+                            </li>
+                            <li>
+                                <a href="#draggableminValue" >draggableminValue</a>
+                            </li>
+                            <li>
+                                <a href="#draggableoptions" >draggableoptions</a>
+                            </li>
+                            <li>
+                                <a href="#floatingOptions" >floatingOptions</a>
+                            </li>
+                            <li>
+                                <a href="#floatValue" >floatValue</a>
+                            </li>
+                            <li>
+                                <a href="#highValue" >highValue</a>
+                            </li>
+                            <li>
+                                <a href="#logscale" >logscale</a>
+                            </li>
+                            <li>
+                                <a href="#logscaleoptions" >logscaleoptions</a>
+                            </li>
+                            <li>
+                                <a href="#maxVal" >maxVal</a>
+                            </li>
+                            <li>
+                                <a href="#minVal" >minVal</a>
+                            </li>
+                            <li>
+                                <a href="#option" >option</a>
+                            </li>
+                            <li>
+                                <a href="#option1" >option1</a>
+                            </li>
+                            <li>
+                                <a href="#options" >options</a>
+                            </li>
+                            <li>
+                                <a href="#tickhighValue" >tickhighValue</a>
+                            </li>
+                            <li>
+                                <a href="#tickoptions" >tickoptions</a>
+                            </li>
+                            <li>
+                                <a href="#tickvalue" >tickvalue</a>
+                            </li>
+                            <li>
+                                <a href="#tickValue" >tickValue</a>
+                            </li>
+                            <li>
+                                <a href="#tickValueoptions" >tickValueoptions</a>
+                            </li>
+                            <li>
+                                <a href="#value" >value</a>
+                            </li>
+                            <li>
+                                <a href="#value1" >value1</a>
+                            </li>
+                            <li>
+                                <a href="#visibleBarOptions" >visibleBarOptions</a>
+                            </li>
+                            <li>
+                                <a href="#visibleSelection" >visibleSelection</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:103</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="breadCrumbItems"></a>
+                    <span class="name">
+                        <span ><b>breadCrumbItems</b></span>
+                        <a href="#breadCrumbItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Array&lt;literal type&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="custom"></a>
+                    <span class="name">
+                        <span ><b>custom</b></span>
+                        <a href="#custom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>12</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="customOption"></a>
+                    <span class="name">
+                        <span ><b>customOption</b></span>
+                        <a href="#customOption"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    floor: 10,
+    ceil: 100,
+    step: 5
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="defaultVal"></a>
+                    <span class="name">
+                        <span ><b>defaultVal</b></span>
+                        <a href="#defaultVal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>34</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="draggablemaxValue"></a>
+                    <span class="name">
+                        <span ><b>draggablemaxValue</b></span>
+                        <a href="#draggablemaxValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>8</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="draggableminValue"></a>
+                    <span class="name">
+                        <span ><b>draggableminValue</b></span>
+                        <a href="#draggableminValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>5</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="draggableoptions"></a>
+                    <span class="name">
+                        <span ><b>draggableoptions</b></span>
+                        <a href="#draggableoptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    floor: 0,
+    ceil: 10,
+    draggableRange: true
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="floatingOptions"></a>
+                    <span class="name">
+                        <span ><b>floatingOptions</b></span>
+                        <a href="#floatingOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    floor: 0,
+    ceil: 2,
+    step: 0.1
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="floatValue"></a>
+                    <span class="name">
+                        <span ><b>floatValue</b></span>
+                        <a href="#floatValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0.5</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="highValue"></a>
+                    <span class="name">
+                        <span ><b>highValue</b></span>
+                        <a href="#highValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>60</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logscale"></a>
+                    <span class="name">
+                        <span ><b>logscale</b></span>
+                        <a href="#logscale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>1</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logscaleoptions"></a>
+                    <span class="name">
+                        <span ><b>logscaleoptions</b></span>
+                        <a href="#logscaleoptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    floor: 1,
+    ceil: 100,
+    logScale: true,
+    showTicks: true
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maxVal"></a>
+                    <span class="name">
+                        <span ><b>maxVal</b></span>
+                        <a href="#maxVal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>400</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="minVal"></a>
+                    <span class="name">
+                        <span ><b>minVal</b></span>
+                        <a href="#minVal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>100</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="option"></a>
+                    <span class="name">
+                        <span ><b>option</b></span>
+                        <a href="#option"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    floor: 10,
+    ceil: 100
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="option1"></a>
+                    <span class="name">
+                        <span ><b>option1</b></span>
+                        <a href="#option1"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    floor: 0,
+    ceil: 500,
+    translate: (value: number): string &#x3D;&gt; {
+      return &#x27;$&#x27; + value;
+    }
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="options"></a>
+                    <span class="name">
+                        <span ><b>options</b></span>
+                        <a href="#options"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    floor: 0,
+    ceil: 100
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tickhighValue"></a>
+                    <span class="name">
+                        <span ><b>tickhighValue</b></span>
+                        <a href="#tickhighValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>90</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tickoptions"></a>
+                    <span class="name">
+                        <span ><b>tickoptions</b></span>
+                        <a href="#tickoptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    floor: 0,
+    ceil: 100,
+    step: 10,
+    showTicks: true
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tickvalue"></a>
+                    <span class="name">
+                        <span ><b>tickvalue</b></span>
+                        <a href="#tickvalue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>10</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tickValue"></a>
+                    <span class="name">
+                        <span ><b>tickValue</b></span>
+                        <a href="#tickValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>5</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tickValueoptions"></a>
+                    <span class="name">
+                        <span ><b>tickValueoptions</b></span>
+                        <a href="#tickValueoptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    showTicksValues: true,
+    stepsArray: [
+      { value: 1, legend: &#x27;Very poor&#x27; },
+      { value: 2 },
+      { value: 3, legend: &#x27;Fair&#x27; },
+      { value: 4 },
+      { value: 5, legend: &#x27;Average&#x27; },
+      { value: 6 },
+      { value: 7, legend: &#x27;Good&#x27; },
+      { value: 8 },
+      { value: 9, legend: &#x27;Excellent&#x27; }
+    ]
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="value"></a>
+                    <span class="name">
+                        <span ><b>value</b></span>
+                        <a href="#value"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>40</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="value1"></a>
+                    <span class="name">
+                        <span ><b>value1</b></span>
+                        <a href="#value1"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>100</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="visibleBarOptions"></a>
+                    <span class="name">
+                        <span ><b>visibleBarOptions</b></span>
+                        <a href="#visibleBarOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    floor: 0,
+    ceil: 10,
+    showSelectionBar: true
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="visibleSelection"></a>
+                    <span class="name">
+                        <span ><b>visibleSelection</b></span>
+                        <a href="#visibleSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>5</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/pages/ui/rangeslider/rangeslider.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+
+import { Options } from &#x27;@angular-slider/ngx-slider&#x27;;
+
+@Component({
+  selector: &#x27;app-rangeslider&#x27;,
+  templateUrl: &#x27;./rangeslider.component.html&#x27;,
+  styleUrls: [&#x27;./rangeslider.component.scss&#x27;]
+})
+
+/**
+ * UI range-slider component
+ */
+export class RangesliderComponent implements OnInit {
+
+  // bread crumb items
+  breadCrumbItems: Array&lt;{}&gt;;
+
+  defaultVal &#x3D; 34;
+  option: Options &#x3D; {
+    floor: 10,
+    ceil: 100
+  };
+
+  value &#x3D; 40;
+  highValue &#x3D; 60;
+  options: Options &#x3D; {
+    floor: 0,
+    ceil: 100
+  };
+
+  custom &#x3D; 12;
+  customOption: Options &#x3D; {
+    floor: 10,
+    ceil: 100,
+    step: 5
+  };
+
+  floatValue &#x3D; 0.5;
+  floatingOptions: Options &#x3D; {
+    floor: 0,
+    ceil: 2,
+    step: 0.1
+  };
+
+  value1 &#x3D; 100;
+  minVal &#x3D; 100;
+  maxVal &#x3D; 400;
+  option1: Options &#x3D; {
+    floor: 0,
+    ceil: 500,
+    translate: (value: number): string &#x3D;&gt; {
+      return &#x27;$&#x27; + value;
+    }
+  };
+
+  tickvalue &#x3D; 10;
+  tickhighValue &#x3D; 90;
+  tickoptions: Options &#x3D; {
+    floor: 0,
+    ceil: 100,
+    step: 10,
+    showTicks: true
+  };
+
+  draggableminValue &#x3D; 5;
+  draggablemaxValue &#x3D; 8;
+  draggableoptions: Options &#x3D; {
+    floor: 0,
+    ceil: 10,
+    draggableRange: true
+  };
+
+  tickValue &#x3D; 5;
+  tickValueoptions: Options &#x3D; {
+    showTicksValues: true,
+    stepsArray: [
+      { value: 1, legend: &#x27;Very poor&#x27; },
+      { value: 2 },
+      { value: 3, legend: &#x27;Fair&#x27; },
+      { value: 4 },
+      { value: 5, legend: &#x27;Average&#x27; },
+      { value: 6 },
+      { value: 7, legend: &#x27;Good&#x27; },
+      { value: 8 },
+      { value: 9, legend: &#x27;Excellent&#x27; }
+    ]
+  };
+
+  visibleSelection &#x3D; 5;
+  visibleBarOptions: Options &#x3D; {
+    floor: 0,
+    ceil: 10,
+    showSelectionBar: true
+  };
+
+  logscale &#x3D; 1;
+  logscaleoptions: Options &#x3D; {
+    floor: 1,
+    ceil: 100,
+    logScale: true,
+    showTicks: true
+  };
+
+  constructor() { }
+
+  ngOnInit() {
+    this.breadCrumbItems &#x3D; [{ label: &#x27;UI Elements&#x27; }, { label: &#x27;Range Slider&#x27;, active: true }];
+
+  }
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;container-fluid&quot;&gt;
+  &lt;app-pagetitle title&#x3D;&quot;Range Slider&quot; [breadcrumbItems]&#x3D;&quot;breadCrumbItems&quot;&gt;&lt;/app-pagetitle&gt;
+
+  &lt;!-- Row --&gt;
+  &lt;div class&#x3D;&quot;row&quot;&gt;
+    &lt;div class&#x3D;&quot;col-12&quot;&gt;
+      &lt;div class&#x3D;&quot;card&quot;&gt;
+        &lt;div class&#x3D;&quot;card-body&quot;&gt;
+          &lt;h4 class&#x3D;&quot;card-title&quot;&gt;Range slider&lt;/h4&gt;
+          &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Default&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;defaultVal&quot; [options]&#x3D;&quot;options&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Min-Max&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;value&quot; [options]&#x3D;&quot;options&quot; [(highValue)]&#x3D;&quot;highValue&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Slider with custom step value&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;custom&quot; [options]&#x3D;&quot;customOption&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Slider with floating point values&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;floatValue&quot; [options]&#x3D;&quot;floatingOptions&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Slider with custom display function&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;value1&quot; [(highValue)]&#x3D;&quot;maxVal&quot; [options]&#x3D;&quot;option1&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Slider with ticks&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;tickvalue&quot; [(highValue)]&#x3D;&quot;tickhighValue&quot; [options]&#x3D;&quot;tickoptions&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Slider with draggable range&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;draggableminValue&quot; [(highValue)]&#x3D;&quot;draggablemaxValue&quot;
+                  [options]&#x3D;&quot;draggableoptions&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Slider with logarithmic scale&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;logscale&quot; [options]&#x3D;&quot;logscaleoptions&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Slider with visible selection bar&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;visibleSelection&quot; [options]&#x3D;&quot;visibleBarOptions&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+              &lt;div class&#x3D;&quot;p-3&quot;&gt;
+                &lt;h5 class&#x3D;&quot;font-size-14 mb-3 mt-0&quot;&gt;Slider with ticks and value&lt;/h5&gt;
+                &lt;ngx-slider [(value)]&#x3D;&quot;tickValue&quot; [options]&#x3D;&quot;tickValueoptions&quot;&gt;&lt;/ngx-slider&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- End Row --&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./rangeslider.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="container-fluid">  <app-pagetitle title="Range Slider" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>  <!-- Row -->  <div class="row">    <div class="col-12">      <div class="card">        <div class="card-body">          <h4 class="card-title">Range slider</h4>          <div class="row">            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Default</h5>                <ngx-slider [(value)]="defaultVal" [options]="options"></ngx-slider>              </div>            </div>            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Min-Max</h5>                <ngx-slider [(value)]="value" [options]="options" [(highValue)]="highValue"></ngx-slider>              </div>            </div>          </div>          <div class="row">            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Slider with custom step value</h5>                <ngx-slider [(value)]="custom" [options]="customOption"></ngx-slider>              </div>            </div>            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Slider with floating point values</h5>                <ngx-slider [(value)]="floatValue" [options]="floatingOptions"></ngx-slider>              </div>            </div>          </div>          <div class="row">            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Slider with custom display function</h5>                <ngx-slider [(value)]="value1" [(highValue)]="maxVal" [options]="option1"></ngx-slider>              </div>            </div>            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Slider with ticks</h5>                <ngx-slider [(value)]="tickvalue" [(highValue)]="tickhighValue" [options]="tickoptions"></ngx-slider>              </div>            </div>          </div>          <div class="row">            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Slider with draggable range</h5>                <ngx-slider [(value)]="draggableminValue" [(highValue)]="draggablemaxValue"                  [options]="draggableoptions"></ngx-slider>              </div>            </div>            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Slider with logarithmic scale</h5>                <ngx-slider [(value)]="logscale" [options]="logscaleoptions"></ngx-slider>              </div>            </div>          </div>          <div class="row">            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Slider with visible selection bar</h5>                <ngx-slider [(value)]="visibleSelection" [options]="visibleBarOptions"></ngx-slider>              </div>            </div>            <div class="col-md-6">              <div class="p-3">                <h5 class="font-size-14 mb-3 mt-0">Slider with ticks and value</h5>                <ngx-slider [(value)]="tickValue" [options]="tickValueoptions"></ngx-slider>              </div>            </div>          </div>        </div>      </div>    </div>  </div>  <!-- End Row --></div></div>'
+    var COMPONENTS = [{'name': 'AlertsComponent', 'selector': 'app-alerts'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ButtonsComponent', 'selector': 'app-buttons'},{'name': 'CardsComponent', 'selector': 'app-cards'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CreateUserComponent', 'selector': 'app-create-user'},{'name': 'DripiconsComponent', 'selector': 'app-dripicons'},{'name': 'DropdownsComponent', 'selector': 'app-dropdowns'},{'name': 'FontawesomeComponent', 'selector': 'app-fontawesome'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GeneralComponent', 'selector': 'app-general'},{'name': 'GridComponent', 'selector': 'app-grid'},{'name': 'HorizontalComponent', 'selector': 'app-horizontal'},{'name': 'HorizontalnavbarComponent', 'selector': 'app-horizontalnavbar'},{'name': 'HorizontaltopbarComponent', 'selector': 'app-horizontaltopbar'},{'name': 'ImagesComponent', 'selector': 'app-images'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MaterialdesignComponent', 'selector': 'app-materialdesign'},{'name': 'ModalsComponent', 'selector': 'app-modals'},{'name': 'PagetitleComponent', 'selector': 'app-pagetitle'},{'name': 'PasswordresetComponent', 'selector': 'app-passwordreset'},{'name': 'ProgressbarComponent', 'selector': 'app-progressbar'},{'name': 'ProtectedDocumentationComponent', 'selector': 'app-protected-documentation'},{'name': 'RangesliderComponent', 'selector': 'app-rangeslider'},{'name': 'RemixComponent', 'selector': 'app-remix'},{'name': 'RightsidebarComponent', 'selector': 'app-rightsidebar'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'SweetalertComponent', 'selector': 'app-sweetalert'},{'name': 'TabsComponent', 'selector': 'app-tabs'},{'name': 'TopbarComponent', 'selector': 'app-topbar'},{'name': 'TypographyComponent', 'selector': 'app-typography'},{'name': 'UserInfoBarComponent', 'selector': 'app-user-info-bar'},{'name': 'VerticalComponent', 'selector': 'app-vertical'},{'name': 'VideoComponent', 'selector': 'app-video'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'RangesliderComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'RangesliderComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

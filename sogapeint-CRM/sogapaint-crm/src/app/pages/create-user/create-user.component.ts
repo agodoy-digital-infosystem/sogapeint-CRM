@@ -212,6 +212,24 @@ export class CreateUserComponent implements OnInit {
   }
 
   /**
+   * Ajoute une nouvelle entreprise à la liste des entreprises si elle n'existe pas déjà.
+   * Cette fonction est appelée lorsque le champ de recherche perd le focus. et permet
+   * à l'utilisateur d'ajouter une nouvelle entreprise à la liste, et donc de conserver
+   * le nom d'une nouvelle entreprise dans le formulaire.
+   * @param event L'événement de saisie dans le champ de recherche.
+   */
+  onCompanyInputBlur(event: any): void {
+    console.log("onCompanyInputBlur");
+    const inputValue = event.target.value;
+    if (inputValue && !this.companies.includes(inputValue)) {
+      // Ajoute inputValue à la liste des entreprises
+      this.companies = [...this.companies, inputValue];
+      // S'assure que la valeur est sélectionnée
+      this.userForm.get('company').setValue(inputValue);
+    }
+  }
+
+  /**
    * Ouvre la fenêtre modale de confirmation de création d'un utilisateur.
    * @param content  Le contenu de la fenêtre modale.
    */

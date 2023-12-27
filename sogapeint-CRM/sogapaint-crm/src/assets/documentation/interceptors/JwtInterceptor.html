@@ -163,12 +163,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authenticationService: <a href="../injectables/AuthenticationService.html" target="_self">AuthenticationService</a>, authfackservice: <a href="../injectables/AuthfakeauthenticationService.html" target="_self">AuthfakeauthenticationService</a>)</code>
+<code>constructor(authenticationService: <a href="../injectables/AuthenticationService.html" target="_self">AuthenticationService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/core/helpers/jwt.interceptor.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/app/core/helpers/jwt.interceptor.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -190,18 +190,6 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/AuthenticationService.html" target="_self" >AuthenticationService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>authfackservice</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/AuthfakeauthenticationService.html" target="_self" >AuthfakeauthenticationService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -243,8 +231,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="14"
-                                    class="link-to-prism">src/app/core/helpers/jwt.interceptor.ts:14</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="11"
+                                    class="link-to-prism">src/app/core/helpers/jwt.interceptor.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -313,34 +301,20 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from &#x27;@angu
 import { Observable } from &#x27;rxjs&#x27;;
 
 import { AuthenticationService } from &#x27;../services/auth.service&#x27;;
-import { AuthfakeauthenticationService } from &#x27;../services/authfake.service&#x27;;
-
-import { environment } from &#x27;../../../environments/environment&#x27;;
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService, private authfackservice: AuthfakeauthenticationService) { }
+    constructor(private authenticationService: AuthenticationService) { }
 
     intercept(request: HttpRequest&lt;any&gt;, next: HttpHandler): Observable&lt;HttpEvent&lt;any&gt;&gt; {
-        if (environment.defaultauth &#x3D;&#x3D;&#x3D; &#x27;firebase&#x27;) {
-            const currentUser &#x3D; this.authenticationService.currentUser();
-            if (currentUser &amp;&amp; currentUser.token) {
-                request &#x3D; request.clone({
-                    setHeaders: {
-                        Authorization: &#x60;Bearer ${currentUser.token}&#x60;
-                    }
-                });
-            }
-        } else {
-            // add authorization header with jwt token if available
-            const currentUser &#x3D; this.authfackservice.currentUserValue;
-            if (currentUser &amp;&amp; currentUser.token) {
-                request &#x3D; request.clone({
-                    setHeaders: {
-                        Authorization: &#x60;Bearer ${currentUser.token}&#x60;
-                    }
-                });
-            }
+        // Ajouter l&#x27;en-tête d&#x27;autorisation avec le jeton JWT si disponible
+        const currentUser &#x3D; this.authenticationService.currentUserValue;
+        if (currentUser &amp;&amp; currentUser.token) {
+            request &#x3D; request.clone({
+                setHeaders: {
+                    Authorization: &#x60;Bearer ${currentUser.token}&#x60;
+                }
+            });
         }
         return next.handle(request);
     }

@@ -1,0 +1,932 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>sogapaint-crm documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">sogapaint-crm documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  MaterialdesignComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/icons/materialdesign/materialdesign.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-materialdesign</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./materialdesign.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./materialdesign.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#breadCrumbItems" >breadCrumbItems</a>
+                            </li>
+                            <li>
+                                <a href="#icons" >icons</a>
+                            </li>
+                            <li>
+                                <a href="#iconsCount" >iconsCount</a>
+                            </li>
+                            <li>
+                                <a href="#newIconsCount" >newIconsCount</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getIconItem" >getIconItem</a>
+                            </li>
+                            <li>
+                                <a href="#isDeprecated" >isDeprecated</a>
+                            </li>
+                            <li>
+                                <a href="#isNew" >isNew</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/pages/icons/materialdesign/materialdesign.component.ts:19</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getIconItem"></a>
+                    <span class="name">
+                        <span ><b>getIconItem</b></span>
+                        <a href="#getIconItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getIconItem(icon, isNewIcon)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="44"
+                                    class="link-to-prism">src/app/pages/icons/materialdesign/materialdesign.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>icon</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>isNewIcon</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isDeprecated"></a>
+                    <span class="name">
+                        <span ><b>isDeprecated</b></span>
+                        <a href="#isDeprecated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isDeprecated(icon)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="57"
+                                    class="link-to-prism">src/app/pages/icons/materialdesign/materialdesign.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>icon</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isNew"></a>
+                    <span class="name">
+                        <span ><b>isNew</b></span>
+                        <a href="#isNew"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isNew(icon)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="40"
+                                    class="link-to-prism">src/app/pages/icons/materialdesign/materialdesign.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>icon</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="22"
+                                    class="link-to-prism">src/app/pages/icons/materialdesign/materialdesign.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="breadCrumbItems"></a>
+                    <span class="name">
+                        <span ><b>breadCrumbItems</b></span>
+                        <a href="#breadCrumbItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Array&lt;literal type&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/pages/icons/materialdesign/materialdesign.component.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="icons"></a>
+                    <span class="name">
+                        <span ><b>icons</b></span>
+                        <a href="#icons"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Array&lt;literal type&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/pages/icons/materialdesign/materialdesign.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="iconsCount"></a>
+                    <span class="name">
+                        <span ><b>iconsCount</b></span>
+                        <a href="#iconsCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/pages/icons/materialdesign/materialdesign.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newIconsCount"></a>
+                    <span class="name">
+                        <span ><b>newIconsCount</b></span>
+                        <a href="#newIconsCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/pages/icons/materialdesign/materialdesign.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+
+import { icons } from &#x27;./data&#x27;;
+
+@Component({
+  selector: &#x27;app-materialdesign&#x27;,
+  templateUrl: &#x27;./materialdesign.component.html&#x27;,
+  styleUrls: [&#x27;./materialdesign.component.scss&#x27;]
+})
+
+/**
+ * Material design component
+ */
+export class MaterialdesignComponent implements OnInit {
+  // bread crumb items
+  breadCrumbItems: Array&lt;{}&gt;;
+  icons: Array&lt;{}&gt;;
+  iconsCount &#x3D; 0;
+  newIconsCount &#x3D; 0;
+  constructor() { }
+
+  ngOnInit() {
+    this.breadCrumbItems &#x3D; [{ label: &#x27;Icons&#x27; }, { label: &#x27;MD Icons&#x27;, active: true }];
+
+    this.icons &#x3D; icons;
+    this.icons.push({ name: &#x27;blank&#x27;, hex: &#x27;f68c&#x27; });
+
+    this.icons.forEach(icon &#x3D;&gt; {
+      const item &#x3D; this.getIconItem(icon, this.isNew(icon));
+      document.getElementById(&#x27;icons&#x27;).appendChild(item);
+      if (this.isNew(icon)) {
+        const newItem &#x3D; this.getIconItem(icon, false);
+        document.getElementById(&#x27;newIcons&#x27;).appendChild(newItem);
+        this.newIconsCount++;
+      }
+      this.iconsCount++;
+    });
+  }
+
+  isNew(icon) {
+    return icon.version &#x3D;&#x3D;&#x3D; &#x27;5.0.45&#x27;;
+  }
+
+  getIconItem(icon, isNewIcon) {
+    // tslint:disable-next-line: one-variable-per-declaration
+    const div &#x3D; document.createElement(&#x27;div&#x27;),
+      i &#x3D; document.createElement(&#x27;i&#x27;);
+    div.className &#x3D; &#x27;col-xl-3 col-lg-4 col-sm-6&#x27;;
+    i.className &#x3D; &#x27;mdi mdi-&#x27; + icon.name;
+    div.appendChild(i);
+    const span &#x3D; document.createElement(&#x27;span&#x27;);
+    span.appendChild(document.createTextNode(&#x27;mdi-&#x27; + icon.name));
+    div.appendChild(span);
+    return div;
+  }
+
+  isDeprecated(icon) {
+    return typeof icon.deprecated &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;
+      ? false
+      : icon.deprecated;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;container-fluid&quot;&gt;
+  &lt;!-- &lt;app-pagetitle title&#x3D;&quot;MD Icons&quot; [breadcrumbItems]&#x3D;&quot;breadCrumbItems&quot;&gt;&lt;/app-pagetitle&gt; --&gt;
+
+  &lt;div class&#x3D;&quot;row icons-demo-content&quot;&gt;
+    &lt;div class&#x3D;&quot;col-12&quot;&gt;
+      &lt;div class&#x3D;&quot;card&quot;&gt;
+
+        &lt;div class&#x3D;&quot;card-body&quot;&gt;
+          &lt;h4 class&#x3D;&quot;card-title&quot;&gt;New Icons&lt;/h4&gt;
+          &lt;p class&#x3D;&quot;card-title-desc mb-2&quot;&gt;Use &lt;code&gt;&amp;lt;i class&#x3D;&quot;mdi mdi-speedometer-slow&quot;&amp;gt;&amp;lt;/i&amp;gt;&lt;/code&gt; &lt;span
+              class&#x3D;&quot;badge badge-success&quot;&gt;v 5.0.45&lt;/span&gt;.&lt;/p&gt;
+
+          &lt;div class&#x3D;&quot;row icon-demo-content&quot; id&#x3D;&quot;newIcons&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt; &lt;!-- end card-body --&gt;
+      &lt;/div&gt; &lt;!-- end card --&gt;
+
+      &lt;div class&#x3D;&quot;card&quot;&gt;
+        &lt;div class&#x3D;&quot;card-body&quot;&gt;
+          &lt;h4 class&#x3D;&quot;card-title mb-4&quot;&gt;All Icons&lt;/h4&gt;
+          &lt;div class&#x3D;&quot;row icon-demo-content&quot; id&#x3D;&quot;icons&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt; &lt;!-- end card-body --&gt;
+      &lt;/div&gt; &lt;!-- end card --&gt;
+    &lt;/div&gt; &lt;!-- end col --&gt;
+  &lt;/div&gt; &lt;!-- end row --&gt;
+
+  &lt;div class&#x3D;&quot;row&quot;&gt;
+    &lt;div class&#x3D;&quot;col-12&quot;&gt;
+      &lt;div class&#x3D;&quot;card&quot;&gt;
+
+        &lt;div class&#x3D;&quot;card-body&quot;&gt;
+          &lt;h4 class&#x3D;&quot;card-title&quot;&gt;Size&lt;/h4&gt;
+
+          &lt;div class&#x3D;&quot;row icon-demo-content&quot;&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-18px mdi-account&quot;&gt;&lt;/i&gt; mdi-18px
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-24px mdi-account&quot;&gt;&lt;/i&gt; mdi-24px
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-36px mdi-account&quot;&gt;&lt;/i&gt; mdi-36px
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-48px mdi-account&quot;&gt;&lt;/i&gt; mdi-48px
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- end row --&gt;
+
+  &lt;div class&#x3D;&quot;row&quot;&gt;
+    &lt;div class&#x3D;&quot;col-12&quot;&gt;
+      &lt;div class&#x3D;&quot;card&quot;&gt;
+
+        &lt;div class&#x3D;&quot;card-body&quot;&gt;
+          &lt;h4 class&#x3D;&quot;card-title&quot;&gt;Rotate&lt;/h4&gt;
+
+          &lt;div class&#x3D;&quot;row icon-demo-content&quot;&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-rotate-45 mdi-account&quot;&gt;&lt;/i&gt; mdi-rotate-45
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-rotate-90 mdi-account&quot;&gt;&lt;/i&gt; mdi-rotate-90
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-rotate-135 mdi-account&quot;&gt;&lt;/i&gt; mdi-rotate-135
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-rotate-180 mdi-account&quot;&gt;&lt;/i&gt; mdi-rotate-180
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-rotate-225 mdi-account&quot;&gt;&lt;/i&gt; mdi-rotate-225
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-rotate-270 mdi-account&quot;&gt;&lt;/i&gt; mdi-rotate-270
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-rotate-315 mdi-account&quot;&gt;&lt;/i&gt; mdi-rotate-315
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- end row --&gt;
+
+  &lt;div class&#x3D;&quot;row&quot;&gt;
+    &lt;div class&#x3D;&quot;col-12&quot;&gt;
+      &lt;div class&#x3D;&quot;card&quot;&gt;
+
+        &lt;div class&#x3D;&quot;card-body&quot;&gt;
+          &lt;h4 class&#x3D;&quot;card-title&quot;&gt;Spin&lt;/h4&gt;
+
+          &lt;div class&#x3D;&quot;row icon-demo-content&quot;&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-spin mdi-loading&quot;&gt;&lt;/i&gt; mdi-spin
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;mdi mdi-spin mdi-star&quot;&gt;&lt;/i&gt; mdi-spin
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- end row --&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./materialdesign.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="container-fluid">  <!-- <app-pagetitle title="MD Icons" [breadcrumbItems]="breadCrumbItems"></app-pagetitle> -->  <div class="row icons-demo-content">    <div class="col-12">      <div class="card">        <div class="card-body">          <h4 class="card-title">New Icons</h4>          <p class="card-title-desc mb-2">Use <code>&lt;i class="mdi mdi-speedometer-slow"&gt;&lt;/i&gt;</code> <span              class="badge badge-success">v 5.0.45</span>.</p>          <div class="row icon-demo-content" id="newIcons"></div>        </div> <!-- end card-body -->      </div> <!-- end card -->      <div class="card">        <div class="card-body">          <h4 class="card-title mb-4">All Icons</h4>          <div class="row icon-demo-content" id="icons"></div>        </div> <!-- end card-body -->      </div> <!-- end card -->    </div> <!-- end col -->  </div> <!-- end row -->  <div class="row">    <div class="col-12">      <div class="card">        <div class="card-body">          <h4 class="card-title">Size</h4>          <div class="row icon-demo-content">            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-18px mdi-account"></i> mdi-18px            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-24px mdi-account"></i> mdi-24px            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-36px mdi-account"></i> mdi-36px            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-48px mdi-account"></i> mdi-48px            </div>          </div>        </div>      </div>    </div>  </div>  <!-- end row -->  <div class="row">    <div class="col-12">      <div class="card">        <div class="card-body">          <h4 class="card-title">Rotate</h4>          <div class="row icon-demo-content">            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-rotate-45 mdi-account"></i> mdi-rotate-45            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-rotate-90 mdi-account"></i> mdi-rotate-90            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-rotate-135 mdi-account"></i> mdi-rotate-135            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-rotate-180 mdi-account"></i> mdi-rotate-180            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-rotate-225 mdi-account"></i> mdi-rotate-225            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-rotate-270 mdi-account"></i> mdi-rotate-270            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-rotate-315 mdi-account"></i> mdi-rotate-315            </div>          </div>        </div>      </div>    </div>  </div>  <!-- end row -->  <div class="row">    <div class="col-12">      <div class="card">        <div class="card-body">          <h4 class="card-title">Spin</h4>          <div class="row icon-demo-content">            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-spin mdi-loading"></i> mdi-spin            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="mdi mdi-spin mdi-star"></i> mdi-spin            </div>          </div>        </div>      </div>    </div>  </div>  <!-- end row --></div></div>'
+    var COMPONENTS = [{'name': 'AlertsComponent', 'selector': 'app-alerts'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ButtonsComponent', 'selector': 'app-buttons'},{'name': 'CardsComponent', 'selector': 'app-cards'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CreateUserComponent', 'selector': 'app-create-user'},{'name': 'DripiconsComponent', 'selector': 'app-dripicons'},{'name': 'DropdownsComponent', 'selector': 'app-dropdowns'},{'name': 'FontawesomeComponent', 'selector': 'app-fontawesome'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GeneralComponent', 'selector': 'app-general'},{'name': 'GridComponent', 'selector': 'app-grid'},{'name': 'HorizontalComponent', 'selector': 'app-horizontal'},{'name': 'HorizontalnavbarComponent', 'selector': 'app-horizontalnavbar'},{'name': 'HorizontaltopbarComponent', 'selector': 'app-horizontaltopbar'},{'name': 'ImagesComponent', 'selector': 'app-images'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MaterialdesignComponent', 'selector': 'app-materialdesign'},{'name': 'ModalsComponent', 'selector': 'app-modals'},{'name': 'PagetitleComponent', 'selector': 'app-pagetitle'},{'name': 'PasswordresetComponent', 'selector': 'app-passwordreset'},{'name': 'ProgressbarComponent', 'selector': 'app-progressbar'},{'name': 'ProtectedDocumentationComponent', 'selector': 'app-protected-documentation'},{'name': 'RangesliderComponent', 'selector': 'app-rangeslider'},{'name': 'RemixComponent', 'selector': 'app-remix'},{'name': 'RightsidebarComponent', 'selector': 'app-rightsidebar'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'SweetalertComponent', 'selector': 'app-sweetalert'},{'name': 'TabsComponent', 'selector': 'app-tabs'},{'name': 'TopbarComponent', 'selector': 'app-topbar'},{'name': 'TypographyComponent', 'selector': 'app-typography'},{'name': 'UserInfoBarComponent', 'selector': 'app-user-info-bar'},{'name': 'VerticalComponent', 'selector': 'app-vertical'},{'name': 'VideoComponent', 'selector': 'app-video'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'MaterialdesignComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MaterialdesignComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

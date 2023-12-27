@@ -1,0 +1,1285 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>sogapaint-crm documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">sogapaint-crm documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ModalsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/ui/modals/modals.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-modals</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./modals.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./modals.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#breadCrumbItems" >breadCrumbItems</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#centerModal" >centerModal</a>
+                            </li>
+                            <li>
+                                <a href="#extraLarge" >extraLarge</a>
+                            </li>
+                            <li>
+                                <a href="#largeModal" >largeModal</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openModal" >openModal</a>
+                            </li>
+                            <li>
+                                <a href="#scrollModal" >scrollModal</a>
+                            </li>
+                            <li>
+                                <a href="#smallModal" >smallModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(modalService: NgbModal)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/pages/ui/modals/modals.component.ts:16</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>modalService</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgbModal</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="centerModal"></a>
+                    <span class="name">
+                        <span ><b>centerModal</b></span>
+                        <a href="#centerModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>centerModal(centerDataModal: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/app/pages/ui/modals/modals.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Open center modal</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>centerDataModal</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>center modal data</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extraLarge"></a>
+                    <span class="name">
+                        <span ><b>extraLarge</b></span>
+                        <a href="#extraLarge"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>extraLarge(exlargeModal: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="36"
+                                    class="link-to-prism">src/app/pages/ui/modals/modals.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Open extra large modal</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>exlargeModal</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>extra large modal data</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="largeModal"></a>
+                    <span class="name">
+                        <span ><b>largeModal</b></span>
+                        <a href="#largeModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>largeModal(largeDataModal: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="44"
+                                    class="link-to-prism">src/app/pages/ui/modals/modals.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Open Large modal</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>largeDataModal</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>large modal data</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="20"
+                                    class="link-to-prism">src/app/pages/ui/modals/modals.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openModal"></a>
+                    <span class="name">
+                        <span ><b>openModal</b></span>
+                        <a href="#openModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openModal(content: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="28"
+                                    class="link-to-prism">src/app/pages/ui/modals/modals.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Open modal</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>content</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>modal content</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollModal"></a>
+                    <span class="name">
+                        <span ><b>scrollModal</b></span>
+                        <a href="#scrollModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>scrollModal(scrollDataModal: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">src/app/pages/ui/modals/modals.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Open scroll modal</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>scrollDataModal</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>scroll modal data</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="smallModal"></a>
+                    <span class="name">
+                        <span ><b>smallModal</b></span>
+                        <a href="#smallModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>smallModal(smallDataModal: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="52"
+                                    class="link-to-prism">src/app/pages/ui/modals/modals.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Open small modal</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>smallDataModal</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>small modal data</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="breadCrumbItems"></a>
+                    <span class="name">
+                        <span ><b>breadCrumbItems</b></span>
+                        <a href="#breadCrumbItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Array&lt;literal type&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/pages/ui/modals/modals.component.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+
+import { NgbModal } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
+
+@Component({
+  selector: &#x27;app-modals&#x27;,
+  templateUrl: &#x27;./modals.component.html&#x27;,
+  styleUrls: [&#x27;./modals.component.scss&#x27;]
+})
+
+/**
+ * UI-modals component
+ */
+export class ModalsComponent implements OnInit {
+  // bread crumb items
+  breadCrumbItems: Array&lt;{}&gt;;
+
+  constructor(private modalService: NgbModal) { }
+
+  ngOnInit() {
+    this.breadCrumbItems &#x3D; [{ label: &#x27;UI Elements&#x27; }, { label: &#x27;Modals&#x27;, active: true }];
+  }
+
+  /**
+   * Open modal
+   * @param content modal content
+   */
+  openModal(content: any) {
+    this.modalService.open(content);
+  }
+
+  /**
+   * Open extra large modal
+   * @param exlargeModal extra large modal data
+   */
+  extraLarge(exlargeModal: any) {
+    this.modalService.open(exlargeModal, { size: &#x27;xl&#x27; });
+  }
+
+  /**
+   * Open Large modal
+   * @param largeDataModal large modal data
+   */
+  largeModal(largeDataModal: any) {
+    this.modalService.open(largeDataModal, { size: &#x27;lg&#x27; });
+  }
+
+  /**
+   * Open small modal
+   * @param smallDataModal small modal data
+   */
+  smallModal(smallDataModal: any) {
+    this.modalService.open(smallDataModal, { size: &#x27;sm&#x27; });
+  }
+
+  /**
+   * Open center modal
+   * @param centerDataModal center modal data
+   */
+  centerModal(centerDataModal: any) {
+    this.modalService.open(centerDataModal, { centered: true });
+  }
+
+  /**
+   * Open scroll modal
+   * @param scrollDataModal scroll modal data
+   */
+  scrollModal(scrollDataModal: any) {
+    this.modalService.open(scrollDataModal, { scrollable: true });
+  }
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;container-fluid&quot;&gt;
+  &lt;app-pagetitle title&#x3D;&quot;Modals&quot; [breadcrumbItems]&#x3D;&quot;breadCrumbItems&quot;&gt;&lt;/app-pagetitle&gt;
+
+  &lt;div class&#x3D;&quot;row&quot;&gt;
+    &lt;div class&#x3D;&quot;col-12&quot;&gt;
+      &lt;div class&#x3D;&quot;card&quot;&gt;
+        &lt;div class&#x3D;&quot;card-body&quot;&gt;
+
+          &lt;h4 class&#x3D;&quot;card-title&quot;&gt;Modals Examples&lt;/h4&gt;
+          &lt;p class&#x3D;&quot;card-title-desc&quot;&gt;Modals are streamlined, but flexible
+            dialog prompts powered by JavaScript. They support a number of use cases
+            from user notification to completely custom content and feature a
+            handful of helpful subcomponents, sizes, and more.&lt;/p&gt;
+
+            &lt;div class&#x3D;&quot;modal bs-example-modal&quot; tabindex&#x3D;&quot;-1&quot; role&#x3D;&quot;dialog&quot;&gt;
+              &lt;div class&#x3D;&quot;modal-dialog&quot; role&#x3D;&quot;document&quot;&gt;
+                  &lt;div class&#x3D;&quot;modal-content&quot;&gt;
+                      &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+                          &lt;h5 class&#x3D;&quot;modal-title&quot;&gt;Modal title&lt;/h5&gt;
+                          &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-close&quot; data-bs-dismiss&#x3D;&quot;modal&quot; aria-label&#x3D;&quot;Close&quot;&gt;&lt;/button&gt;
+                      &lt;/div&gt;
+                      &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+                          &lt;p&gt;One fine body…&lt;/p&gt;
+                      &lt;/div&gt;
+                      &lt;div class&#x3D;&quot;modal-footer&quot;&gt;
+                          &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary waves-effect waves-light&quot;&gt;Save changes&lt;/button&gt;
+                          &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-light waves-effect&quot; data-bs-dismiss&#x3D;&quot;modal&quot;&gt;Close&lt;/button&gt;
+                      &lt;/div&gt;
+                  &lt;/div&gt;&lt;!-- /.modal-content --&gt;
+              &lt;/div&gt;&lt;!-- /.modal-dialog --&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;row&quot;&gt;
+
+            &lt;div class&#x3D;&quot;col-sm-6 col-md-4 col-xl-3&quot;&gt;
+              &lt;div class&#x3D;&quot;my-4 text-center&quot;&gt;
+                &lt;p class&#x3D;&quot;text-muted&quot;&gt;Standard modal&lt;/p&gt;
+
+                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;openModal(content)&quot;&gt;Standard
+                  modal&lt;/button&gt;
+              &lt;/div&gt;
+
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;col-sm-6 col-md-4 col-xl-3&quot;&gt;
+              &lt;div class&#x3D;&quot;my-4 text-center&quot;&gt;
+                &lt;p class&#x3D;&quot;text-muted&quot;&gt;Extra large modal&lt;/p&gt;
+                &lt;!-- Extra Large modal --&gt;
+                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;extraLarge(exlargeModal)&quot;&gt;Extra large
+                  modal&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;col-sm-6 col-md-4 col-xl-3&quot;&gt;
+              &lt;div class&#x3D;&quot;my-4 text-center&quot;&gt;
+                &lt;p class&#x3D;&quot;text-muted&quot;&gt;Large modal&lt;/p&gt;
+                &lt;!-- Large modal --&gt;
+                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;largeModal(largeDataModal)&quot;&gt;Large modal&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;col-sm-6 col-md-4 col-xl-3&quot;&gt;
+              &lt;div class&#x3D;&quot;my-4 text-center&quot;&gt;
+                &lt;p class&#x3D;&quot;text-muted&quot;&gt;Small modal&lt;/p&gt;
+                &lt;!-- Small modal --&gt;
+                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;smallModal(smallDataModal)&quot;&gt;Small
+                  modal&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;col-sm-6 col-md-4 col-xl-3&quot;&gt;
+              &lt;div class&#x3D;&quot;my-4 text-center&quot;&gt;
+                &lt;p class&#x3D;&quot;text-muted&quot;&gt;Center modal&lt;/p&gt;
+                &lt;!-- Center modal --&gt;
+                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;centerModal(centerDataModal)&quot;&gt;Center
+                  modal&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;col-sm-6 col-md-4 col-xl-3&quot;&gt;
+              &lt;div class&#x3D;&quot;my-4 text-center&quot;&gt;
+                &lt;p class&#x3D;&quot;text-muted&quot;&gt;Scrollable modal&lt;/p&gt;
+                &lt;!-- Scrollable modal --&gt;
+                &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;scrollModal(scrollDataModal)&quot;&gt;Scrollable
+                  modal&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt; &lt;!-- end row --&gt;
+
+          &lt;!-- end row --&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;&lt;!-- end row --&gt;
+&lt;/div&gt;
+
+&lt;!-- Standard Modal --&gt;
+&lt;ng-template #content role&#x3D;&quot;document&quot; let-modal&gt;
+  &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+    &lt;h5 class&#x3D;&quot;modal-title mt-0&quot;&gt;Modal Heading&lt;/h5&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-close&quot; aria-hidden&#x3D;&quot;true&quot; (click)&#x3D;&quot;modal.dismiss(&#x27;Cross click&#x27;)&quot;&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+    &lt;h5&gt;Overflowing text to show scroll behavior&lt;/h5&gt;
+    &lt;div *ngFor&#x3D;&quot;let i of [0,1,2]&quot;&gt;
+      &lt;p&gt;Cras mattis consectetur purus sit amet fermentum.
+        Cras justo odio, dapibus ac facilisis in,
+        egestas eget quam. Morbi leo risus, porta ac
+        consectetur ac, vestibulum at eros.&lt;/p&gt;
+      &lt;p&gt;Praesent commodo cursus magna, vel scelerisque
+        nisl consectetur et. Vivamus sagittis lacus vel
+        augue laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+      &lt;p&gt;Aenean lacinia bibendum nulla sed consectetur.
+        Praesent commodo cursus magna, vel scelerisque
+        nisl consectetur et. Donec sed odio dui. Donec
+        ullamcorper nulla non metus auctor
+        fringilla.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal-footer&quot;&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-light&quot; (click)&#x3D;&quot;modal.close(&#x27;Close click&#x27;)&quot;&gt;Close&lt;/button&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot;&gt;Save changes&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+
+&lt;!-- Extra Large Modal --&gt;
+&lt;ng-template #exlargeModal let-modal&gt;
+  &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+    &lt;h5 class&#x3D;&quot;modal-title mt-0&quot;&gt;Extra large modal &lt;/h5&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-close&quot; aria-label&#x3D;&quot;Close&quot; (click)&#x3D;&quot;modal.dismiss(&#x27;Close click&#x27;)&quot;&gt;
+
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum.
+      Cras justo odio, dapibus ac facilisis in,
+      egestas eget quam. Morbi leo risus, porta ac
+      consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque
+      nisl consectetur et. Vivamus sagittis lacus vel
+      augue laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p class&#x3D;&quot;mb-0&quot;&gt;Aenean lacinia bibendum nulla sed consectetur.
+      Praesent commodo cursus magna, vel scelerisque
+      nisl consectetur et. Donec sed odio dui. Donec
+      ullamcorper nulla non metus auctor
+      fringilla.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+
+&lt;!-- Large Modal --&gt;
+&lt;ng-template #largeDataModal let-modal&gt;
+  &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+    &lt;h5 class&#x3D;&quot;modal-title mt-0&quot;&gt;Large modal&lt;/h5&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-close&quot; (click)&#x3D;&quot;modal.dismiss(&#x27;Cross click&#x27;)&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum.
+      Cras justo odio, dapibus ac facilisis in,
+      egestas eget quam. Morbi leo risus, porta ac
+      consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque
+      nisl consectetur et. Vivamus sagittis lacus vel
+      augue laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p class&#x3D;&quot;mb-0&quot;&gt;Aenean lacinia bibendum nulla sed consectetur.
+      Praesent commodo cursus magna, vel scelerisque
+      nisl consectetur et. Donec sed odio dui. Donec
+      ullamcorper nulla non metus auctor
+      fringilla.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+
+&lt;!-- Small Modal --&gt;
+&lt;ng-template #smallDataModal let-modal&gt;
+  &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+    &lt;h5 class&#x3D;&quot;modal-title mt-0&quot;&gt;Small modal&lt;/h5&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-close&quot; (click)&#x3D;&quot;modal.dismiss(&#x27;Cross click&#x27;)&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum.
+      Cras justo odio, dapibus ac facilisis in,
+      egestas eget quam. Morbi leo risus, porta ac
+      consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque
+      nisl consectetur et. Vivamus sagittis lacus vel
+      augue laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p class&#x3D;&quot;mb-0&quot;&gt;Aenean lacinia bibendum nulla sed consectetur.
+      Praesent commodo cursus magna, vel scelerisque
+      nisl consectetur et. Donec sed odio dui. Donec
+      ullamcorper nulla non metus auctor
+      fringilla.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+
+&lt;!-- Center Modal --&gt;
+&lt;ng-template #centerDataModal let-modal&gt;
+  &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+    &lt;h5 class&#x3D;&quot;modal-title mt-0&quot;&gt;Center modal&lt;/h5&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-close&quot; (click)&#x3D;&quot;modal.dismiss(&#x27;Cross click&#x27;)&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum.
+      Cras justo odio, dapibus ac facilisis in,
+      egestas eget quam. Morbi leo risus, porta ac
+      consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque
+      nisl consectetur et. Vivamus sagittis lacus vel
+      augue laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p class&#x3D;&quot;mb-0&quot;&gt;Aenean lacinia bibendum nulla sed consectetur.
+      Praesent commodo cursus magna, vel scelerisque
+      nisl consectetur et. Donec sed odio dui. Donec
+      ullamcorper nulla non metus auctor
+      fringilla.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+
+&lt;!-- Scrollable Modal --&gt;
+&lt;ng-template #scrollDataModal let-modal&gt;
+  &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+    &lt;h5 class&#x3D;&quot;modal-title mt-0&quot;&gt;Scrollable Modal&lt;/h5&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-close&quot; (click)&#x3D;&quot;modal.dismiss(&#x27;Cross click&#x27;)&quot; aria-label&#x3D;&quot;Close&quot;&gt;
+
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas
+      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+      laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl
+      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas
+      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+      laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl
+      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas
+      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+      laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl
+      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas
+      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+      laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl
+      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas
+      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+      laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl
+      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;
+    &lt;p&gt;Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas
+      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
+    &lt;p&gt;Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+      laoreet rutrum faucibus dolor auctor.&lt;/p&gt;
+    &lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl
+      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal-footer&quot;&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-secondary&quot; (click)&#x3D;&quot;modal.close(&#x27;Close click&#x27;)&quot;&gt;Close&lt;/button&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot;&gt;Save changes&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./modals.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="container-fluid">  <app-pagetitle title="Modals" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>  <div class="row">    <div class="col-12">      <div class="card">        <div class="card-body">          <h4 class="card-title">Modals Examples</h4>          <p class="card-title-desc">Modals are streamlined, but flexible            dialog prompts powered by JavaScript. They support a number of use cases            from user notification to completely custom content and feature a            handful of helpful subcomponents, sizes, and more.</p>            <div class="modal bs-example-modal" tabindex="-1" role="dialog">              <div class="modal-dialog" role="document">                  <div class="modal-content">                      <div class="modal-header">                          <h5 class="modal-title">Modal title</h5>                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>                      </div>                      <div class="modal-body">                          <p>One fine body…</p>                      </div>                      <div class="modal-footer">                          <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button>                          <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>                      </div>                  </div><!-- /.modal-content -->              </div><!-- /.modal-dialog -->          </div>          <div class="row">            <div class="col-sm-6 col-md-4 col-xl-3">              <div class="my-4 text-center">                <p class="text-muted">Standard modal</p>                <button type="button" class="btn btn-primary" (click)="openModal(content)">Standard                  modal</button>              </div>            </div>            <div class="col-sm-6 col-md-4 col-xl-3">              <div class="my-4 text-center">                <p class="text-muted">Extra large modal</p>                <!-- Extra Large modal -->                <button type="button" class="btn btn-primary" (click)="extraLarge(exlargeModal)">Extra large                  modal</button>              </div>            </div>            <div class="col-sm-6 col-md-4 col-xl-3">              <div class="my-4 text-center">                <p class="text-muted">Large modal</p>                <!-- Large modal -->                <button type="button" class="btn btn-primary" (click)="largeModal(largeDataModal)">Large modal</button>              </div>            </div>            <div class="col-sm-6 col-md-4 col-xl-3">              <div class="my-4 text-center">                <p class="text-muted">Small modal</p>                <!-- Small modal -->                <button type="button" class="btn btn-primary" (click)="smallModal(smallDataModal)">Small                  modal</button>              </div>            </div>            <div class="col-sm-6 col-md-4 col-xl-3">              <div class="my-4 text-center">                <p class="text-muted">Center modal</p>                <!-- Center modal -->                <button type="button" class="btn btn-primary" (click)="centerModal(centerDataModal)">Center                  modal</button>              </div>            </div>            <div class="col-sm-6 col-md-4 col-xl-3">              <div class="my-4 text-center">                <p class="text-muted">Scrollable modal</p>                <!-- Scrollable modal -->                <button type="button" class="btn btn-primary" (click)="scrollModal(scrollDataModal)">Scrollable                  modal</button>              </div>            </div>          </div> <!-- end row -->          <!-- end row -->        </div>      </div>    </div>  </div><!-- end row --></div><!-- Standard Modal --><ng-template #content role="document" let-modal>  <div class="modal-header">    <h5 class="modal-title mt-0">Modal Heading</h5>    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss(\'Cross click\')"></button>  </div>  <div class="modal-body">    <h5>Overflowing text to show scroll behavior</h5>    <div *ngFor="let i of [0,1,2]">      <p>Cras mattis consectetur purus sit amet fermentum.        Cras justo odio, dapibus ac facilisis in,        egestas eget quam. Morbi leo risus, porta ac        consectetur ac, vestibulum at eros.</p>      <p>Praesent commodo cursus magna, vel scelerisque        nisl consectetur et. Vivamus sagittis lacus vel        augue laoreet rutrum faucibus dolor auctor.</p>      <p>Aenean lacinia bibendum nulla sed consectetur.        Praesent commodo cursus magna, vel scelerisque        nisl consectetur et. Donec sed odio dui. Donec        ullamcorper nulla non metus auctor        fringilla.</p>    </div>  </div>  <div class="modal-footer">    <button type="button" class="btn btn-light" (click)="modal.close(\'Close click\')">Close</button>    <button type="button" class="btn btn-primary">Save changes</button>  </div></ng-template><!-- Extra Large Modal --><ng-template #exlargeModal let-modal>  <div class="modal-header">    <h5 class="modal-title mt-0">Extra large modal </h5>    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss(\'Close click\')">    </button>  </div>  <div class="modal-body">    <p>Cras mattis consectetur purus sit amet fermentum.      Cras justo odio, dapibus ac facilisis in,      egestas eget quam. Morbi leo risus, porta ac      consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque      nisl consectetur et. Vivamus sagittis lacus vel      augue laoreet rutrum faucibus dolor auctor.</p>    <p class="mb-0">Aenean lacinia bibendum nulla sed consectetur.      Praesent commodo cursus magna, vel scelerisque      nisl consectetur et. Donec sed odio dui. Donec      ullamcorper nulla non metus auctor      fringilla.</p>  </div></ng-template><!-- Large Modal --><ng-template #largeDataModal let-modal>  <div class="modal-header">    <h5 class="modal-title mt-0">Large modal</h5>    <button type="button" class="btn-close" (click)="modal.dismiss(\'Cross click\')" aria-hidden="true"></button>  </div>  <div class="modal-body">    <p>Cras mattis consectetur purus sit amet fermentum.      Cras justo odio, dapibus ac facilisis in,      egestas eget quam. Morbi leo risus, porta ac      consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque      nisl consectetur et. Vivamus sagittis lacus vel      augue laoreet rutrum faucibus dolor auctor.</p>    <p class="mb-0">Aenean lacinia bibendum nulla sed consectetur.      Praesent commodo cursus magna, vel scelerisque      nisl consectetur et. Donec sed odio dui. Donec      ullamcorper nulla non metus auctor      fringilla.</p>  </div></ng-template><!-- Small Modal --><ng-template #smallDataModal let-modal>  <div class="modal-header">    <h5 class="modal-title mt-0">Small modal</h5>    <button type="button" class="btn-close" (click)="modal.dismiss(\'Cross click\')" aria-hidden="true"></button>  </div>  <div class="modal-body">    <p>Cras mattis consectetur purus sit amet fermentum.      Cras justo odio, dapibus ac facilisis in,      egestas eget quam. Morbi leo risus, porta ac      consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque      nisl consectetur et. Vivamus sagittis lacus vel      augue laoreet rutrum faucibus dolor auctor.</p>    <p class="mb-0">Aenean lacinia bibendum nulla sed consectetur.      Praesent commodo cursus magna, vel scelerisque      nisl consectetur et. Donec sed odio dui. Donec      ullamcorper nulla non metus auctor      fringilla.</p>  </div></ng-template><!-- Center Modal --><ng-template #centerDataModal let-modal>  <div class="modal-header">    <h5 class="modal-title mt-0">Center modal</h5>    <button type="button" class="btn-close" (click)="modal.dismiss(\'Cross click\')" aria-hidden="true"></button>  </div>  <div class="modal-body">    <p>Cras mattis consectetur purus sit amet fermentum.      Cras justo odio, dapibus ac facilisis in,      egestas eget quam. Morbi leo risus, porta ac      consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque      nisl consectetur et. Vivamus sagittis lacus vel      augue laoreet rutrum faucibus dolor auctor.</p>    <p class="mb-0">Aenean lacinia bibendum nulla sed consectetur.      Praesent commodo cursus magna, vel scelerisque      nisl consectetur et. Donec sed odio dui. Donec      ullamcorper nulla non metus auctor      fringilla.</p>  </div></ng-template><!-- Scrollable Modal --><ng-template #scrollDataModal let-modal>  <div class="modal-header">    <h5 class="modal-title mt-0">Scrollable Modal</h5>    <button type="button" class="btn-close" (click)="modal.dismiss(\'Cross click\')" aria-label="Close">    </button>  </div>  <div class="modal-body">    <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue      laoreet rutrum faucibus dolor auctor.</p>    <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>    <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue      laoreet rutrum faucibus dolor auctor.</p>    <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>    <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue      laoreet rutrum faucibus dolor auctor.</p>    <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>    <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue      laoreet rutrum faucibus dolor auctor.</p>    <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>    <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue      laoreet rutrum faucibus dolor auctor.</p>    <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>    <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas      eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue      laoreet rutrum faucibus dolor auctor.</p>    <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl      consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>  </div>  <div class="modal-footer">    <button type="button" class="btn btn-secondary" (click)="modal.close(\'Close click\')">Close</button>    <button type="button" class="btn btn-primary">Save changes</button>  </div></ng-template></div>'
+    var COMPONENTS = [{'name': 'AlertsComponent', 'selector': 'app-alerts'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ButtonsComponent', 'selector': 'app-buttons'},{'name': 'CardsComponent', 'selector': 'app-cards'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CreateUserComponent', 'selector': 'app-create-user'},{'name': 'DripiconsComponent', 'selector': 'app-dripicons'},{'name': 'DropdownsComponent', 'selector': 'app-dropdowns'},{'name': 'FontawesomeComponent', 'selector': 'app-fontawesome'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GeneralComponent', 'selector': 'app-general'},{'name': 'GridComponent', 'selector': 'app-grid'},{'name': 'HorizontalComponent', 'selector': 'app-horizontal'},{'name': 'HorizontalnavbarComponent', 'selector': 'app-horizontalnavbar'},{'name': 'HorizontaltopbarComponent', 'selector': 'app-horizontaltopbar'},{'name': 'ImagesComponent', 'selector': 'app-images'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MaterialdesignComponent', 'selector': 'app-materialdesign'},{'name': 'ModalsComponent', 'selector': 'app-modals'},{'name': 'PagetitleComponent', 'selector': 'app-pagetitle'},{'name': 'PasswordresetComponent', 'selector': 'app-passwordreset'},{'name': 'ProgressbarComponent', 'selector': 'app-progressbar'},{'name': 'ProtectedDocumentationComponent', 'selector': 'app-protected-documentation'},{'name': 'RangesliderComponent', 'selector': 'app-rangeslider'},{'name': 'RemixComponent', 'selector': 'app-remix'},{'name': 'RightsidebarComponent', 'selector': 'app-rightsidebar'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'SweetalertComponent', 'selector': 'app-sweetalert'},{'name': 'TabsComponent', 'selector': 'app-tabs'},{'name': 'TopbarComponent', 'selector': 'app-topbar'},{'name': 'TypographyComponent', 'selector': 'app-typography'},{'name': 'UserInfoBarComponent', 'selector': 'app-user-info-bar'},{'name': 'VerticalComponent', 'selector': 'app-vertical'},{'name': 'VideoComponent', 'selector': 'app-video'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ModalsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ModalsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

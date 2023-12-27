@@ -152,10 +152,13 @@ telles que l&#39;obtention de la liste des utilisateurs et l&#39;enregistrement 
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#create" >create</a>
+                            </li>
+                            <li>
                                 <a href="#getAll" >getAll</a>
                             </li>
                             <li>
-                                <a href="#register" >register</a>
+                                <a href="#getCurrentUser" >getCurrentUser</a>
                             </li>
                         </ul>
                     </td>
@@ -175,12 +178,12 @@ telles que l&#39;obtention de la liste des utilisateurs et l&#39;enregistrement 
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(http: HttpClient)</code>
+<code>constructor(http: HttpClient, authService: <a href="../injectables/AuthenticationService.html" target="_self">AuthenticationService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/core/services/user.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/core/services/user.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -216,6 +219,20 @@ telles que l&#39;obtention de la liste des utilisateurs et l&#39;enregistrement 
 
                                                         </td>
                                                 </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthenticationService.html" target="_self" >AuthenticationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -234,68 +251,24 @@ telles que l&#39;obtention de la liste des utilisateurs et l&#39;enregistrement 
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getAll"></a>
+                    <a name="create"></a>
                     <span class="name">
-                        <span ><b>getAll</b></span>
-                        <a href="#getAll"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>create</b></span>
+                        <a href="#create"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getAll()</code>
+<code>create(user: <a href="../classes/User.html" target="_self">User</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="27"
-                                    class="link-to-prism">src/app/core/services/user.service.ts:27</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Récupère tous les utilisateurs.</p>
-<p>Envoie une requête GET pour obtenir une liste de tous les utilisateurs.</p>
-</div>
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                <p>Un Observable contenant un tableau d&#39;utilisateurs.</p>
-
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="register"></a>
-                    <span class="name">
-                        <span ><b>register</b></span>
-                        <a href="#register"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>register(user: <a href="../classes/User.html" target="_self">User</a>)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="38"
-                                    class="link-to-prism">src/app/core/services/user.service.ts:38</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/app/core/services/user.service.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -331,7 +304,7 @@ telles que l&#39;obtention de la liste des utilisateurs et l&#39;enregistrement 
 
 
                                             <td>
-                                                    <p>Les données de l&#39;utilisateur à enregistrer.</p>
+                                                    <p>Les données de l&#39;utilisateur à créer.</p>
 
                                             </td>
                                         </tr>
@@ -350,6 +323,87 @@ telles que l&#39;obtention de la liste des utilisateurs et l&#39;enregistrement 
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAll"></a>
+                    <span class="name">
+                        <span ><b>getAll</b></span>
+                        <a href="#getAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAll()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="34"
+                                    class="link-to-prism">src/app/core/services/user.service.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Récupère tous les utilisateurs.</p>
+<p>Envoie une requête GET pour obtenir une liste de tous les utilisateurs.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Un Observable contenant un tableau d&#39;utilisateurs.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCurrentUser"></a>
+                    <span class="name">
+                        <span ><b>getCurrentUser</b></span>
+                        <a href="#getCurrentUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCurrentUser()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="24"
+                                    class="link-to-prism">src/app/core/services/user.service.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >User</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -361,6 +415,9 @@ import { HttpClient } from &#x27;@angular/common/http&#x27;;
 
 // Importation du modèle User pour la gestion des données utilisateur
 import { User } from &#x27;../models/auth.models&#x27;;
+import { environment } from &#x27;../../../environments/environment&#x27;;
+
+import { AuthenticationService } from &#x27;./auth.service&#x27;;
 
 /**
  * Service pour la gestion des profils utilisateurs.
@@ -374,7 +431,11 @@ export class UserProfileService {
      * Constructeur du service UserProfileService.
      * @param http HttpClient pour les requêtes HTTP.
      */
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private authService: AuthenticationService) { }
+
+    getCurrentUser(): User {
+        return this.authService.currentUserValue;
+    }
 
     /**
      * Récupère tous les utilisateurs.
@@ -383,18 +444,28 @@ export class UserProfileService {
      * @returns Un Observable contenant un tableau d&#x27;utilisateurs.
      */
     getAll() {
-        return this.http.get&lt;User[]&gt;(&#x60;/api/login&#x60;);
+        return this.http.get&lt;User[]&gt;(&#x60;${environment.apiUrl}/api/auth/allUsers&#x60;);
     }
 
     /**
      * Enregistre un nouvel utilisateur.
      *
      * Envoie une requête POST pour créer un nouvel utilisateur avec les données fournies.
-     * @param user Les données de l&#x27;utilisateur à enregistrer.
+     * @param user Les données de l&#x27;utilisateur à créer.
      * @returns Un Observable pour la réponse de la requête.
      */
-    register(user: User) {
-        return this.http.post(&#x60;/users/register&#x60;, user);
+    create(user: User) {
+        return this.http.post(&#x60;${environment.apiUrl}/api/auth/addUser&#x60;, {
+            email: user.email, 
+            password: user.password, 
+            firstname: user.firstName, 
+            lastname: user.lastName, 
+            role: user.role,
+            company: user.company,
+            phone: user.phone,
+            active: user.active,
+            authorized_connection: user.authorized_connection
+        });
     }
 }
 </code></pre>

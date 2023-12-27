@@ -20,10 +20,14 @@ jobs:
     - name: Install Dependencies
       run: npm install --force
 
+    - name: Install Compodoc
+      run: npm install -g @compodoc/compodoc
+
     - name: Generate Documentation
       run: |
         cd sogapeint-CRM/sogapaint-crm && compodoc -p tsconfig.doc.json -d documentation
-        cp -R ./documentation ./src/assets/
+        rm -rf ./src/assets/documentation
+        cp -R ./documentation ./src/assets/documentation
 
     - name: Commit Documentation
       run: |

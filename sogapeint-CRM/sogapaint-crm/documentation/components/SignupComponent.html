@@ -745,28 +745,28 @@ export class SignupComponent implements OnInit, AfterViewInit {
     } else {
       // Traite l&#x27;inscription en fonction de l&#x27;environnement d&#x27;authentification
       if (environment.defaultauth &#x3D;&#x3D;&#x3D; &#x27;firebase&#x27;) {
-        this.authenticationService.register(this.f.email.value, this.f.password.value).then((res: any) &#x3D;&gt; {
-          this.successmsg &#x3D; true;
-          if (this.successmsg) {
-            this.router.navigate([&#x27;/&#x27;]);
-          }
-        })
-          .catch(error &#x3D;&gt; {
-            this.error &#x3D; error ? error : &#x27;&#x27;;
-          });
+        // this.authenticationService.register(this.f.email.value, this.f.password.value).then((res: any) &#x3D;&gt; {
+        //   this.successmsg &#x3D; true;
+        //   if (this.successmsg) {
+        //     this.router.navigate([&#x27;/&#x27;]);
+        //   }
+        // })
+        //   .catch(error &#x3D;&gt; {
+        //     this.error &#x3D; error ? error : &#x27;&#x27;;
+        //   });
       } else {
-        this.userService.register(this.signupForm.value)
-          .pipe(first())
-          .subscribe(
-            data &#x3D;&gt; {
-              this.successmsg &#x3D; true;
-              if (this.successmsg) {
-                this.router.navigate([&#x27;/account/login&#x27;]);
-              }
-            },
-            error &#x3D;&gt; {
-              this.error &#x3D; error ? error : &#x27;&#x27;;
-            });
+        // this.userService.register(this.signupForm.value)
+        //   .pipe(first())
+        //   .subscribe(
+        //     data &#x3D;&gt; {
+        //       this.successmsg &#x3D; true;
+        //       if (this.successmsg) {
+        //         this.router.navigate([&#x27;/account/login&#x27;]);
+        //       }
+        //     },
+        //     error &#x3D;&gt; {
+        //       this.error &#x3D; error ? error : &#x27;&#x27;;
+        //     });
       }
     }
   }
@@ -775,8 +775,95 @@ export class SignupComponent implements OnInit, AfterViewInit {
     </div>
 
     <div class="tab-pane fade " id="templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;p&gt;signup works!&lt;/p&gt;
-</code></pre>
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;home-btn d-none d-sm-block&quot;&gt;
+    &lt;a routerLink&#x3D;&quot;&quot;&gt;&lt;i class&#x3D;&quot;mdi mdi-home-variant h2 text-white&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;div class&#x3D;&quot;container-fluid p-0&quot;&gt;
+      &lt;div class&#x3D;&quot;row g-0&quot;&gt;
+        &lt;div class&#x3D;&quot;col-lg-4&quot;&gt;
+          &lt;div class&#x3D;&quot;authentication-page-content p-4 d-flex align-items-center min-vh-100&quot;&gt;
+            &lt;div class&#x3D;&quot;w-100&quot;&gt;
+              &lt;div class&#x3D;&quot;row justify-content-center&quot;&gt;
+                &lt;div class&#x3D;&quot;col-lg-9&quot;&gt;
+                  &lt;div&gt;
+                    &lt;div class&#x3D;&quot;text-center&quot;&gt;
+                      &lt;div&gt;
+                        &lt;a routerLink&#x3D;&quot;&quot; class&#x3D;&quot;logo&quot;&gt;&lt;img src&#x3D;&quot;assets/images/sogapeint-logo.png&quot; height&#x3D;&quot;80&quot; alt&#x3D;&quot;logo&quot;&gt;&lt;/a&gt;
+                      &lt;/div&gt;
+  
+                      &lt;h4 class&#x3D;&quot;font-size-18 mt-4&quot;&gt;Créer un compte&lt;/h4&gt;
+                      &lt;p class&#x3D;&quot;text-muted&quot;&gt;Inscrivez-vous&lt;/p&gt;
+                    &lt;/div&gt;
+  
+                    &lt;div class&#x3D;&quot;p-2 mt-5&quot;&gt;
+                      &lt;form class&#x3D;&quot;form-horizontal&quot; [formGroup]&#x3D;&quot;signupForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot;&gt;
+                        &lt;ngb-alert type&#x3D;&quot;success&quot; *ngIf&#x3D;&quot;successmsg&quot; [dismissible]&#x3D;&quot;false&quot;&gt;Inscription réussie.
+                        &lt;/ngb-alert&gt;
+                        &lt;ngb-alert type&#x3D;&quot;danger&quot; *ngIf&#x3D;&quot;error&quot; [dismissible]&#x3D;&quot;false&quot;&gt;{{ error }}&lt;/ngb-alert&gt;
+  
+                        &lt;div class&#x3D;&quot;form-group auth-form-group-custom mb-4&quot;&gt;
+                          &lt;i class&#x3D;&quot;ri-user-2-line auti-custom-input-icon&quot;&gt;&lt;/i&gt;
+                          &lt;label for&#x3D;&quot;username&quot;&gt;Nom d&#x27;utilisateur&lt;/label&gt;
+                          &lt;input type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;username&quot; class&#x3D;&quot;form-control&quot;
+                            [ngClass]&#x3D;&quot;{ &#x27;is-invalid&#x27;: submitted &amp;&amp; f.username.errors }&quot; id&#x3D;&quot;username&quot;
+                            placeholder&#x3D;&quot;Entrez un nom d&#x27;utilisateur&quot;&gt;
+                          &lt;div *ngIf&#x3D;&quot;submitted &amp;&amp; f.username.errors&quot; class&#x3D;&quot;invalid-feedback&quot;&gt;
+                            &lt;div *ngIf&#x3D;&quot;f.username.errors.required&quot;&gt;Le nom d&#x27;utilisateur est requis&lt;/div&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;form-group auth-form-group-custom mb-4&quot;&gt;
+                          &lt;i class&#x3D;&quot;ri-mail-line auti-custom-input-icon&quot;&gt;&lt;/i&gt;
+                          &lt;label for&#x3D;&quot;email&quot;&gt;E-mail&lt;/label&gt;
+                          &lt;input type&#x3D;&quot;email&quot; formControlName&#x3D;&quot;email&quot; class&#x3D;&quot;form-control&quot;
+                            [ngClass]&#x3D;&quot;{ &#x27;is-invalid&#x27;: submitted &amp;&amp; f.email.errors }&quot; id&#x3D;&quot;email&quot; placeholder&#x3D;&quot;Email&quot;&gt;
+                          &lt;div *ngIf&#x3D;&quot;submitted &amp;&amp; f.email.errors&quot; class&#x3D;&quot;invalid-feedback&quot;&gt;
+                            &lt;div *ngIf&#x3D;&quot;f.email.errors.required&quot;&gt;L&#x27;e-mail est requis&lt;/div&gt;
+                            &lt;div *ngIf&#x3D;&quot;f.email.errors.email&quot;&gt;L&#x27;e-mail doit être valide&lt;/div&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;form-group auth-form-group-custom mb-4&quot;&gt;
+                          &lt;i class&#x3D;&quot;ri-lock-2-line auti-custom-input-icon&quot;&gt;&lt;/i&gt;
+                          &lt;label for&#x3D;&quot;password&quot;&gt;Mot de passe&lt;/label&gt;
+                          &lt;input type&#x3D;&quot;password&quot; formControlName&#x3D;&quot;password&quot; class&#x3D;&quot;form-control&quot;
+                            [ngClass]&#x3D;&quot;{ &#x27;is-invalid&#x27;: submitted &amp;&amp; f.password.errors }&quot; id&#x3D;&quot;password&quot;
+                            placeholder&#x3D;&quot;Password&quot;&gt;
+                          &lt;div *ngIf&#x3D;&quot;submitted &amp;&amp; f.password.errors&quot; class&#x3D;&quot;invalid-feedback&quot;&gt;
+                            &lt;div *ngIf&#x3D;&quot;f.password.errors.required&quot;&gt;Le mot de passe est requis&lt;/div&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+  
+                        &lt;div class&#x3D;&quot;text-center&quot;&gt;
+                          &lt;button class&#x3D;&quot;btn btn-primary w-md waves-effect waves-light&quot; type&#x3D;&quot;submit&quot;&gt;S&#x27;inscrire&lt;/button&gt;
+                        &lt;/div&gt;
+  
+                        &lt;div class&#x3D;&quot;mt-4 text-center&quot;&gt;
+                          &lt;p class&#x3D;&quot;mb-0&quot;&gt;En vous enregistrant, vous acceptez les &lt;a href&#x3D;&quot;#&quot; class&#x3D;&quot;text-primary&quot;&gt;conditions d&#x27;utilisation&lt;/a&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                      &lt;/form&gt;
+                    &lt;/div&gt;
+  
+                    &lt;div class&#x3D;&quot;mt-5 text-center&quot;&gt;
+                      &lt;p&gt;Vous avez déjà un compte ? &lt;a routerLink&#x3D;&quot;/account/login&quot; class&#x3D;&quot;fw-medium text-primary&quot;&gt;
+                          Se connecter&lt;/a&gt; &lt;/p&gt;
+                      &lt;p&gt;© 2023 Digital Info System&lt;/p&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;col-lg-8&quot;&gt;
+          &lt;div class&#x3D;&quot;authentication-bg&quot;&gt;
+            &lt;div class&#x3D;&quot;bg-overlay&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- end page --&gt;
+  </code></pre>
     </div>
 
     <div class="tab-pane fade " id="styleData">
@@ -811,8 +898,8 @@ export class SignupComponent implements OnInit, AfterViewInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><p>signup works!</p></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'HorizontalComponent', 'selector': 'app-horizontal'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PasswordresetComponent', 'selector': 'app-passwordreset'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'VerticalComponent', 'selector': 'app-vertical'}];
+        var COMPONENT_TEMPLATE = '<div><div class="home-btn d-none d-sm-block">    <a routerLink=""><i class="mdi mdi-home-variant h2 text-white"></i></a>  </div>  <div>    <div class="container-fluid p-0">      <div class="row g-0">        <div class="col-lg-4">          <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">            <div class="w-100">              <div class="row justify-content-center">                <div class="col-lg-9">                  <div>                    <div class="text-center">                      <div>                        <a routerLink="" class="logo"><img src="assets/images/sogapeint-logo.png" height="80" alt="logo"></a>                      </div>                        <h4 class="font-size-18 mt-4">Créer un compte</h4>                      <p class="text-muted">Inscrivez-vous</p>                    </div>                      <div class="p-2 mt-5">                      <form class="form-horizontal" [formGroup]="signupForm" (ngSubmit)="onSubmit()">                        <ngb-alert type="success" *ngIf="successmsg" [dismissible]="false">Inscription réussie.                        </ngb-alert>                        <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>                          <div class="form-group auth-form-group-custom mb-4">                          <i class="ri-user-2-line auti-custom-input-icon"></i>                          <label for="username">Nom d\'utilisateur</label>                          <input type="text" formControlName="username" class="form-control"                            [ngClass]="{ \'is-invalid\': submitted && f.username.errors }" id="username"                            placeholder="Entrez un nom d\'utilisateur">                          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">                            <div *ngIf="f.username.errors.required">Le nom d\'utilisateur est requis</div>                          </div>                        </div>                        <div class="form-group auth-form-group-custom mb-4">                          <i class="ri-mail-line auti-custom-input-icon"></i>                          <label for="email">E-mail</label>                          <input type="email" formControlName="email" class="form-control"                            [ngClass]="{ \'is-invalid\': submitted && f.email.errors }" id="email" placeholder="Email">                          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">                            <div *ngIf="f.email.errors.required">L\'e-mail est requis</div>                            <div *ngIf="f.email.errors.email">L\'e-mail doit être valide</div>                          </div>                        </div>                        <div class="form-group auth-form-group-custom mb-4">                          <i class="ri-lock-2-line auti-custom-input-icon"></i>                          <label for="password">Mot de passe</label>                          <input type="password" formControlName="password" class="form-control"                            [ngClass]="{ \'is-invalid\': submitted && f.password.errors }" id="password"                            placeholder="Password">                          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">                            <div *ngIf="f.password.errors.required">Le mot de passe est requis</div>                          </div>                        </div>                          <div class="text-center">                          <button class="btn btn-primary w-md waves-effect waves-light" type="submit">S\'inscrire</button>                        </div>                          <div class="mt-4 text-center">                          <p class="mb-0">En vous enregistrant, vous acceptez les <a href="#" class="text-primary">conditions d\'utilisation</a></p>                        </div>                      </form>                    </div>                      <div class="mt-5 text-center">                      <p>Vous avez déjà un compte ? <a routerLink="/account/login" class="fw-medium text-primary">                          Se connecter</a> </p>                      <p>© 2023 Digital Info System</p>                    </div>                  </div>                </div>              </div>            </div>          </div>        </div>        <div class="col-lg-8">          <div class="authentication-bg">            <div class="bg-overlay"></div>          </div>        </div>      </div>    </div>  </div>  <!-- end page -->  </div>'
+    var COMPONENTS = [{'name': 'AlertsComponent', 'selector': 'app-alerts'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ButtonsComponent', 'selector': 'app-buttons'},{'name': 'CardsComponent', 'selector': 'app-cards'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CreateUserComponent', 'selector': 'app-create-user'},{'name': 'DripiconsComponent', 'selector': 'app-dripicons'},{'name': 'DropdownsComponent', 'selector': 'app-dropdowns'},{'name': 'FontawesomeComponent', 'selector': 'app-fontawesome'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GeneralComponent', 'selector': 'app-general'},{'name': 'GridComponent', 'selector': 'app-grid'},{'name': 'HorizontalComponent', 'selector': 'app-horizontal'},{'name': 'HorizontalnavbarComponent', 'selector': 'app-horizontalnavbar'},{'name': 'HorizontaltopbarComponent', 'selector': 'app-horizontaltopbar'},{'name': 'ImagesComponent', 'selector': 'app-images'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MaterialdesignComponent', 'selector': 'app-materialdesign'},{'name': 'ModalsComponent', 'selector': 'app-modals'},{'name': 'PagetitleComponent', 'selector': 'app-pagetitle'},{'name': 'PasswordresetComponent', 'selector': 'app-passwordreset'},{'name': 'ProgressbarComponent', 'selector': 'app-progressbar'},{'name': 'ProtectedDocumentationComponent', 'selector': 'app-protected-documentation'},{'name': 'RangesliderComponent', 'selector': 'app-rangeslider'},{'name': 'RemixComponent', 'selector': 'app-remix'},{'name': 'RightsidebarComponent', 'selector': 'app-rightsidebar'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'SweetalertComponent', 'selector': 'app-sweetalert'},{'name': 'TabsComponent', 'selector': 'app-tabs'},{'name': 'TopbarComponent', 'selector': 'app-topbar'},{'name': 'TypographyComponent', 'selector': 'app-typography'},{'name': 'UserInfoBarComponent', 'selector': 'app-user-info-bar'},{'name': 'VerticalComponent', 'selector': 'app-vertical'},{'name': 'VideoComponent', 'selector': 'app-video'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'SignupComponent'};
 </script>

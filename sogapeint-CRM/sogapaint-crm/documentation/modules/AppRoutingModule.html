@@ -138,36 +138,44 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &quot;@angular/core&quot;;
 import { Routes, RouterModule } from &#x27;@angular/router&#x27;;
-import { AuthGuard } from &#x27;./core/guards/auth.guard&#x27;;
+import { AuthGuard } from &#x27;./core/guards/auth.guard&#x27;;// Assurez-vous d&#x27;importer le composant de la documentation
+import { DocGuard } from &#x27;./core/guards/doc.guard&#x27;
+import { ProtectedDocumentationComponent } from &quot;./protected-documentation/protected-documentation.component&quot;;
 
 // Importation du composant LayoutComponent pour la structure de base de l&#x27;application
 import { LayoutComponent } from &#x27;./layouts/layout/layout.component&#x27;;
 
 /**
- * Configuration des routes de l&#x27;application.
- *
- * Définit les routes et leurs chargements paresseux (lazy loading), ainsi que la protection
- * des routes par des gardes d&#x27;authentification.
- */
+* Configuration des routes de l&#x27;application.
+*
+* Définit les routes et leurs chargements paresseux (lazy loading), ainsi que la protection
+* des routes par des gardes d&#x27;authentification.
+*/
 const routes: Routes &#x3D; [
   // Route pour les fonctionnalités liées au compte utilisateur
   { path: &#x27;account&#x27;, loadChildren: () &#x3D;&gt; &quot;import(&#x27;./account/account.module&#x27;).then(m &#x3D;&gt; m.AccountModule)&quot; },
-
+  
   // Route principale, utilisant LayoutComponent et chargement paresseux du module des pages
   // Protégée par AuthGuard pour assurer que l&#x27;utilisateur est authentifié
   { path: &#x27;&#x27;, component: LayoutComponent, loadChildren: () &#x3D;&gt; &quot;import(&#x27;./pages/pages.module&#x27;).then(m &#x3D;&gt; m.PagesModule)&quot;, canActivate: [AuthGuard] },
-
+  
   // Route pour les pages supplémentaires, également protégées par AuthGuard
-//   { path: &#x27;pages&#x27;, loadChildren: () &#x3D;&gt; import(&#x27;./extrapages/extrapages.module&#x27;).then(m &#x3D;&gt; m.ExtrapagesModule), canActivate: [AuthGuard] },
+  //   { path: &#x27;pages&#x27;, loadChildren: () &#x3D;&gt; import(&#x27;./extrapages/extrapages.module&#x27;).then(m &#x3D;&gt; m.ExtrapagesModule), canActivate: [AuthGuard] },
+  
+  {
+    path: &#x27;documentation&#x27;,
+    component: ProtectedDocumentationComponent, // Le composant que vous voulez protéger avec le garde
+    canActivate: [DocGuard] // Appliquez le garde à cette route
+  }
 ];
 
 /**
- * Module de routage de l&#x27;application.
- *
- * Importe et exporte RouterModule configuré avec les routes définies.
- * &#x27;scrollPositionRestoration&#x27; est réglé sur &#x27;top&#x27; pour réinitialiser la position de défilement
- * lors de la navigation entre les pages.
- */
+* Module de routage de l&#x27;application.
+*
+* Importe et exporte RouterModule configuré avec les routes définies.
+* &#x27;scrollPositionRestoration&#x27; est réglé sur &#x27;top&#x27; pour réinitialiser la position de défilement
+* lors de la navigation entre les pages.
+*/
 @NgModule({
   imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: &#x27;top&#x27; })],
   exports: [RouterModule]

@@ -1,0 +1,1097 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>sogapaint-crm documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">sogapaint-crm documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  DripiconsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/icons/dripicons/dripicons.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-dripicons</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./dripicons.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./dripicons.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#breadCrumbItems" >breadCrumbItems</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/pages/icons/dripicons/dripicons.component.ts:14</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="18"
+                                    class="link-to-prism">src/app/pages/icons/dripicons/dripicons.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="breadCrumbItems"></a>
+                    <span class="name">
+                        <span ><b>breadCrumbItems</b></span>
+                        <a href="#breadCrumbItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Array&lt;literal type&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/pages/icons/dripicons/dripicons.component.ts:14</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+
+@Component({
+  selector: &#x27;app-dripicons&#x27;,
+  templateUrl: &#x27;./dripicons.component.html&#x27;,
+  styleUrls: [&#x27;./dripicons.component.scss&#x27;]
+})
+
+/**
+ * Dripicons component
+ */
+export class DripiconsComponent implements OnInit {
+  // bread crumb items
+  breadCrumbItems: Array&lt;{}&gt;;
+
+  constructor() { }
+
+  ngOnInit() {
+    this.breadCrumbItems &#x3D; [{ label: &#x27;Icons&#x27; }, { label: &#x27;Dripicons&#x27;, active: true }];
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;container-fluid&quot;&gt;
+  &lt;!-- &lt;app-pagetitle title&#x3D;&quot;Dripicons&quot; [breadcrumbItems]&#x3D;&quot;breadCrumbItems&quot;&gt;&lt;/app-pagetitle&gt; --&gt;
+
+  &lt;div class&#x3D;&quot;row&quot;&gt;
+    &lt;div class&#x3D;&quot;col-12&quot;&gt;
+      &lt;div class&#x3D;&quot;card&quot;&gt;
+        &lt;div class&#x3D;&quot;card-body&quot;&gt;
+
+          &lt;h4 class&#x3D;&quot;card-title&quot;&gt;Examples&lt;/h4&gt;
+          &lt;p class&#x3D;&quot;card-title-desc mb-2&quot;&gt;Use &lt;code&gt;&amp;lt;i
+              class&#x3D;&quot;dripicons-alarm&quot;&amp;gt;&amp;lt;/i&amp;gt;&lt;/code&gt;.
+          &lt;/p&gt;
+
+          &lt;div class&#x3D;&quot;row icon-demo-content&quot;&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-alarm&quot;&gt;&lt;/i&gt; dripicons-alarm
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-align-center&quot;&gt;&lt;/i&gt; dripicons-align-center
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-align-justify&quot;&gt;&lt;/i&gt; dripicons-align-justify
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-align-left&quot;&gt;&lt;/i&gt; dripicons-align-left
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-align-right&quot;&gt;&lt;/i&gt; dripicons-align-right
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-anchor&quot;&gt;&lt;/i&gt; dripicons-anchor
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-archive&quot;&gt;&lt;/i&gt; dripicons-archive
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-arrow-down&quot;&gt;&lt;/i&gt; dripicons-arrow-down
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-arrow-left&quot;&gt;&lt;/i&gt; dripicons-arrow-left
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-arrow-right&quot;&gt;&lt;/i&gt; dripicons-arrow-right
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-arrow-thin-down&quot;&gt;&lt;/i&gt; dripicons-arrow-thin-down
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-arrow-thin-left&quot;&gt;&lt;/i&gt; dripicons-arrow-thin-left
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-arrow-thin-right&quot;&gt;&lt;/i&gt; dripicons-arrow-thin-right
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-arrow-thin-up&quot;&gt;&lt;/i&gt; dripicons-arrow-thin-up
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-arrow-up&quot;&gt;&lt;/i&gt; dripicons-arrow-up
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot; dripicons-article&quot;&gt;&lt;/i&gt; dripicons-article
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-backspace&quot;&gt;&lt;/i&gt; dripicons-backspace
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-basket&quot;&gt;&lt;/i&gt; dripicons-basket
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-basketball&quot;&gt;&lt;/i&gt; dripicons-basketball
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-battery-empty&quot;&gt;&lt;/i&gt; dripicons-battery-empty
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-battery-full&quot;&gt;&lt;/i&gt; dripicons-battery-full
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-battery-low&quot;&gt;&lt;/i&gt; dripicons-battery-low
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-battery-medium&quot;&gt;&lt;/i&gt; dripicons-battery-medium
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-bell&quot;&gt;&lt;/i&gt; dripicons-bell
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-blog&quot;&gt;&lt;/i&gt; dripicons-blog
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-bluetooth&quot;&gt;&lt;/i&gt; dripicons-bluetooth
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-bold&quot;&gt;&lt;/i&gt; dripicons-bold
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-bookmark&quot;&gt;&lt;/i&gt; dripicons-bookmark
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-bookmarks&quot;&gt;&lt;/i&gt; dripicons-bookmarks
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-box&quot;&gt;&lt;/i&gt; dripicons-box
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-briefcase&quot;&gt;&lt;/i&gt; dripicons-briefcase
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-brightness-low&quot;&gt;&lt;/i&gt; dripicons-brightness-low
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-brightness-max&quot;&gt;&lt;/i&gt; dripicons-brightness-max
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-brightness-medium&quot;&gt;&lt;/i&gt; dripicons-brightness-medium
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-broadcast&quot;&gt;&lt;/i&gt; dripicons-broadcast
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-browser&quot;&gt;&lt;/i&gt; dripicons-browser
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-browser-upload&quot;&gt;&lt;/i&gt; dripicons-browser-upload
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-brush&quot;&gt;&lt;/i&gt; dripicons-brush
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-calendar&quot;&gt;&lt;/i&gt; dripicons-calendar
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-camcorder&quot;&gt;&lt;/i&gt; dripicons-camcorder
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-camera&quot;&gt;&lt;/i&gt; dripicons-camera
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-card&quot;&gt;&lt;/i&gt; dripicons-card
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-cart&quot;&gt;&lt;/i&gt; dripicons-cart
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-checklist&quot;&gt;&lt;/i&gt; dripicons-checklist
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-checkmark&quot;&gt;&lt;/i&gt; dripicons-checkmark
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-chevron-down&quot;&gt;&lt;/i&gt; dripicons-chevron-down
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-chevron-left&quot;&gt;&lt;/i&gt; dripicons-chevron-left
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-chevron-right&quot;&gt;&lt;/i&gt; dripicons-chevron-right
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-chevron-up&quot;&gt;&lt;/i&gt; dripicons-chevron-up
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-clipboard&quot;&gt;&lt;/i&gt; dripicons-clipboard
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-clock&quot;&gt;&lt;/i&gt; dripicons-clock
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-clockwise&quot;&gt;&lt;/i&gt; dripicons-clockwise
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-cloud&quot;&gt;&lt;/i&gt; dripicons-cloud
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-cloud-download&quot;&gt;&lt;/i&gt; dripicons-cloud-download
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-cloud-upload&quot;&gt;&lt;/i&gt; dripicons-cloud-upload
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-code&quot;&gt;&lt;/i&gt; dripicons-code
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-contract&quot;&gt;&lt;/i&gt; dripicons-contract
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-contract-2&quot;&gt;&lt;/i&gt; dripicons-contract-2
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-conversation&quot;&gt;&lt;/i&gt; dripicons-conversation
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-copy&quot;&gt;&lt;/i&gt; dripicons-copy
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-crop&quot;&gt;&lt;/i&gt; dripicons-crop
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-cross&quot;&gt;&lt;/i&gt; dripicons-cross
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-crosshair&quot;&gt;&lt;/i&gt; dripicons-crosshair
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-cutlery&quot;&gt;&lt;/i&gt; dripicons-cutlery
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-device-desktop&quot;&gt;&lt;/i&gt; dripicons-device-desktop
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-device-mobile&quot;&gt;&lt;/i&gt; dripicons-device-mobile
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-device-tablet&quot;&gt;&lt;/i&gt; dripicons-device-tablet
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-direction&quot;&gt;&lt;/i&gt; dripicons-direction
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-disc&quot;&gt;&lt;/i&gt; dripicons-disc
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-document&quot;&gt;&lt;/i&gt; dripicons-document
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-document-delete&quot;&gt;&lt;/i&gt; dripicons-document-delete
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-document-edit&quot;&gt;&lt;/i&gt; dripicons-document-edit
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-document-new&quot;&gt;&lt;/i&gt; dripicons-document-new
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-document-remove&quot;&gt;&lt;/i&gt; dripicons-document-remove
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-dot&quot;&gt;&lt;/i&gt; dripicons-dot
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-dots-2&quot;&gt;&lt;/i&gt; dripicons-dots-2
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-dots-3&quot;&gt;&lt;/i&gt; dripicons-dots-3
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-download&quot;&gt;&lt;/i&gt; dripicons-download
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-duplicate&quot;&gt;&lt;/i&gt; dripicons-duplicate
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-enter&quot;&gt;&lt;/i&gt; dripicons-enter
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-exit&quot;&gt;&lt;/i&gt; dripicons-exit
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-expand&quot;&gt;&lt;/i&gt; dripicons-expand
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-expand-2&quot;&gt;&lt;/i&gt; dripicons-expand-2
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-experiment&quot;&gt;&lt;/i&gt; dripicons-experiment
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-export&quot;&gt;&lt;/i&gt; dripicons-export
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-feed&quot;&gt;&lt;/i&gt; dripicons-feed
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-flag&quot;&gt;&lt;/i&gt; dripicons-flag
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-flashlight&quot;&gt;&lt;/i&gt; dripicons-flashlight
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-folder&quot;&gt;&lt;/i&gt; dripicons-folder
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-folder-open&quot;&gt;&lt;/i&gt; dripicons-folder-open
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-forward&quot;&gt;&lt;/i&gt; dripicons-forward
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-gaming&quot;&gt;&lt;/i&gt; dripicons-gaming
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-gear&quot;&gt;&lt;/i&gt; dripicons-gear
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-graduation&quot;&gt;&lt;/i&gt; dripicons-graduation
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-graph-bar&quot;&gt;&lt;/i&gt; dripicons-graph-bar
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-graph-line&quot;&gt;&lt;/i&gt; dripicons-graph-line
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-graph-pie&quot;&gt;&lt;/i&gt; dripicons-graph-pie
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-headset&quot;&gt;&lt;/i&gt; dripicons-headset
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-heart&quot;&gt;&lt;/i&gt; dripicons-heart
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-help&quot;&gt;&lt;/i&gt; dripicons-help
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-home&quot;&gt;&lt;/i&gt; dripicons-home
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-hourglass&quot;&gt;&lt;/i&gt; dripicons-hourglass
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-inbox&quot;&gt;&lt;/i&gt; dripicons-inbox
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-information&quot;&gt;&lt;/i&gt; dripicons-information
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-italic&quot;&gt;&lt;/i&gt; dripicons-italic
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-jewel&quot;&gt;&lt;/i&gt; dripicons-jewel
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-lifting&quot;&gt;&lt;/i&gt; dripicons-lifting
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-lightbulb&quot;&gt;&lt;/i&gt; dripicons-lightbulb
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-link&quot;&gt;&lt;/i&gt; dripicons-link
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-link-broken&quot;&gt;&lt;/i&gt; dripicons-link-broken
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-list&quot;&gt;&lt;/i&gt; dripicons-list
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-loading&quot;&gt;&lt;/i&gt; dripicons-loading
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-location&quot;&gt;&lt;/i&gt; dripicons-location
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-lock&quot;&gt;&lt;/i&gt; dripicons-lock
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-lock-open&quot;&gt;&lt;/i&gt; dripicons-lock-open
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-mail&quot;&gt;&lt;/i&gt; dripicons-mail
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-map&quot;&gt;&lt;/i&gt; dripicons-map
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-media-loop&quot;&gt;&lt;/i&gt; dripicons-media-loop
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-media-next&quot;&gt;&lt;/i&gt; dripicons-media-next
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-media-pause&quot;&gt;&lt;/i&gt; dripicons-media-pause
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-media-play&quot;&gt;&lt;/i&gt; dripicons-media-play
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-media-previous&quot;&gt;&lt;/i&gt; dripicons-media-previous
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-media-record&quot;&gt;&lt;/i&gt; dripicons-media-record
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-media-shuffle&quot;&gt;&lt;/i&gt; dripicons-media-shuffle
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-media-stop&quot;&gt;&lt;/i&gt; dripicons-media-stop
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-medical&quot;&gt;&lt;/i&gt; dripicons-medical
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-menu&quot;&gt;&lt;/i&gt; dripicons-menu
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-message&quot;&gt;&lt;/i&gt; dripicons-message
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-meter&quot;&gt;&lt;/i&gt; dripicons-meter
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-microphone&quot;&gt;&lt;/i&gt; dripicons-microphone
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-minus&quot;&gt;&lt;/i&gt; dripicons-minus
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-monitor&quot;&gt;&lt;/i&gt; dripicons-monitor
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-move&quot;&gt;&lt;/i&gt; dripicons-move
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-music&quot;&gt;&lt;/i&gt; dripicons-music
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-network-1&quot;&gt;&lt;/i&gt; dripicons-network-1
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-network-2&quot;&gt;&lt;/i&gt; dripicons-network-2
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-network-3&quot;&gt;&lt;/i&gt; dripicons-network-3
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-network-4&quot;&gt;&lt;/i&gt; dripicons-network-4
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-network-5&quot;&gt;&lt;/i&gt; dripicons-network-5
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-pamphlet&quot;&gt;&lt;/i&gt; dripicons-pamphlet
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-paperclip&quot;&gt;&lt;/i&gt; dripicons-paperclip
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-pencil&quot;&gt;&lt;/i&gt; dripicons-pencil
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-phone&quot;&gt;&lt;/i&gt; dripicons-phone
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-photo&quot;&gt;&lt;/i&gt; dripicons-photo
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-photo-group&quot;&gt;&lt;/i&gt; dripicons-photo-group
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-pill&quot;&gt;&lt;/i&gt; dripicons-pill
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-pin&quot;&gt;&lt;/i&gt; dripicons-pin
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-plus&quot;&gt;&lt;/i&gt; dripicons-plus
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-power&quot;&gt;&lt;/i&gt; dripicons-power
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-preview&quot;&gt;&lt;/i&gt; dripicons-preview
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-print&quot;&gt;&lt;/i&gt; dripicons-print
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-pulse&quot;&gt;&lt;/i&gt; dripicons-pulse
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-question&quot;&gt;&lt;/i&gt; dripicons-question
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-reply&quot;&gt;&lt;/i&gt; dripicons-reply
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-reply-all&quot;&gt;&lt;/i&gt; dripicons-reply-all
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-return&quot;&gt;&lt;/i&gt; dripicons-return
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-retweet&quot;&gt;&lt;/i&gt; dripicons-retweet
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-rocket&quot;&gt;&lt;/i&gt; dripicons-rocket
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-scale&quot;&gt;&lt;/i&gt; dripicons-scale
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-search&quot;&gt;&lt;/i&gt; dripicons-search
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-shopping-bag&quot;&gt;&lt;/i&gt; dripicons-shopping-bag
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-skip&quot;&gt;&lt;/i&gt; dripicons-skip
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-stack&quot;&gt;&lt;/i&gt; dripicons-stack
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-star&quot;&gt;&lt;/i&gt; dripicons-star
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-stopwatch&quot;&gt;&lt;/i&gt; dripicons-stopwatch
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-store&quot;&gt;&lt;/i&gt; dripicons-store
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-suitcase&quot;&gt;&lt;/i&gt; dripicons-suitcase
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-swap&quot;&gt;&lt;/i&gt; dripicons-swap
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-tag&quot;&gt;&lt;/i&gt; dripicons-tag
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-tag-delete&quot;&gt;&lt;/i&gt; dripicons-tag-delete
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-tags&quot;&gt;&lt;/i&gt; dripicons-tags
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-thumbs-down&quot;&gt;&lt;/i&gt; dripicons-thumbs-down
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-thumbs-up&quot;&gt;&lt;/i&gt; dripicons-thumbs-up
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-ticket&quot;&gt;&lt;/i&gt; dripicons-ticket
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-time-reverse&quot;&gt;&lt;/i&gt; dripicons-time-reverse
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-to-do&quot;&gt;&lt;/i&gt; dripicons-to-do
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-toggles&quot;&gt;&lt;/i&gt; dripicons-toggles
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-trash&quot;&gt;&lt;/i&gt; dripicons-trash
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-trophy&quot;&gt;&lt;/i&gt; dripicons-trophy
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-upload&quot;&gt;&lt;/i&gt; dripicons-upload
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-user&quot;&gt;&lt;/i&gt; dripicons-user
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-user-group&quot;&gt;&lt;/i&gt; dripicons-user-group
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-user-id&quot;&gt;&lt;/i&gt; dripicons-user-id
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-vibrate&quot;&gt;&lt;/i&gt; dripicons-vibrate
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-view-apps&quot;&gt;&lt;/i&gt; dripicons-view-apps
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-view-list&quot;&gt;&lt;/i&gt; dripicons-view-list
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-view-list-large&quot;&gt;&lt;/i&gt; dripicons-view-list-large
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-view-thumb&quot;&gt;&lt;/i&gt; dripicons-view-thumb
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-volume-full&quot;&gt;&lt;/i&gt; dripicons-volume-full
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-volume-low&quot;&gt;&lt;/i&gt; dripicons-volume-low
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-volume-medium&quot;&gt;&lt;/i&gt; dripicons-volume-medium
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-volume-off&quot;&gt;&lt;/i&gt; dripicons-volume-off
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-wallet&quot;&gt;&lt;/i&gt; dripicons-wallet
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-warning&quot;&gt;&lt;/i&gt; dripicons-warning
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-web&quot;&gt;&lt;/i&gt; dripicons-web
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-weight&quot;&gt;&lt;/i&gt; dripicons-weight
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-wifi&quot;&gt;&lt;/i&gt; dripicons-wifi
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-wrong&quot;&gt;&lt;/i&gt; dripicons-wrong
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-zoom-in&quot;&gt;&lt;/i&gt; dripicons-zoom-in
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;col-xl-3 col-lg-4 col-sm-6&quot;&gt;
+              &lt;i class&#x3D;&quot;dripicons-zoom-out&quot;&gt;&lt;/i&gt; dripicons-zoom-out
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt; &lt;!-- end col --&gt;
+  &lt;/div&gt; &lt;!-- end row --&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./dripicons.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="container-fluid">  <!-- <app-pagetitle title="Dripicons" [breadcrumbItems]="breadCrumbItems"></app-pagetitle> -->  <div class="row">    <div class="col-12">      <div class="card">        <div class="card-body">          <h4 class="card-title">Examples</h4>          <p class="card-title-desc mb-2">Use <code>&lt;i              class="dripicons-alarm"&gt;&lt;/i&gt;</code>.          </p>          <div class="row icon-demo-content">            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-alarm"></i> dripicons-alarm            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-align-center"></i> dripicons-align-center            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-align-justify"></i> dripicons-align-justify            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-align-left"></i> dripicons-align-left            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-align-right"></i> dripicons-align-right            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-anchor"></i> dripicons-anchor            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-archive"></i> dripicons-archive            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-arrow-down"></i> dripicons-arrow-down            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-arrow-left"></i> dripicons-arrow-left            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-arrow-right"></i> dripicons-arrow-right            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-arrow-thin-down"></i> dripicons-arrow-thin-down            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-arrow-thin-left"></i> dripicons-arrow-thin-left            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-arrow-thin-right"></i> dripicons-arrow-thin-right            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-arrow-thin-up"></i> dripicons-arrow-thin-up            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-arrow-up"></i> dripicons-arrow-up            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class=" dripicons-article"></i> dripicons-article            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-backspace"></i> dripicons-backspace            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-basket"></i> dripicons-basket            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-basketball"></i> dripicons-basketball            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-battery-empty"></i> dripicons-battery-empty            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-battery-full"></i> dripicons-battery-full            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-battery-low"></i> dripicons-battery-low            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-battery-medium"></i> dripicons-battery-medium            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-bell"></i> dripicons-bell            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-blog"></i> dripicons-blog            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-bluetooth"></i> dripicons-bluetooth            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-bold"></i> dripicons-bold            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-bookmark"></i> dripicons-bookmark            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-bookmarks"></i> dripicons-bookmarks            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-box"></i> dripicons-box            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-briefcase"></i> dripicons-briefcase            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-brightness-low"></i> dripicons-brightness-low            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-brightness-max"></i> dripicons-brightness-max            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-brightness-medium"></i> dripicons-brightness-medium            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-broadcast"></i> dripicons-broadcast            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-browser"></i> dripicons-browser            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-browser-upload"></i> dripicons-browser-upload            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-brush"></i> dripicons-brush            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-calendar"></i> dripicons-calendar            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-camcorder"></i> dripicons-camcorder            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-camera"></i> dripicons-camera            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-card"></i> dripicons-card            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-cart"></i> dripicons-cart            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-checklist"></i> dripicons-checklist            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-checkmark"></i> dripicons-checkmark            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-chevron-down"></i> dripicons-chevron-down            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-chevron-left"></i> dripicons-chevron-left            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-chevron-right"></i> dripicons-chevron-right            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-chevron-up"></i> dripicons-chevron-up            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-clipboard"></i> dripicons-clipboard            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-clock"></i> dripicons-clock            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-clockwise"></i> dripicons-clockwise            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-cloud"></i> dripicons-cloud            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-cloud-download"></i> dripicons-cloud-download            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-cloud-upload"></i> dripicons-cloud-upload            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-code"></i> dripicons-code            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-contract"></i> dripicons-contract            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-contract-2"></i> dripicons-contract-2            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-conversation"></i> dripicons-conversation            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-copy"></i> dripicons-copy            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-crop"></i> dripicons-crop            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-cross"></i> dripicons-cross            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-crosshair"></i> dripicons-crosshair            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-cutlery"></i> dripicons-cutlery            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-device-desktop"></i> dripicons-device-desktop            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-device-mobile"></i> dripicons-device-mobile            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-device-tablet"></i> dripicons-device-tablet            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-direction"></i> dripicons-direction            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-disc"></i> dripicons-disc            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-document"></i> dripicons-document            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-document-delete"></i> dripicons-document-delete            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-document-edit"></i> dripicons-document-edit            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-document-new"></i> dripicons-document-new            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-document-remove"></i> dripicons-document-remove            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-dot"></i> dripicons-dot            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-dots-2"></i> dripicons-dots-2            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-dots-3"></i> dripicons-dots-3            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-download"></i> dripicons-download            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-duplicate"></i> dripicons-duplicate            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-enter"></i> dripicons-enter            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-exit"></i> dripicons-exit            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-expand"></i> dripicons-expand            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-expand-2"></i> dripicons-expand-2            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-experiment"></i> dripicons-experiment            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-export"></i> dripicons-export            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-feed"></i> dripicons-feed            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-flag"></i> dripicons-flag            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-flashlight"></i> dripicons-flashlight            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-folder"></i> dripicons-folder            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-folder-open"></i> dripicons-folder-open            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-forward"></i> dripicons-forward            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-gaming"></i> dripicons-gaming            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-gear"></i> dripicons-gear            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-graduation"></i> dripicons-graduation            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-graph-bar"></i> dripicons-graph-bar            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-graph-line"></i> dripicons-graph-line            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-graph-pie"></i> dripicons-graph-pie            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-headset"></i> dripicons-headset            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-heart"></i> dripicons-heart            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-help"></i> dripicons-help            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-home"></i> dripicons-home            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-hourglass"></i> dripicons-hourglass            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-inbox"></i> dripicons-inbox            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-information"></i> dripicons-information            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-italic"></i> dripicons-italic            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-jewel"></i> dripicons-jewel            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-lifting"></i> dripicons-lifting            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-lightbulb"></i> dripicons-lightbulb            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-link"></i> dripicons-link            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-link-broken"></i> dripicons-link-broken            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-list"></i> dripicons-list            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-loading"></i> dripicons-loading            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-location"></i> dripicons-location            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-lock"></i> dripicons-lock            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-lock-open"></i> dripicons-lock-open            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-mail"></i> dripicons-mail            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-map"></i> dripicons-map            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-media-loop"></i> dripicons-media-loop            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-media-next"></i> dripicons-media-next            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-media-pause"></i> dripicons-media-pause            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-media-play"></i> dripicons-media-play            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-media-previous"></i> dripicons-media-previous            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-media-record"></i> dripicons-media-record            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-media-shuffle"></i> dripicons-media-shuffle            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-media-stop"></i> dripicons-media-stop            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-medical"></i> dripicons-medical            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-menu"></i> dripicons-menu            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-message"></i> dripicons-message            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-meter"></i> dripicons-meter            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-microphone"></i> dripicons-microphone            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-minus"></i> dripicons-minus            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-monitor"></i> dripicons-monitor            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-move"></i> dripicons-move            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-music"></i> dripicons-music            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-network-1"></i> dripicons-network-1            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-network-2"></i> dripicons-network-2            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-network-3"></i> dripicons-network-3            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-network-4"></i> dripicons-network-4            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-network-5"></i> dripicons-network-5            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-pamphlet"></i> dripicons-pamphlet            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-paperclip"></i> dripicons-paperclip            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-pencil"></i> dripicons-pencil            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-phone"></i> dripicons-phone            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-photo"></i> dripicons-photo            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-photo-group"></i> dripicons-photo-group            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-pill"></i> dripicons-pill            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-pin"></i> dripicons-pin            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-plus"></i> dripicons-plus            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-power"></i> dripicons-power            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-preview"></i> dripicons-preview            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-print"></i> dripicons-print            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-pulse"></i> dripicons-pulse            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-question"></i> dripicons-question            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-reply"></i> dripicons-reply            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-reply-all"></i> dripicons-reply-all            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-return"></i> dripicons-return            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-retweet"></i> dripicons-retweet            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-rocket"></i> dripicons-rocket            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-scale"></i> dripicons-scale            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-search"></i> dripicons-search            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-shopping-bag"></i> dripicons-shopping-bag            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-skip"></i> dripicons-skip            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-stack"></i> dripicons-stack            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-star"></i> dripicons-star            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-stopwatch"></i> dripicons-stopwatch            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-store"></i> dripicons-store            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-suitcase"></i> dripicons-suitcase            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-swap"></i> dripicons-swap            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-tag"></i> dripicons-tag            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-tag-delete"></i> dripicons-tag-delete            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-tags"></i> dripicons-tags            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-thumbs-down"></i> dripicons-thumbs-down            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-thumbs-up"></i> dripicons-thumbs-up            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-ticket"></i> dripicons-ticket            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-time-reverse"></i> dripicons-time-reverse            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-to-do"></i> dripicons-to-do            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-toggles"></i> dripicons-toggles            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-trash"></i> dripicons-trash            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-trophy"></i> dripicons-trophy            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-upload"></i> dripicons-upload            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-user"></i> dripicons-user            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-user-group"></i> dripicons-user-group            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-user-id"></i> dripicons-user-id            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-vibrate"></i> dripicons-vibrate            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-view-apps"></i> dripicons-view-apps            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-view-list"></i> dripicons-view-list            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-view-list-large"></i> dripicons-view-list-large            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-view-thumb"></i> dripicons-view-thumb            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-volume-full"></i> dripicons-volume-full            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-volume-low"></i> dripicons-volume-low            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-volume-medium"></i> dripicons-volume-medium            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-volume-off"></i> dripicons-volume-off            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-wallet"></i> dripicons-wallet            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-warning"></i> dripicons-warning            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-web"></i> dripicons-web            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-weight"></i> dripicons-weight            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-wifi"></i> dripicons-wifi            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-wrong"></i> dripicons-wrong            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-zoom-in"></i> dripicons-zoom-in            </div>            <div class="col-xl-3 col-lg-4 col-sm-6">              <i class="dripicons-zoom-out"></i> dripicons-zoom-out            </div>          </div>        </div>      </div>    </div> <!-- end col -->  </div> <!-- end row --></div></div>'
+    var COMPONENTS = [{'name': 'AlertsComponent', 'selector': 'app-alerts'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ButtonsComponent', 'selector': 'app-buttons'},{'name': 'CardsComponent', 'selector': 'app-cards'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CreateUserComponent', 'selector': 'app-create-user'},{'name': 'DripiconsComponent', 'selector': 'app-dripicons'},{'name': 'DropdownsComponent', 'selector': 'app-dropdowns'},{'name': 'FontawesomeComponent', 'selector': 'app-fontawesome'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GeneralComponent', 'selector': 'app-general'},{'name': 'GridComponent', 'selector': 'app-grid'},{'name': 'HorizontalComponent', 'selector': 'app-horizontal'},{'name': 'HorizontalnavbarComponent', 'selector': 'app-horizontalnavbar'},{'name': 'HorizontaltopbarComponent', 'selector': 'app-horizontaltopbar'},{'name': 'ImagesComponent', 'selector': 'app-images'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MaterialdesignComponent', 'selector': 'app-materialdesign'},{'name': 'ModalsComponent', 'selector': 'app-modals'},{'name': 'PagetitleComponent', 'selector': 'app-pagetitle'},{'name': 'PasswordresetComponent', 'selector': 'app-passwordreset'},{'name': 'ProgressbarComponent', 'selector': 'app-progressbar'},{'name': 'ProtectedDocumentationComponent', 'selector': 'app-protected-documentation'},{'name': 'RangesliderComponent', 'selector': 'app-rangeslider'},{'name': 'RemixComponent', 'selector': 'app-remix'},{'name': 'RightsidebarComponent', 'selector': 'app-rightsidebar'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'SweetalertComponent', 'selector': 'app-sweetalert'},{'name': 'TabsComponent', 'selector': 'app-tabs'},{'name': 'TopbarComponent', 'selector': 'app-topbar'},{'name': 'TypographyComponent', 'selector': 'app-typography'},{'name': 'UserInfoBarComponent', 'selector': 'app-user-info-bar'},{'name': 'VerticalComponent', 'selector': 'app-vertical'},{'name': 'VideoComponent', 'selector': 'app-video'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'DripiconsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DripiconsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

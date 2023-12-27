@@ -149,7 +149,9 @@
                                            bindValue="id" 
                                            placeholder="Sélectionner une entreprise"
                                            [typeahead]="companyInput$"
-                                           [virtualScroll]="true">
+                                           [virtualScroll]="true" 
+                                           [addTag]="true"
+                                           (blur)="onCompanyInputBlur($event)">
                                 </ng-select>
                             </div>
                         </div>

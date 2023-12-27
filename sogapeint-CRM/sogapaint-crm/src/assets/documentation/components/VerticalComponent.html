@@ -443,8 +443,27 @@ export class VerticalComponent implements OnInit {
     </div>
 
     <div class="tab-pane fade " id="templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;p&gt;vertical works!&lt;/p&gt;
-</code></pre>
+        <pre class="line-numbers"><code class="language-html">&lt;!-- &lt;p&gt;vertical works!&lt;/p&gt; --&gt;
+&lt;!-- &lt;app-user-info-bar&gt;&lt;/app-user-info-bar&gt; --&gt;
+&lt;div id&#x3D;&quot;layout-wrapper&quot;&gt;
+    &lt;!-- &lt;app-topbar (mobileMenuButtonClicked)&#x3D;&quot;onToggleMobileMenu()&quot; (settingsButtonClicked)&#x3D;&quot;onSettingsButtonClicked()&quot;&gt;
+    &lt;/app-topbar&gt; --&gt;
+    &lt;app-user-info-bar&gt;&lt;/app-user-info-bar&gt;
+    &lt;app-sidebar&gt;&lt;/app-sidebar&gt;
+    &lt;!-- &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; --&gt;
+    &lt;!-- Start right Content here --&gt;
+    &lt;!-- &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; --&gt;
+    &lt;div class&#x3D;&quot;main-content&quot;&gt;
+      &lt;div class&#x3D;&quot;page-content&quot;&gt;
+        &lt;router-outlet&gt;&lt;/router-outlet&gt;
+      &lt;/div&gt;
+  
+      &lt;app-footer&gt;&lt;/app-footer&gt;
+    &lt;/div&gt;
+  
+    &lt;app-rightsidebar&gt;&lt;/app-rightsidebar&gt;
+  &lt;/div&gt;
+  &lt;!-- END layout-wrapper --&gt;</code></pre>
     </div>
 
     <div class="tab-pane fade " id="styleData">
@@ -479,8 +498,8 @@ export class VerticalComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><p>vertical works!</p></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'HorizontalComponent', 'selector': 'app-horizontal'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PasswordresetComponent', 'selector': 'app-passwordreset'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'VerticalComponent', 'selector': 'app-vertical'}];
+        var COMPONENT_TEMPLATE = '<div><!-- <p>vertical works!</p> --><!-- <app-user-info-bar></app-user-info-bar> --><div id="layout-wrapper">    <!-- <app-topbar (mobileMenuButtonClicked)="onToggleMobileMenu()" (settingsButtonClicked)="onSettingsButtonClicked()">    </app-topbar> -->    <app-user-info-bar></app-user-info-bar>    <app-sidebar></app-sidebar>    <!-- ============================================================== -->    <!-- Start right Content here -->    <!-- ============================================================== -->    <div class="main-content">      <div class="page-content">        <router-outlet></router-outlet>      </div>        <app-footer></app-footer>    </div>      <app-rightsidebar></app-rightsidebar>  </div>  <!-- END layout-wrapper --></div>'
+    var COMPONENTS = [{'name': 'AlertsComponent', 'selector': 'app-alerts'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ButtonsComponent', 'selector': 'app-buttons'},{'name': 'CardsComponent', 'selector': 'app-cards'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CreateUserComponent', 'selector': 'app-create-user'},{'name': 'DripiconsComponent', 'selector': 'app-dripicons'},{'name': 'DropdownsComponent', 'selector': 'app-dropdowns'},{'name': 'FontawesomeComponent', 'selector': 'app-fontawesome'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GeneralComponent', 'selector': 'app-general'},{'name': 'GridComponent', 'selector': 'app-grid'},{'name': 'HorizontalComponent', 'selector': 'app-horizontal'},{'name': 'HorizontalnavbarComponent', 'selector': 'app-horizontalnavbar'},{'name': 'HorizontaltopbarComponent', 'selector': 'app-horizontaltopbar'},{'name': 'ImagesComponent', 'selector': 'app-images'},{'name': 'LayoutComponent', 'selector': 'app-layout'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'ManageUsersComponent', 'selector': 'app-manage-users'},{'name': 'MaterialdesignComponent', 'selector': 'app-materialdesign'},{'name': 'ModalsComponent', 'selector': 'app-modals'},{'name': 'PagetitleComponent', 'selector': 'app-pagetitle'},{'name': 'PasswordresetComponent', 'selector': 'app-passwordreset'},{'name': 'ProgressbarComponent', 'selector': 'app-progressbar'},{'name': 'ProtectedDocumentationComponent', 'selector': 'app-protected-documentation'},{'name': 'RangesliderComponent', 'selector': 'app-rangeslider'},{'name': 'RemixComponent', 'selector': 'app-remix'},{'name': 'RightsidebarComponent', 'selector': 'app-rightsidebar'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'SweetalertComponent', 'selector': 'app-sweetalert'},{'name': 'TabsComponent', 'selector': 'app-tabs'},{'name': 'TopbarComponent', 'selector': 'app-topbar'},{'name': 'TypographyComponent', 'selector': 'app-typography'},{'name': 'UserInfoBarComponent', 'selector': 'app-user-info-bar'},{'name': 'VerticalComponent', 'selector': 'app-vertical'},{'name': 'VideoComponent', 'selector': 'app-video'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'VerticalComponent'};
 </script>
