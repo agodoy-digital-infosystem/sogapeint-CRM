@@ -3,7 +3,7 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const authController = require('../controllers/authController');
-const { isAdminOrSuperAdmin } = require('../middlewares/authMiddleware');
+const { isAdminOrSuperAdmin, isConnected } = require('../middlewares/authMiddleware');
 
 console.log('authController', authController);
 
@@ -21,8 +21,10 @@ const loginLimiter = rateLimit({
 router.post('/addUser', isAdminOrSuperAdmin, authController.addUser);
 
 // Route pour obtenir tous les utilisateurs (protégée par le middleware)
-router.get('/allUsers', isAdminOrSuperAdmin, authController.getAllUsers);
+router.get('/allUsers', isConnected, authController.getAllUsers); // TODO: vérifier droits d'accès à cette route
 
+// Route pour obtenir un utilisateur (protégée par le middleware)
+router.get('/user/:userId', isConnected, authController.getUserById);
 
 // Route pour la connexion
 router.post('/login',loginLimiter, authController.login);

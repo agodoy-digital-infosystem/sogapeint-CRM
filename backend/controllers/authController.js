@@ -42,7 +42,11 @@ exports.login = async (req, res) => {
       phone: user.phone,
       company: user.company
     };
-    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // Vérifie si l'utilisateur a coché "Se souvenir de moi"
+  const expiresIn = req.body.rememberMe ? '7d' : '1h'; // 7 jours si "Se souvenir de moi" est coché, sinon 1 heure
+
+  const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: expiresIn });
 
     console.log('Connexion réussie, token généré');
     res.status(200).json({
@@ -104,6 +108,25 @@ exports.addUser = async (req, res) => {
     res.status(201).json({ message: 'Utilisateur créé avec succès.' });
   } catch (error) {
     console.error('Error adding new user:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Fonction pour avoir un utilisateur par son id
+exports.getUserById = async (req, res) => {
+  try {
+    console.log('Fetching user by id');
+    // console.log('Request :', req);
+    const { userId } = req.params;
+    console.log('User id:', userId);
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+    }
+    console.log('Found user:', user);
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error retrieving user:', error);
     res.status(500).json({ error: error.message });
   }
 };
