@@ -1,0 +1,53 @@
+<div class="container-fluid">
+    <app-pagetitle title="Contact" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+    <div class="container mt-4">
+
+        <div class="alert alert-danger" role="alert">
+            <strong>Attention !</strong> Ce composant est encore en construction. Portez un casque de sécurité !
+        </div>
+
+<div class="card">
+    <div class="card-header">
+      <h5 class="card-title mb-0">
+        {{ user?.firstName }} {{ user?.lastName }}
+        <small class="text-muted">{{ user?.role }}</small>
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <strong>Email</strong>
+          <p class="text-muted" *ngIf="user?.email"><a href="mailto:{{ user.email }}">{{ user?.email }}</a></p>
+        </div>
+        <div class="col-sm-6">
+          <strong>Entreprise</strong>
+          <p class="text-muted" *ngIf="user?.company">{{ user?.company }}</p>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <strong>Numéro de téléphone</strong>
+          <p class="text-muted" *ngIf="user?.phone">{{ user?.phone }}</p>
+        </div>
+        <div class="col-sm-6">
+          <strong>Actif</strong>
+          <p class="text-muted">{{ user?.active ? 'Oui' : 'Non' }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <strong>Autorisé à se connecter</strong>
+          <p class="text-muted">{{ user?.authorized_connection ? 'Oui' : 'Non' }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <button class="btn btn-danger ms-2" ngbTooltip="Les données de l'utilisateur seront conservées, mais nous mandaterons un tueur à gage">Supprimer l'utilisateur</button>
+      <button class="btn btn-primary ms-2" (click)="validateChanges()">Valider la modification</button>
+      <button class="btn btn-outline-secondary ms-2" (click)="resetPassword()">Réinitialiser le mot de passe</button>
+    </div>
+  </div>
+    </div>
+</div>
+
+  

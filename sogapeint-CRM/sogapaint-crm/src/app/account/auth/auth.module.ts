@@ -16,6 +16,8 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { PasswordresetComponent } from './passwordreset/passwordreset.component';
 
+import { FormsModule } from '@angular/forms';
+
 /**
  * Module d'authentification.
  *
@@ -41,7 +43,10 @@ import { PasswordresetComponent } from './passwordreset/passwordreset.component'
     UiModule,
 
     // AuthRoutingModule pour la gestion des routes liées à l'authentification
-    AuthRoutingModule
+    AuthRoutingModule,
+
+    // FormsModule pour la gestion des formulaires
+    FormsModule
   ],
 
   // CUSTOM_ELEMENTS_SCHEMA permet l'utilisation de balises personnalisées

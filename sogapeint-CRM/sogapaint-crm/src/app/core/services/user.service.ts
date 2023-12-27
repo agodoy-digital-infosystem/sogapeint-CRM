@@ -55,4 +55,13 @@ export class UserProfileService {
             authorized_connection: user.authorized_connection
         });
     }
+
+    /**
+    * Récupère un utilisateur par son identifiant.
+    * @param userId L'identifiant de l'utilisateur à récupérer.
+    * @returns Un Observable contenant l'utilisateur.
+    */
+    getOne(userId: string) {
+        return this.http.get<User>(`${environment.apiUrl}/api/auth/user/${userId}`);
+    }
 }

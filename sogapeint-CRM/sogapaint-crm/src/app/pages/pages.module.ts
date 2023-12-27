@@ -18,13 +18,14 @@ import { IconsModule } from './icons/icons.module';
 
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 import { HttpClientModule } from '@angular/common/http';
 
 
 
 @NgModule({
   // declarations: [DashboardComponent, CalendarComponent, ChatComponent, KanbanComponent],
-  declarations: [ManageUsersComponent, CreateUserComponent],
+  declarations: [ManageUsersComponent, CreateUserComponent, UserDetailComponent],
   imports: [
     CommonModule,
     FormsModule,

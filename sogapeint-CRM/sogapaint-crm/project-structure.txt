@@ -1,0 +1,947 @@
+.
+├── angular.json
+├── documentation
+│   ├── classes
+│   │   ├── FirebaseAuthBackend.html
+│   │   └── User.html
+│   ├── components
+│   │   ├── AlertsComponent.html
+│   │   ├── AppComponent.html
+│   │   ├── ButtonsComponent.html
+│   │   ├── CardsComponent.html
+│   │   ├── CarouselComponent.html
+│   │   ├── CreateUserComponent.html
+│   │   ├── DripiconsComponent.html
+│   │   ├── DropdownsComponent.html
+│   │   ├── FontawesomeComponent.html
+│   │   ├── FooterComponent.html
+│   │   ├── GeneralComponent.html
+│   │   ├── GridComponent.html
+│   │   ├── HorizontalComponent.html
+│   │   ├── HorizontalnavbarComponent.html
+│   │   ├── HorizontaltopbarComponent.html
+│   │   ├── ImagesComponent.html
+│   │   ├── LayoutComponent.html
+│   │   ├── LoginComponent.html
+│   │   ├── ManageUsersComponent.html
+│   │   ├── MaterialdesignComponent.html
+│   │   ├── ModalsComponent.html
+│   │   ├── PagetitleComponent.html
+│   │   ├── PasswordresetComponent.html
+│   │   ├── ProgressbarComponent.html
+│   │   ├── ProtectedDocumentationComponent.html
+│   │   ├── RangesliderComponent.html
+│   │   ├── RemixComponent.html
+│   │   ├── RightsidebarComponent.html
+│   │   ├── SidebarComponent.html
+│   │   ├── SignupComponent.html
+│   │   ├── SweetalertComponent.html
+│   │   ├── TabsComponent.html
+│   │   ├── TopbarComponent.html
+│   │   ├── TypographyComponent.html
+│   │   ├── UserInfoBarComponent.html
+│   │   ├── VerticalComponent.html
+│   │   └── VideoComponent.html
+│   ├── coverage.html
+│   ├── dependencies.html
+│   ├── fonts
+│   │   ├── ionicons.eot
+│   │   ├── ionicons.svg
+│   │   ├── ionicons.ttf
+│   │   ├── ionicons.woff
+│   │   ├── ionicons.woff2
+│   │   ├── roboto-v15-latin-300.eot
+│   │   ├── roboto-v15-latin-300.svg
+│   │   ├── roboto-v15-latin-300.ttf
+│   │   ├── roboto-v15-latin-300.woff
+│   │   ├── roboto-v15-latin-300.woff2
+│   │   ├── roboto-v15-latin-700.eot
+│   │   ├── roboto-v15-latin-700.svg
+│   │   ├── roboto-v15-latin-700.ttf
+│   │   ├── roboto-v15-latin-700.woff
+│   │   ├── roboto-v15-latin-700.woff2
+│   │   ├── roboto-v15-latin-italic.eot
+│   │   ├── roboto-v15-latin-italic.svg
+│   │   ├── roboto-v15-latin-italic.ttf
+│   │   ├── roboto-v15-latin-italic.woff
+│   │   ├── roboto-v15-latin-italic.woff2
+│   │   ├── roboto-v15-latin-regular.eot
+│   │   ├── roboto-v15-latin-regular.svg
+│   │   ├── roboto-v15-latin-regular.ttf
+│   │   ├── roboto-v15-latin-regular.woff
+│   │   └── roboto-v15-latin-regular.woff2
+│   ├── graph
+│   │   └── dependencies.svg
+│   ├── guards
+│   │   ├── AuthGuard.html
+│   │   └── DocGuard.html
+│   ├── images
+│   │   ├── compodoc-vectorise-inverted.png
+│   │   ├── compodoc-vectorise-inverted.svg
+│   │   ├── compodoc-vectorise.png
+│   │   ├── compodoc-vectorise.svg
+│   │   ├── coverage-badge-documentation.svg
+│   │   └── favicon.ico
+│   ├── index.html
+│   ├── injectables
+│   │   ├── AuthenticationService.html
+│   │   ├── AuthfakeauthenticationService.html
+│   │   ├── CompanyService.html
+│   │   ├── EventService.html
+│   │   ├── LanguageService.html
+│   │   └── UserProfileService.html
+│   ├── interceptors
+│   │   ├── ErrorInterceptor.html
+│   │   ├── FakeBackendInterceptor.html
+│   │   └── JwtInterceptor.html
+│   ├── interfaces
+│   │   ├── AlertColor.html
+│   │   ├── Event.html
+│   │   ├── MenuItem-1.html
+│   │   └── MenuItem.html
+│   ├── js
+│   │   ├── compodoc.js
+│   │   ├── lazy-load-graphs.js
+│   │   ├── libs
+│   │   │   ├── bootstrap-native.js
+│   │   │   ├── clipboard.min.js
+│   │   │   ├── custom-elements-es5-adapter.js
+│   │   │   ├── custom-elements.min.js
+│   │   │   ├── d3.v3.min.js
+│   │   │   ├── deep-iterator.js
+│   │   │   ├── es6-shim.min.js
+│   │   │   ├── EventDispatcher.js
+│   │   │   ├── htmlparser.js
+│   │   │   ├── innersvg.js
+│   │   │   ├── lit-html.js
+│   │   │   ├── prism.js
+│   │   │   ├── promise.min.js
+│   │   │   ├── svg-pan-zoom.min.js
+│   │   │   ├── tablesort.min.js
+│   │   │   ├── tablesort.number.min.js
+│   │   │   ├── vis.min.js
+│   │   │   └── zepto.min.js
+│   │   ├── menu.js
+│   │   ├── menu-wc_es5.js
+│   │   ├── menu-wc.js
+│   │   ├── routes
+│   │   │   └── routes_index.js
+│   │   ├── routes.js
+│   │   ├── search
+│   │   │   ├── lunr.min.js
+│   │   │   ├── search_index.js
+│   │   │   ├── search.js
+│   │   │   └── search-lunr.js
+│   │   ├── sourceCode.js
+│   │   ├── svg-pan-zoom.controls.js
+│   │   ├── tabs.js
+│   │   └── tree.js
+│   ├── miscellaneous
+│   │   ├── functions.html
+│   │   ├── typealiases.html
+│   │   └── variables.html
+│   ├── modules
+│   │   ├── AccountModule
+│   │   │   └── dependencies.svg
+│   │   ├── AccountModule.html
+│   │   ├── AccountRoutingModule.html
+│   │   ├── AppModule
+│   │   │   └── dependencies.svg
+│   │   ├── AppModule.html
+│   │   ├── AppRoutingModule.html
+│   │   ├── AuthModule
+│   │   │   └── dependencies.svg
+│   │   ├── AuthModule.html
+│   │   ├── AuthRoutingModule.html
+│   │   ├── IconsModule
+│   │   │   └── dependencies.svg
+│   │   ├── IconsModule.html
+│   │   ├── IconsRoutingModule.html
+│   │   ├── LayoutsModule
+│   │   │   └── dependencies.svg
+│   │   ├── LayoutsModule.html
+│   │   ├── PagesModule
+│   │   │   └── dependencies.svg
+│   │   ├── PagesModule.html
+│   │   ├── PagesRoutingModule.html
+│   │   ├── SharedModule
+│   │   │   └── dependencies.svg
+│   │   ├── SharedModule.html
+│   │   ├── UIModule
+│   │   │   └── dependencies.svg
+│   │   ├── UiModule.html
+│   │   └── UiRoutingModule.html
+│   ├── modules.html
+│   ├── overview.html
+│   ├── properties.html
+│   ├── routes.html
+│   └── styles
+│       ├── bootstrap-card.css
+│       ├── bootstrap.min.css
+│       ├── compodoc.css
+│       ├── dark.css
+│       ├── ionicons.min.css
+│       ├── laravel.css
+│       ├── material.css
+│       ├── original.css
+│       ├── postmark.css
+│       ├── prism.css
+│       ├── readthedocs.css
+│       ├── reset.css
+│       ├── stripe.css
+│       ├── style.css
+│       ├── tablesort.css
+│       └── vagrant.css
+├── karma.conf.js
+├── modified_files.txt
+├── package.json
+├── package-lock.json
+├── project-structure.txt
+├── README.md
+├── src
+│   ├── app
+│   │   ├── account
+│   │   │   ├── account.module.ts
+│   │   │   ├── account-routing.module.ts
+│   │   │   └── auth
+│   │   │       ├── auth.module.ts
+│   │   │       ├── auth-routing.ts
+│   │   │       ├── login
+│   │   │       │   ├── login.component.html
+│   │   │       │   ├── login.component.scss
+│   │   │       │   ├── login.component.spec.ts
+│   │   │       │   └── login.component.ts
+│   │   │       ├── passwordreset
+│   │   │       │   ├── passwordreset.component.html
+│   │   │       │   ├── passwordreset.component.scss
+│   │   │       │   ├── passwordreset.component.spec.ts
+│   │   │       │   └── passwordreset.component.ts
+│   │   │       └── signup
+│   │   │           ├── signup.component.html
+│   │   │           ├── signup.component.scss
+│   │   │           ├── signup.component.spec.ts
+│   │   │           └── signup.component.ts
+│   │   ├── app.component.html
+│   │   ├── app.component.scss
+│   │   ├── app.component.spec.ts
+│   │   ├── app.component.ts
+│   │   ├── app.module.ts
+│   │   ├── app-routing.module.ts
+│   │   ├── authUtils.ts
+│   │   ├── core
+│   │   │   ├── guards
+│   │   │   │   ├── auth.guard.spec.ts
+│   │   │   │   ├── auth.guard.ts
+│   │   │   │   ├── doc.guard.spec.ts
+│   │   │   │   └── doc.guard.ts
+│   │   │   ├── helpers
+│   │   │   │   ├── error.interceptor.ts
+│   │   │   │   ├── fake-backend.ts
+│   │   │   │   └── jwt.interceptor.ts
+│   │   │   ├── models
+│   │   │   │   └── auth.models.ts
+│   │   │   └── services
+│   │   │       ├── authfake.service.ts
+│   │   │       ├── auth.service.ts
+│   │   │       ├── company.service.spec.ts
+│   │   │       ├── company.service.ts
+│   │   │       ├── event.service.spec.ts
+│   │   │       ├── event.service.ts
+│   │   │       ├── language.service.spec.ts
+│   │   │       ├── language.service.ts
+│   │   │       └── user.service.ts
+│   │   ├── layouts
+│   │   │   ├── horizontal
+│   │   │   │   ├── horizontal.component.html
+│   │   │   │   ├── horizontal.component.scss
+│   │   │   │   ├── horizontal.component.spec.ts
+│   │   │   │   └── horizontal.component.ts
+│   │   │   ├── layout
+│   │   │   │   ├── layout.component.html
+│   │   │   │   ├── layout.component.scss
+│   │   │   │   ├── layout.component.spec.ts
+│   │   │   │   ├── layout.component.ts
+│   │   │   │   └── layouts.model.ts
+│   │   │   ├── layouts.module.ts
+│   │   │   ├── shared
+│   │   │   │   ├── css
+│   │   │   │   │   ├── footer.component.css
+│   │   │   │   │   ├── footer.component.css.map
+│   │   │   │   │   ├── footer.component.min.css
+│   │   │   │   │   ├── footer.component.min.css.map
+│   │   │   │   │   ├── horizontalnavbar.component.css
+│   │   │   │   │   ├── horizontalnavbar.component.css.map
+│   │   │   │   │   ├── horizontalnavbar.component.min.css
+│   │   │   │   │   ├── horizontalnavbar.component.min.css.map
+│   │   │   │   │   ├── horizontaltopbar.component.css
+│   │   │   │   │   ├── horizontaltopbar.component.css.map
+│   │   │   │   │   ├── horizontaltopbar.component.min.css
+│   │   │   │   │   ├── horizontaltopbar.component.min.css.map
+│   │   │   │   │   ├── rightsidebar.component.css
+│   │   │   │   │   ├── rightsidebar.component.css.map
+│   │   │   │   │   ├── rightsidebar.component.min.css
+│   │   │   │   │   ├── rightsidebar.component.min.css.map
+│   │   │   │   │   ├── sidebar.component.css
+│   │   │   │   │   ├── sidebar.component.css.map
+│   │   │   │   │   ├── sidebar.component.min.css
+│   │   │   │   │   ├── sidebar.component.min.css.map
+│   │   │   │   │   ├── topbar.component.css
+│   │   │   │   │   ├── topbar.component.css.map
+│   │   │   │   │   ├── topbar.component.min.css
+│   │   │   │   │   └── topbar.component.min.css.map
+│   │   │   │   ├── footer
+│   │   │   │   │   ├── footer.component.html
+│   │   │   │   │   ├── footer.component.scss
+│   │   │   │   │   ├── footer.component.spec.ts
+│   │   │   │   │   └── footer.component.ts
+│   │   │   │   ├── horizontal-navbar
+│   │   │   │   │   ├── horizontal-navbar.component.html
+│   │   │   │   │   ├── horizontal-navbar.component.scss
+│   │   │   │   │   ├── horizontal-navbar.component.spec.ts
+│   │   │   │   │   ├── horizontal-navbar.component.ts
+│   │   │   │   │   ├── menu.model.ts
+│   │   │   │   │   └── menu.ts
+│   │   │   │   ├── horizontaltopbar
+│   │   │   │   │   ├── horizontaltopbar.component.html
+│   │   │   │   │   ├── horizontaltopbar.component.scss
+│   │   │   │   │   ├── horizontaltopbar.component.spec.ts
+│   │   │   │   │   └── horizontaltopbar.component.ts
+│   │   │   │   ├── rightsidebar
+│   │   │   │   │   ├── rightsidebar.component.html
+│   │   │   │   │   ├── rightsidebar.component.scss
+│   │   │   │   │   ├── rightsidebar.component.spec.ts
+│   │   │   │   │   └── rightsidebar.component.ts
+│   │   │   │   ├── shared.module.ts
+│   │   │   │   ├── sidebar
+│   │   │   │   │   ├── menu.model.ts
+│   │   │   │   │   ├── menu.ts
+│   │   │   │   │   ├── sidebar.component.html
+│   │   │   │   │   ├── sidebar.component.scss
+│   │   │   │   │   ├── sidebar.component.spec.ts
+│   │   │   │   │   └── sidebar.component.ts
+│   │   │   │   ├── topbar
+│   │   │   │   │   ├── topbar.component.html
+│   │   │   │   │   ├── topbar.component.scss
+│   │   │   │   │   ├── topbar.component.spec.ts
+│   │   │   │   │   └── topbar.component.ts
+│   │   │   │   └── user-info-bar
+│   │   │   │       ├── user-info-bar.component.html
+│   │   │   │       ├── user-info-bar.component.scss
+│   │   │   │       ├── user-info-bar.component.spec.ts
+│   │   │   │       └── user-info-bar.component.ts
+│   │   │   └── vertical
+│   │   │       ├── vertical.component.html
+│   │   │       ├── vertical.component.scss
+│   │   │       ├── vertical.component.spec.ts
+│   │   │       └── vertical.component.ts
+│   │   ├── pages
+│   │   │   ├── create-user
+│   │   │   │   ├── create-user.component.html
+│   │   │   │   ├── create-user.component.scss
+│   │   │   │   ├── create-user.component.spec.ts
+│   │   │   │   └── create-user.component.ts
+│   │   │   ├── icons
+│   │   │   │   ├── css
+│   │   │   │   │   ├── dripicons.component.css
+│   │   │   │   │   ├── dripicons.component.css.map
+│   │   │   │   │   ├── dripicons.component.min.css
+│   │   │   │   │   ├── dripicons.component.min.css.map
+│   │   │   │   │   ├── fontawesome.component.css
+│   │   │   │   │   ├── fontawesome.component.css.map
+│   │   │   │   │   ├── fontawesome.component.min.css
+│   │   │   │   │   ├── fontawesome.component.min.css.map
+│   │   │   │   │   ├── materialdesign.component.css
+│   │   │   │   │   ├── materialdesign.component.css.map
+│   │   │   │   │   ├── materialdesign.component.min.css
+│   │   │   │   │   ├── materialdesign.component.min.css.map
+│   │   │   │   │   ├── remix.component.css
+│   │   │   │   │   ├── remix.component.css.map
+│   │   │   │   │   ├── remix.component.min.css
+│   │   │   │   │   └── remix.component.min.css.map
+│   │   │   │   ├── dripicons
+│   │   │   │   │   ├── dripicons.component.html
+│   │   │   │   │   ├── dripicons.component.scss
+│   │   │   │   │   ├── dripicons.component.spec.ts
+│   │   │   │   │   └── dripicons.component.ts
+│   │   │   │   ├── fontawesome
+│   │   │   │   │   ├── data.ts
+│   │   │   │   │   ├── fontawesome.component.html
+│   │   │   │   │   ├── fontawesome.component.scss
+│   │   │   │   │   ├── fontawesome.component.spec.ts
+│   │   │   │   │   └── fontawesome.component.ts
+│   │   │   │   ├── icons.module.ts
+│   │   │   │   ├── icons-routing.module.ts
+│   │   │   │   ├── materialdesign
+│   │   │   │   │   ├── data.ts
+│   │   │   │   │   ├── materialdesign.component.html
+│   │   │   │   │   ├── materialdesign.component.scss
+│   │   │   │   │   ├── materialdesign.component.spec.ts
+│   │   │   │   │   └── materialdesign.component.ts
+│   │   │   │   └── remix
+│   │   │   │       ├── data.ts
+│   │   │   │       ├── remix.component.html
+│   │   │   │       ├── remix.component.scss
+│   │   │   │       ├── remix.component.spec.ts
+│   │   │   │       └── remix.component.ts
+│   │   │   ├── manage-users
+│   │   │   │   ├── manage-users.component.html
+│   │   │   │   ├── manage-users.component.scss
+│   │   │   │   ├── manage-users.component.spec.ts
+│   │   │   │   └── manage-users.component.ts
+│   │   │   ├── pages.module.ts
+│   │   │   ├── pages-routing.module.ts
+│   │   │   └── ui
+│   │   │       ├── alerts
+│   │   │       │   ├── alerts.component.html
+│   │   │       │   ├── alerts.component.scss
+│   │   │       │   ├── alerts.component.spec.ts
+│   │   │       │   ├── alerts.component.ts
+│   │   │       │   ├── alerts.model.ts
+│   │   │       │   └── data.ts
+│   │   │       ├── buttons
+│   │   │       │   ├── buttons.component.html
+│   │   │       │   ├── buttons.component.scss
+│   │   │       │   ├── buttons.component.spec.ts
+│   │   │       │   └── buttons.component.ts
+│   │   │       ├── cards
+│   │   │       │   ├── cards.component.html
+│   │   │       │   ├── cards.component.scss
+│   │   │       │   ├── cards.component.spec.ts
+│   │   │       │   └── cards.component.ts
+│   │   │       ├── carousel
+│   │   │       │   ├── carousel.component.html
+│   │   │       │   ├── carousel.component.scss
+│   │   │       │   ├── carousel.component.spec.ts
+│   │   │       │   └── carousel.component.ts
+│   │   │       ├── css
+│   │   │       │   ├── alerts.component.css
+│   │   │       │   ├── alerts.component.css.map
+│   │   │       │   ├── alerts.component.min.css
+│   │   │       │   ├── alerts.component.min.css.map
+│   │   │       │   ├── buttons.component.css
+│   │   │       │   ├── buttons.component.css.map
+│   │   │       │   ├── buttons.component.min.css
+│   │   │       │   ├── buttons.component.min.css.map
+│   │   │       │   ├── cards.component.css
+│   │   │       │   ├── cards.component.css.map
+│   │   │       │   ├── cards.component.min.css
+│   │   │       │   ├── cards.component.min.css.map
+│   │   │       │   ├── carousel.component.css
+│   │   │       │   ├── carousel.component.css.map
+│   │   │       │   ├── carousel.component.min.css
+│   │   │       │   ├── carousel.component.min.css.map
+│   │   │       │   ├── dropdowns.component.css
+│   │   │       │   ├── dropdowns.component.css.map
+│   │   │       │   ├── dropdowns.component.min.css
+│   │   │       │   ├── dropdowns.component.min.css.map
+│   │   │       │   ├── general.component.css
+│   │   │       │   ├── general.component.css.map
+│   │   │       │   ├── general.component.min.css
+│   │   │       │   ├── general.component.min.css.map
+│   │   │       │   ├── grid.component.css
+│   │   │       │   ├── grid.component.css.map
+│   │   │       │   ├── grid.component.min.css
+│   │   │       │   ├── grid.component.min.css.map
+│   │   │       │   ├── images.component.css
+│   │   │       │   ├── images.component.css.map
+│   │   │       │   ├── images.component.min.css
+│   │   │       │   ├── images.component.min.css.map
+│   │   │       │   ├── modals.component.css
+│   │   │       │   ├── modals.component.css.map
+│   │   │       │   ├── modals.component.min.css
+│   │   │       │   ├── modals.component.min.css.map
+│   │   │       │   ├── progressbar.component.css
+│   │   │       │   ├── progressbar.component.css.map
+│   │   │       │   ├── progressbar.component.min.css
+│   │   │       │   ├── progressbar.component.min.css.map
+│   │   │       │   ├── rangeslider.component.css
+│   │   │       │   ├── rangeslider.component.css.map
+│   │   │       │   ├── rangeslider.component.min.css
+│   │   │       │   ├── rangeslider.component.min.css.map
+│   │   │       │   ├── sweetalert.component.css
+│   │   │       │   ├── sweetalert.component.css.map
+│   │   │       │   ├── sweetalert.component.min.css
+│   │   │       │   ├── sweetalert.component.min.css.map
+│   │   │       │   ├── tabs.component.css
+│   │   │       │   ├── tabs.component.css.map
+│   │   │       │   ├── tabs.component.min.css
+│   │   │       │   ├── tabs.component.min.css.map
+│   │   │       │   ├── typography.component.css
+│   │   │       │   ├── typography.component.css.map
+│   │   │       │   ├── typography.component.min.css
+│   │   │       │   ├── typography.component.min.css.map
+│   │   │       │   ├── video.component.css
+│   │   │       │   ├── video.component.css.map
+│   │   │       │   ├── video.component.min.css
+│   │   │       │   └── video.component.min.css.map
+│   │   │       ├── dropdowns
+│   │   │       │   ├── dropdowns.component.html
+│   │   │       │   ├── dropdowns.component.scss
+│   │   │       │   ├── dropdowns.component.spec.ts
+│   │   │       │   └── dropdowns.component.ts
+│   │   │       ├── general
+│   │   │       │   ├── general.component.html
+│   │   │       │   ├── general.component.scss
+│   │   │       │   ├── general.component.spec.ts
+│   │   │       │   └── general.component.ts
+│   │   │       ├── grid
+│   │   │       │   ├── grid.component.html
+│   │   │       │   ├── grid.component.scss
+│   │   │       │   ├── grid.component.spec.ts
+│   │   │       │   └── grid.component.ts
+│   │   │       ├── images
+│   │   │       │   ├── images.component.html
+│   │   │       │   ├── images.component.scss
+│   │   │       │   ├── images.component.spec.ts
+│   │   │       │   └── images.component.ts
+│   │   │       ├── modals
+│   │   │       │   ├── modals.component.html
+│   │   │       │   ├── modals.component.scss
+│   │   │       │   ├── modals.component.spec.ts
+│   │   │       │   └── modals.component.ts
+│   │   │       ├── progressbar
+│   │   │       │   ├── progressbar.component.html
+│   │   │       │   ├── progressbar.component.scss
+│   │   │       │   ├── progressbar.component.spec.ts
+│   │   │       │   └── progressbar.component.ts
+│   │   │       ├── rangeslider
+│   │   │       │   ├── rangeslider.component.html
+│   │   │       │   ├── rangeslider.component.scss
+│   │   │       │   ├── rangeslider.component.spec.ts
+│   │   │       │   └── rangeslider.component.ts
+│   │   │       ├── sweetalert
+│   │   │       │   ├── sweetalert.component.html
+│   │   │       │   ├── sweetalert.component.scss
+│   │   │       │   ├── sweetalert.component.spec.ts
+│   │   │       │   └── sweetalert.component.ts
+│   │   │       ├── tabs
+│   │   │       │   ├── tabs.component.html
+│   │   │       │   ├── tabs.component.scss
+│   │   │       │   ├── tabs.component.spec.ts
+│   │   │       │   └── tabs.component.ts
+│   │   │       ├── typography
+│   │   │       │   ├── typography.component.html
+│   │   │       │   ├── typography.component.scss
+│   │   │       │   ├── typography.component.spec.ts
+│   │   │       │   └── typography.component.ts
+│   │   │       ├── ui.module.ts
+│   │   │       ├── ui-routing.module.ts
+│   │   │       └── video
+│   │   │           ├── video.component.html
+│   │   │           ├── video.component.scss
+│   │   │           ├── video.component.spec.ts
+│   │   │           └── video.component.ts
+│   │   ├── protected-documentation
+│   │   │   ├── protected-documentation.component.html
+│   │   │   ├── protected-documentation.component.scss
+│   │   │   ├── protected-documentation.component.spec.ts
+│   │   │   └── protected-documentation.component.ts
+│   │   └── shared
+│   │       ├── shared.module.ts
+│   │       └── ui
+│   │           ├── pagetitle
+│   │           │   ├── pagetitle.component.html
+│   │           │   ├── pagetitle.component.scss
+│   │           │   ├── pagetitle.component.spec.ts
+│   │           │   └── pagetitle.component.ts
+│   │           └── ui.module.ts
+│   ├── assets
+│   │   ├── css
+│   │   │   ├── icons.css
+│   │   │   ├── icons.css.map
+│   │   │   ├── icons.min.css
+│   │   │   └── icons.min.css.map
+│   │   ├── documentation
+│   │   │   ├── classes
+│   │   │   │   ├── FirebaseAuthBackend.html
+│   │   │   │   └── User.html
+│   │   │   ├── components
+│   │   │   │   ├── AlertsComponent.html
+│   │   │   │   ├── AppComponent.html
+│   │   │   │   ├── ButtonsComponent.html
+│   │   │   │   ├── CardsComponent.html
+│   │   │   │   ├── CarouselComponent.html
+│   │   │   │   ├── CreateUserComponent.html
+│   │   │   │   ├── DripiconsComponent.html
+│   │   │   │   ├── DropdownsComponent.html
+│   │   │   │   ├── FontawesomeComponent.html
+│   │   │   │   ├── FooterComponent.html
+│   │   │   │   ├── GeneralComponent.html
+│   │   │   │   ├── GridComponent.html
+│   │   │   │   ├── HorizontalComponent.html
+│   │   │   │   ├── HorizontalnavbarComponent.html
+│   │   │   │   ├── HorizontaltopbarComponent.html
+│   │   │   │   ├── ImagesComponent.html
+│   │   │   │   ├── LayoutComponent.html
+│   │   │   │   ├── LoginComponent.html
+│   │   │   │   ├── ManageUsersComponent.html
+│   │   │   │   ├── MaterialdesignComponent.html
+│   │   │   │   ├── ModalsComponent.html
+│   │   │   │   ├── PagetitleComponent.html
+│   │   │   │   ├── PasswordresetComponent.html
+│   │   │   │   ├── ProgressbarComponent.html
+│   │   │   │   ├── ProtectedDocumentationComponent.html
+│   │   │   │   ├── RangesliderComponent.html
+│   │   │   │   ├── RemixComponent.html
+│   │   │   │   ├── RightsidebarComponent.html
+│   │   │   │   ├── SidebarComponent.html
+│   │   │   │   ├── SignupComponent.html
+│   │   │   │   ├── SweetalertComponent.html
+│   │   │   │   ├── TabsComponent.html
+│   │   │   │   ├── TopbarComponent.html
+│   │   │   │   ├── TypographyComponent.html
+│   │   │   │   ├── UserInfoBarComponent.html
+│   │   │   │   ├── VerticalComponent.html
+│   │   │   │   └── VideoComponent.html
+│   │   │   ├── coverage.html
+│   │   │   ├── dependencies.html
+│   │   │   ├── fonts
+│   │   │   │   ├── ionicons.eot
+│   │   │   │   ├── ionicons.svg
+│   │   │   │   ├── ionicons.ttf
+│   │   │   │   ├── ionicons.woff
+│   │   │   │   ├── ionicons.woff2
+│   │   │   │   ├── roboto-v15-latin-300.eot
+│   │   │   │   ├── roboto-v15-latin-300.svg
+│   │   │   │   ├── roboto-v15-latin-300.ttf
+│   │   │   │   ├── roboto-v15-latin-300.woff
+│   │   │   │   ├── roboto-v15-latin-300.woff2
+│   │   │   │   ├── roboto-v15-latin-700.eot
+│   │   │   │   ├── roboto-v15-latin-700.svg
+│   │   │   │   ├── roboto-v15-latin-700.ttf
+│   │   │   │   ├── roboto-v15-latin-700.woff
+│   │   │   │   ├── roboto-v15-latin-700.woff2
+│   │   │   │   ├── roboto-v15-latin-italic.eot
+│   │   │   │   ├── roboto-v15-latin-italic.svg
+│   │   │   │   ├── roboto-v15-latin-italic.ttf
+│   │   │   │   ├── roboto-v15-latin-italic.woff
+│   │   │   │   ├── roboto-v15-latin-italic.woff2
+│   │   │   │   ├── roboto-v15-latin-regular.eot
+│   │   │   │   ├── roboto-v15-latin-regular.svg
+│   │   │   │   ├── roboto-v15-latin-regular.ttf
+│   │   │   │   ├── roboto-v15-latin-regular.woff
+│   │   │   │   └── roboto-v15-latin-regular.woff2
+│   │   │   ├── graph
+│   │   │   │   └── dependencies.svg
+│   │   │   ├── guards
+│   │   │   │   ├── AuthGuard.html
+│   │   │   │   └── DocGuard.html
+│   │   │   ├── images
+│   │   │   │   ├── compodoc-vectorise-inverted.png
+│   │   │   │   ├── compodoc-vectorise-inverted.svg
+│   │   │   │   ├── compodoc-vectorise.png
+│   │   │   │   ├── compodoc-vectorise.svg
+│   │   │   │   ├── coverage-badge-documentation.svg
+│   │   │   │   └── favicon.ico
+│   │   │   ├── index.html
+│   │   │   ├── injectables
+│   │   │   │   ├── AuthenticationService.html
+│   │   │   │   ├── AuthfakeauthenticationService.html
+│   │   │   │   ├── CompanyService.html
+│   │   │   │   ├── EventService.html
+│   │   │   │   ├── LanguageService.html
+│   │   │   │   └── UserProfileService.html
+│   │   │   ├── interceptors
+│   │   │   │   ├── ErrorInterceptor.html
+│   │   │   │   ├── FakeBackendInterceptor.html
+│   │   │   │   └── JwtInterceptor.html
+│   │   │   ├── interfaces
+│   │   │   │   ├── AlertColor.html
+│   │   │   │   ├── Event.html
+│   │   │   │   ├── MenuItem-1.html
+│   │   │   │   └── MenuItem.html
+│   │   │   ├── js
+│   │   │   │   ├── compodoc.js
+│   │   │   │   ├── lazy-load-graphs.js
+│   │   │   │   ├── libs
+│   │   │   │   │   ├── bootstrap-native.js
+│   │   │   │   │   ├── clipboard.min.js
+│   │   │   │   │   ├── custom-elements-es5-adapter.js
+│   │   │   │   │   ├── custom-elements.min.js
+│   │   │   │   │   ├── d3.v3.min.js
+│   │   │   │   │   ├── deep-iterator.js
+│   │   │   │   │   ├── es6-shim.min.js
+│   │   │   │   │   ├── EventDispatcher.js
+│   │   │   │   │   ├── htmlparser.js
+│   │   │   │   │   ├── innersvg.js
+│   │   │   │   │   ├── lit-html.js
+│   │   │   │   │   ├── prism.js
+│   │   │   │   │   ├── promise.min.js
+│   │   │   │   │   ├── svg-pan-zoom.min.js
+│   │   │   │   │   ├── tablesort.min.js
+│   │   │   │   │   ├── tablesort.number.min.js
+│   │   │   │   │   ├── vis.min.js
+│   │   │   │   │   └── zepto.min.js
+│   │   │   │   ├── menu.js
+│   │   │   │   ├── menu-wc_es5.js
+│   │   │   │   ├── menu-wc.js
+│   │   │   │   ├── routes
+│   │   │   │   │   └── routes_index.js
+│   │   │   │   ├── routes.js
+│   │   │   │   ├── search
+│   │   │   │   │   ├── lunr.min.js
+│   │   │   │   │   ├── search_index.js
+│   │   │   │   │   ├── search.js
+│   │   │   │   │   └── search-lunr.js
+│   │   │   │   ├── sourceCode.js
+│   │   │   │   ├── svg-pan-zoom.controls.js
+│   │   │   │   ├── tabs.js
+│   │   │   │   └── tree.js
+│   │   │   ├── miscellaneous
+│   │   │   │   ├── functions.html
+│   │   │   │   ├── typealiases.html
+│   │   │   │   └── variables.html
+│   │   │   ├── modules
+│   │   │   │   ├── AccountModule
+│   │   │   │   │   └── dependencies.svg
+│   │   │   │   ├── AccountModule.html
+│   │   │   │   ├── AccountRoutingModule.html
+│   │   │   │   ├── AppModule
+│   │   │   │   │   └── dependencies.svg
+│   │   │   │   ├── AppModule.html
+│   │   │   │   ├── AppRoutingModule.html
+│   │   │   │   ├── AuthModule
+│   │   │   │   │   └── dependencies.svg
+│   │   │   │   ├── AuthModule.html
+│   │   │   │   ├── AuthRoutingModule.html
+│   │   │   │   ├── IconsModule
+│   │   │   │   │   └── dependencies.svg
+│   │   │   │   ├── IconsModule.html
+│   │   │   │   ├── IconsRoutingModule.html
+│   │   │   │   ├── LayoutsModule
+│   │   │   │   │   └── dependencies.svg
+│   │   │   │   ├── LayoutsModule.html
+│   │   │   │   ├── PagesModule
+│   │   │   │   │   └── dependencies.svg
+│   │   │   │   ├── PagesModule.html
+│   │   │   │   ├── PagesRoutingModule.html
+│   │   │   │   ├── SharedModule
+│   │   │   │   │   └── dependencies.svg
+│   │   │   │   ├── SharedModule.html
+│   │   │   │   ├── UIModule
+│   │   │   │   │   └── dependencies.svg
+│   │   │   │   ├── UiModule.html
+│   │   │   │   └── UiRoutingModule.html
+│   │   │   ├── modules.html
+│   │   │   ├── overview.html
+│   │   │   ├── properties.html
+│   │   │   ├── routes.html
+│   │   │   └── styles
+│   │   │       ├── bootstrap-card.css
+│   │   │       ├── bootstrap.min.css
+│   │   │       ├── compodoc.css
+│   │   │       ├── dark.css
+│   │   │       ├── ionicons.min.css
+│   │   │       ├── laravel.css
+│   │   │       ├── material.css
+│   │   │       ├── original.css
+│   │   │       ├── postmark.css
+│   │   │       ├── prism.css
+│   │   │       ├── readthedocs.css
+│   │   │       ├── reset.css
+│   │   │       ├── stripe.css
+│   │   │       ├── style.css
+│   │   │       ├── tablesort.css
+│   │   │       └── vagrant.css
+│   │   ├── fonts
+│   │   │   ├── dripicons-v2.eot
+│   │   │   ├── dripicons-v2.svg
+│   │   │   ├── dripicons-v2.ttf
+│   │   │   ├── dripicons-v2.woff
+│   │   │   ├── fa-brands-400.eot
+│   │   │   ├── fa-brands-400.svg
+│   │   │   ├── fa-brands-400.ttf
+│   │   │   ├── fa-brands-400.woff
+│   │   │   ├── fa-brands-400.woff2
+│   │   │   ├── fa-regular-400.eot
+│   │   │   ├── fa-regular-400.svg
+│   │   │   ├── fa-regular-400.ttf
+│   │   │   ├── fa-regular-400.woff
+│   │   │   ├── fa-regular-400.woff2
+│   │   │   ├── fa-solid-900.eot
+│   │   │   ├── fa-solid-900.svg
+│   │   │   ├── fa-solid-900.ttf
+│   │   │   ├── fa-solid-900.woff
+│   │   │   ├── fa-solid-900.woff2
+│   │   │   ├── inter-bold.woff
+│   │   │   ├── inter-bold.woff2
+│   │   │   ├── inter-light.woff
+│   │   │   ├── inter-light.woff2
+│   │   │   ├── inter-medium.woff
+│   │   │   ├── inter-medium.woff2
+│   │   │   ├── inter-regular.woff
+│   │   │   ├── inter-regular.woff2
+│   │   │   ├── materialdesignicons-webfont.eot
+│   │   │   ├── materialdesignicons-webfont.ttf
+│   │   │   ├── materialdesignicons-webfont.woff
+│   │   │   ├── materialdesignicons-webfont.woff2
+│   │   │   ├── remixicon.eot
+│   │   │   ├── remixicon.svg
+│   │   │   ├── remixicon.symbol.svg
+│   │   │   ├── remixicon.ttf
+│   │   │   ├── remixicon.woff
+│   │   │   └── remixicon.woff2
+│   │   ├── i18n
+│   │   │   ├── de.json
+│   │   │   ├── en.json
+│   │   │   ├── es.json
+│   │   │   ├── it.json
+│   │   │   └── ru.json
+│   │   ├── images
+│   │   │   ├── authentication-bg2.png
+│   │   │   ├── authentication-bg3.png
+│   │   │   ├── authentication-bg.png
+│   │   │   ├── logo-dark.png
+│   │   │   └── sogapeint-logo.png
+│   │   ├── js
+│   │   │   ├── app.js
+│   │   │   └── pages
+│   │   │       ├── apexcharts.init.js
+│   │   │       ├── calendar.init.js
+│   │   │       ├── chartjs.init.js
+│   │   │       ├── coming-soon.init.js
+│   │   │       ├── dashboard.init.js
+│   │   │       ├── datatables.init.js
+│   │   │       ├── ecommerce-add-product.init.js
+│   │   │       ├── ecommerce-cart.init.js
+│   │   │       ├── ecommerce-checkout.init.js
+│   │   │       ├── ecommerce-customer-datatables.init.js
+│   │   │       ├── ecommerce-order-datatables.init.js
+│   │   │       ├── flot.init.js
+│   │   │       ├── fontawesome.init.js
+│   │   │       ├── form-advanced.init.js
+│   │   │       ├── form-editor.init.js
+│   │   │       ├── form-element.init.js
+│   │   │       ├── form-mask.init.js
+│   │   │       ├── form-validation.init.js
+│   │   │       ├── form-wizard.init.js
+│   │   │       ├── form-xeditable.init.js
+│   │   │       ├── gmaps.init.js
+│   │   │       ├── jquery-knob.init.js
+│   │   │       ├── kanban.init.js
+│   │   │       ├── lightbox.init.js
+│   │   │       ├── materialdesign.init.js
+│   │   │       ├── product-filter-range.init.js
+│   │   │       ├── range-sliders.init.js
+│   │   │       ├── rating-init.js
+│   │   │       ├── remix-icons-list.js
+│   │   │       ├── roundslider.init.js
+│   │   │       ├── session-timeout.init.js
+│   │   │       ├── sparklines.init.js
+│   │   │       ├── sweet-alerts.init.js
+│   │   │       ├── table-editable.init.js
+│   │   │       ├── table-responsive.init.js
+│   │   │       ├── toastr.init.js
+│   │   │       └── vector-maps.init.js
+│   │   └── scss
+│   │       ├── app.scss
+│   │       ├── bootstrap.scss
+│   │       ├── custom
+│   │       │   ├── components
+│   │       │   │   ├── _accordion.scss
+│   │       │   │   ├── _avatar.scss
+│   │       │   │   ├── _backgrounds.scss
+│   │       │   │   ├── _badge.scss
+│   │       │   │   ├── _breadcrumb.scss
+│   │       │   │   ├── _buttons.scss
+│   │       │   │   ├── _card.scss
+│   │       │   │   ├── _demos.scss
+│   │       │   │   ├── _dropdown.scss
+│   │       │   │   ├── _forms.scss
+│   │       │   │   ├── _helper.scss
+│   │       │   │   ├── _nav.scss
+│   │       │   │   ├── _pagination.scss
+│   │       │   │   ├── _preloader.scss
+│   │       │   │   ├── _print.scss
+│   │       │   │   ├── _progress.scss
+│   │       │   │   ├── _reboot.scss
+│   │       │   │   ├── _root.scss
+│   │       │   │   ├── _table.scss
+│   │       │   │   ├── _waves.scss
+│   │       │   │   └── _widgets.scss
+│   │       │   ├── fonts
+│   │       │   │   └── _fonts.scss
+│   │       │   ├── pages
+│   │       │   │   ├── _authentication.scss
+│   │       │   │   ├── _chat.scss
+│   │       │   │   ├── _coming-soon.scss
+│   │       │   │   ├── _ecommerce.scss
+│   │       │   │   ├── _email.scss
+│   │       │   │   ├── _extras-pages.scss
+│   │       │   │   ├── _kanbanboard.scss
+│   │       │   │   └── _timeline.scss
+│   │       │   ├── plugins
+│   │       │   │   ├── _apexcharts.scss
+│   │       │   │   ├── _bootstrap-touchspin.scss
+│   │       │   │   ├── _calendar.scss
+│   │       │   │   ├── _color-picker.scss
+│   │       │   │   ├── _custom-scrollbar.scss
+│   │       │   │   ├── _datatable.scss
+│   │       │   │   ├── _datepicker.scss
+│   │       │   │   ├── default.theme.scss
+│   │       │   │   ├── _flot.scss
+│   │       │   │   ├── _form-editors.scss
+│   │       │   │   ├── _form-upload.scss
+│   │       │   │   ├── _form-wizard.scss
+│   │       │   │   ├── _google-map.scss
+│   │       │   │   ├── icons
+│   │       │   │   │   ├── _dripicons.scss
+│   │       │   │   │   ├── _fontawesome-all.scss
+│   │       │   │   │   ├── _materialdesignicons.scss
+│   │       │   │   │   └── _remixicon.scss
+│   │       │   │   ├── _icons.scss
+│   │       │   │   ├── _leaflet-maps.scss
+│   │       │   │   ├── _parsley.scss
+│   │       │   │   ├── _range-slider.scss
+│   │       │   │   ├── _rating.scss
+│   │       │   │   ├── _responsive-table.scss
+│   │       │   │   ├── _round-slider.scss
+│   │       │   │   ├── _select2.scss
+│   │       │   │   ├── _session-timeout.scss
+│   │       │   │   ├── _sparkline-chart.scss
+│   │       │   │   ├── _sweatalert2.scss
+│   │       │   │   ├── _switch.scss
+│   │       │   │   ├── _table-editable.scss
+│   │       │   │   ├── _toastr.scss
+│   │       │   │   ├── _vector-maps.scss
+│   │       │   │   └── _x-editable.scss
+│   │       │   ├── rtl
+│   │       │   │   ├── _bootstrap-rtl.scss
+│   │       │   │   ├── _components-rtl.scss
+│   │       │   │   ├── _float-rtl.scss
+│   │       │   │   ├── _general-rtl.scss
+│   │       │   │   ├── _pages-rtl.scss
+│   │       │   │   ├── _plugins-rtl.scss
+│   │       │   │   ├── _spacing-rtl.scss
+│   │       │   │   ├── _structure-rtl.scss
+│   │       │   │   └── _text-rtl.scss
+│   │       │   └── structure
+│   │       │       ├── _footer.scss
+│   │       │       ├── _general.scss
+│   │       │       ├── _horizontal-nav.scss
+│   │       │       ├── _layouts.scss
+│   │       │       ├── _page-head.scss
+│   │       │       ├── _right-sidebar.scss
+│   │       │       ├── _topbar.scss
+│   │       │       └── _vertical.scss
+│   │       ├── icons.scss
+│   │       ├── _variables-dark.scss
+│   │       └── _variables.scss
+│   ├── css
+│   │   ├── app.component.css
+│   │   ├── app.component.css.map
+│   │   ├── app.component.min.css
+│   │   └── app.component.min.css.map
+│   ├── environments
+│   │   ├── environment.prod.ts
+│   │   └── environment.ts
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── main.ts
+│   └── styles.scss
+├── tsconfig.app.json
+├── tsconfig.doc.json
+├── tsconfig.json
+└── tsconfig.spec.json
+
+124 directories, 821 files

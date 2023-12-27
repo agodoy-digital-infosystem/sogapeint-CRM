@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserProfileService } from '../../core/services/user.service';
+import { Router } from '@angular/router';
 
+
+/**
+ * Component pour la gestion des utilisateurs.
+ * Utilise UserProfileService pour récupérer les données des utilisateurs et Router pour la navigation.
+ */
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
@@ -8,13 +14,21 @@ import { UserProfileService } from '../../core/services/user.service';
 })
 export class ManageUsersComponent implements OnInit {
 
+  // Items pour le fil d'Ariane
   breadCrumbItems: Array<{ label: string; url?: string; active?: boolean }> = [];
+  // Titre de la page
   pageTitle: string = 'Gestion des contacts';
+  // Liste des utilisateurs
   users: any[] = [];
+  // Colonne de tri
   sortColumn: string = '';
+  // Direction du tri
   sortDirection: 'asc' | 'desc' = 'asc';
-  filter: string = ''; // La chaîne de recherche
-  filteredUsers: any[] = []; // Les utilisateurs filtrés affichés dans la vue
+  // Filtre de recherche
+  filter: string = ''; 
+  // Utilisateurs filtrés pour l'affichage
+  filteredUsers: any[] = [];
+  // Colonnes pour l'affichage dans le tableau
   columns = [
     { name: 'firstname', displayName: 'Prénom' },
     { name: 'lastname', displayName: 'Nom' },
@@ -25,30 +39,50 @@ export class ManageUsersComponent implements OnInit {
     // Ajoutez d'autres colonnes au besoin
   ];
 
-
-  constructor(private userProfileService: UserProfileService){}
-
+  /**
+   * Constructeur du composant.
+   * @param userProfileService Service pour gérer les profils utilisateurs.
+   * @param router Service Router pour la navigation.
+   */
+  constructor(
+    private userProfileService: UserProfileService,
+    private router: Router
+  ){}
+  
+  /**
+   * Initialisation du composant.
+   * Configure le fil d'Ariane et charge les données des utilisateurs.
+   */
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Sogapeint' }, { label: this.pageTitle, active: true }];
     this._fetchData();
 
   }
 
+  /**
+   * Récupère les données des utilisateurs depuis le service.
+   * Gère la réception des données et les erreurs.
+   */
   private _fetchData(): void {
-    // Use UserProfileService to fetch user data
+    // Récupérer les données des utilisateurs depuis le service
     this.userProfileService.getAll().subscribe({
       next: (data: any) => {
-        this.users = data; // Store users for display
+        // console.log('Données reçues:', data);
+        this.users = data; // Initialiser les utilisateurs
         this.filteredUsers = data; // Initialiser les utilisateurs filtrés
         console.log('Utilisateurs reçus:', this.users);
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des utilisateurs:', error);
       },
-      // Usually, for HTTP calls you don't need to use the complete callback, as they complete immediately after emitting a response
+      // 
     });
   }
 
+  /**
+   * Trie les utilisateurs en fonction de la colonne et de la direction de tri.
+   * @param column La colonne à utiliser pour le tri.
+   */
   onSort(column: string): void {
     if (this.sortColumn === column) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -60,6 +94,9 @@ export class ManageUsersComponent implements OnInit {
     this.sortUsers();
   }
 
+  /**
+   * Trie les utilisateurs en fonction de la colonne et de la direction de tri.
+   */
   private sortUsers(): void {
     this.users.sort((a, b) => {
       const valA = a[this.sortColumn];
@@ -74,6 +111,9 @@ export class ManageUsersComponent implements OnInit {
     });
   }
 
+  /**
+   * Filtre les utilisateurs en fonction du terme de recherche.
+   */
   onSearch(): void {
     if (!this.filter) {
       this.filteredUsers = this.users; // Pas de filtre, affiche tous les utilisateurs
@@ -87,5 +127,15 @@ export class ManageUsersComponent implements OnInit {
       });
     }
   }
+
+  /**
+   * Gère la sélection d'un utilisateur.
+   * @param user L'utilisateur sélectionné.
+   */
+  selectUser(user: any) {
+    console.log('Utilisateur sélectionné:', user);
+    this.router.navigate(['/user-detail', user._id]);
+  }
+  
   
 }

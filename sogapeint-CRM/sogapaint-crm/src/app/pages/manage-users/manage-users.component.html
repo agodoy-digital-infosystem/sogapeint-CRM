@@ -15,7 +15,7 @@
           </tr>
         </thead>
         <tbody class="tbody-scrollable">
-          <tr *ngFor="let user of filteredUsers">
+          <tr *ngFor="let user of filteredUsers" (click)="selectUser(user)">
             <td *ngFor="let column of columns" title="{{ user[column.name] }}">
               {{ user[column.name] }}
             </td>            

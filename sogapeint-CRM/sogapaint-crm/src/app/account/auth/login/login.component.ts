@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   error = '';
   returnUrl: string;
   year: number = new Date().getFullYear();
+  rememberMe: boolean = false;
 
   /**
    * Constructeur du composant
@@ -60,12 +61,18 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
+    if (this.rememberMe) {
+      localStorage.setItem('rememberMe', 'true');
+      localStorage.setItem('email', this.f.email.value);
+      // Logique supplémentaire pour gérer la session prolongée
+    }
+
     // Vérification de la validité du formulaire
     if (this.loginForm.invalid) {
       return;
     } else {
       // Appel au service d'authentification
-      this.authenticationService.login(this.f.email.value, this.f.password.value)
+      this.authenticationService.login(this.f.email.value, this.f.password.value, this.rememberMe)
         .pipe(first())
         .subscribe(
           data => {

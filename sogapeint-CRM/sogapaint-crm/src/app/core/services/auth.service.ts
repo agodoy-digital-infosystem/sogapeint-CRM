@@ -22,8 +22,8 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(email: string, password: string) {
-        return this.http.post<any>(`${environment.apiUrl}/api/auth/login`, { email, password })
+    login(email: string, password: string, rememberMe: boolean) {
+        return this.http.post<any>(`${environment.apiUrl}/api/auth/login`, { email, password, rememberMe })
             .pipe(map(user => {
                 // stocker les détails de l'utilisateur et le jeton jwt dans le stockage local pour garder l'utilisateur connecté entre les rafraîchissements de page
                 localStorage.setItem('currentUser', JSON.stringify(user));
