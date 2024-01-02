@@ -26,6 +26,12 @@ router.get('/allUsers', isConnected, authController.getAllUsers); // TODO: véri
 // Route pour obtenir un utilisateur (protégée par le middleware)
 router.get('/user/:userId', isConnected, authController.getUserById);
 
+// Route pour modifier un utilisateur (protégée par le middleware isAdminOrSuperAdmin)
+router.put('/user/:userId', isAdminOrSuperAdmin, authController.updateUser);
+
+// Route pour supprimer un utilisateur (protégée par le middleware isAdminOrSuperAdmin)
+router.delete('/user/:userId', isAdminOrSuperAdmin, authController.deleteUser);
+
 // Route pour la connexion
 router.post('/login',loginLimiter, authController.login);
 

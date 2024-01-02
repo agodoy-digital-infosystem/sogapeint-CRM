@@ -10,6 +10,19 @@ import { Router } from '@angular/router';
 })
 export class UserInfoBarComponent implements OnInit {
   currentUser: User;
+  randomTooltip: string;
+
+  tooltips = [
+    "Un grand pouvoir implique de grandes responsabilités",
+    "Tu es un sorcier, Harry... Euh, je veux dire, tu es un superadmin, Harry !",
+    "C'est un oiseau ! C'est un avion ! Non, c'est SuperAdmin !",
+    "Le superAdmin. Celui qu'on appelle quand il faut franchir l'impossible.",
+    "Quand le superAdmin clique, même les machines écoutent.",
+    "Ce n'est pas juste un superAdmin. C'est une légende.",
+    "Un superAdmin ne meurt jamais, il se déconnecte simplement.",
+    "Un clavier, un écran, un superAdmin : un trio invincible.",
+    "La force est puissante chez ce superAdmin.",
+  ];
 
   constructor(
     private userProfileService: UserProfileService,
@@ -21,6 +34,7 @@ export class UserInfoBarComponent implements OnInit {
     this.currentUser = this.userProfileService.getCurrentUser();
     this.changeDetectorRef.detectChanges(); // Forcer la détection de changement
     console.log(JSON.stringify(this.currentUser)) // TODO: important!!! remove
+    this.randomTooltip = this.getRandomTooltip();
   }
 
   getRoleClass(role: string): string {
@@ -41,5 +55,10 @@ export class UserInfoBarComponent implements OnInit {
     localStorage.removeItem('currentUser');
     this.router.navigate(['/account/login']);
     // Peut-être faire un appel API pour informer le backend de la déconnexion ?
+  }
+
+  getRandomTooltip(): string {
+      const randomIndex = Math.floor(Math.random() * this.tooltips.length);
+      return this.tooltips[randomIndex];
   }
 }

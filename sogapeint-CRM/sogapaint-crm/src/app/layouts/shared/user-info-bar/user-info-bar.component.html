@@ -7,9 +7,15 @@
             <span>{{ currentUser.firstName }}</span>
             <span>{{ currentUser.lastName }}</span>
         </div>
-        <div class="role-badge" [ngClass]="getRoleClass(currentUser.role)">
+        <div class="role-badge" [ngClass]="getRoleClass(currentUser.role)" *ngIf="currentUser.role !== 'superAdmin'; else superAdminTooltip">
             {{ currentUser.role }}
         </div>
+        <ng-template #superAdminTooltip>
+            <div class="role-badge" [ngClass]="getRoleClass(currentUser.role)"
+                 [title]="randomTooltip">
+                {{ currentUser.role }}
+            </div>
+        </ng-template>
         <button class="logout-button" (click)="logout()" title="Déconnexion">
             <i class="fas fa-sign-out-alt"></i>
         </button>

@@ -64,4 +64,36 @@ export class UserProfileService {
     getOne(userId: string) {
         return this.http.get<User>(`${environment.apiUrl}/api/auth/user/${userId}`);
     }
+
+    /**
+     * Met à jour un utilisateur.
+     *
+     * Envoie une requête PUT pour mettre à jour un utilisateur avec les données fournies.
+     * @param userId L'identifiant de l'utilisateur à mettre à jour.
+     * @param user Les données de l'utilisateur à mettre à jour.
+     * @returns Un Observable pour la réponse de la requête.
+     */
+    update(userId: string, user: User) {
+        return this.http.put(`${environment.apiUrl}/api/auth/user/${userId}`, {
+            email: user.email, 
+            firstname: user.firstName, 
+            lastname: user.lastName, 
+            phone: user.phone,
+            company: user.company,
+            role: user.role,
+            active: user.active,
+            authorized_connection: user.authorized_connection
+        });
+    }
+
+    /**
+     * Supprime un utilisateur.
+     *
+     * Envoie une requête DELETE pour supprimer un utilisateur.
+     * @param userId L'identifiant de l'utilisateur à supprimer.
+     * @returns Un Observable pour la réponse de la requête.
+     */
+    delete(userId: string) {
+        return this.http.delete(`${environment.apiUrl}/api/auth/user/${userId}`);
+    }
 }

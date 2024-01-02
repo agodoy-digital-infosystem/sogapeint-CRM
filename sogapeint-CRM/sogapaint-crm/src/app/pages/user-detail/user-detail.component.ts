@@ -3,6 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { UserProfileService } from '../../core/services/user.service';
 import { User } from 'src/app/core/models/auth.models';
 import { CommonModule } from '@angular/common';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subject } from 'rxjs/internal/Subject';
+import { Observable } from 'rxjs/internal/Observable';
+import { CompanyService } from '../../core/services/company.service';
+import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChanged';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 @Component({
@@ -17,47 +27,280 @@ export class UserDetailComponent implements OnInit {
   pageTitle: string = 'Détail utilisateur';
   user: User;
   id: string;
-
+  currentUser: User;
+  userForm: FormGroup;
+  editMode: boolean = false;
+  companies: any[];
+  companyInput$ = new Subject<string>();
+  unsubscribe$ = new Subject<void>();
+  public successMessage: string; // TODO
+  public errorMessage: string; // TODO
+  confirmationInput: string = '';
+  
   constructor(
     private route: ActivatedRoute,
-    private userProfileService: UserProfileService
+    private userProfileService: UserProfileService,
+    private companyService: CompanyService,
+    private modalService: NgbModal,
+    private fb: FormBuilder
     ) {
-    this.route.params.subscribe(params => {
-      this.id = params['userId'];
-      console.log("UserId : "+this.id);
-      // NMaintenant, nous avons l'identifiant de l'utilisateur, 
-      // nous pouvons le charger depuis le backend
-
-    });
-  }
-
-  ngOnInit(): void {
-    this.breadCrumbItems = [{ label: 'Sogapeint' }, { label: this.pageTitle, active: true }];
-    this._fetchData(this.id);
-  }
-
-  private _fetchData(id) {
-    // Charge les données de l'utilisateur depuis le backend
-    this.userProfileService.getOne(id).subscribe(
-      (data: any) => {
-        this.user = new User();
-        this.user.active = data.active;
-        this.user.authorized_connection = data.authorized_connection;
-        this.user.company = data.company;
-        this.user.email = data.email;
-        this.user.firstName = data.firstname;
-        this.user.lastName = data.lastname;
-        this.user.phone = data.phone;
-        this.user.role = data.role;
-        this.user.id = data.id;
-        console.log("User : "+this.user);
-      },
-      (error: any) => {
-        console.log(error);
+      this.route.params.subscribe(params => {
+        this.id = params['userId'];
+        console.log("UserId : "+this.id);
+        // NMaintenant, nous avons l'identifiant de l'utilisateur, 
+        // nous pouvons le charger depuis le backend
+        
+      });
+      
+      const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+      this.userForm = this.fb.group({
+        // firstName: [''],
+        // lastName: [''],
+        // role: [''],
+        // email: [''],
+        // company: [''],
+        // phone: ['']
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        role: ['customer', Validators.required], // la valeur par défaut est 'user'
+        status: true, // la valeur par défaut est 'active'
+        authorized_connection: true, // la valeur par défaut est 'authorized',
+        phone: ['', [Validators.required, Validators.pattern(phoneRegex)]],
+        address: [''], // facultatif
+        company: ['', Validators.required]
+      });
+    }
+    
+    async ngOnInit(): Promise<void> {
+      this.breadCrumbItems = [{ label: 'Sogapeint' }, { label: this.pageTitle, active: true }];
+      this.currentUser = this.userProfileService.getCurrentUser();
+      try {
+        await this._fetchData(this.id);
+        this.loadUserData();
+      } catch (error) {
+        console.error("Une erreur a eu lieu lors de la récupération des données de l'utilisateur", error);
       }
-    ); 
-  }
+      this.loadInitialCompanies();
+      this.companyInput$.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(term => this.companyService.searchCompanies(term)),
+        takeUntil(this.unsubscribe$)
+        ).subscribe(companies => {
+          this.companies = companies;
+        });
+      }
+      
+      loadUserData() {
+        this.userForm.patchValue({
+          firstName: this.user.firstName ?? '',
+          lastName: this.user.lastName ?? '',
+          role: this.user.role ?? '',
+          email: this.user.email ?? '',
+          company: this.user.company ?? '', 
+          phone: this.user.phone ?? '', // facultatif
+          status: this.user.active ?? '',
+          authorized_connection: this.user.authorized_connection ?? '',
+          address: this.user.address ?? '' // facultatif  
+        });
+      }
+      
+      isAdminOrSuperAdmin(): boolean {
+        return this.currentUser && (this.currentUser.role === 'admin' || this.currentUser.role === 'superAdmin');
+      }
+      
+      enableEditMode() {
+        if (this.isAdminOrSuperAdmin()) {
+          this.editMode = true;
+        }
+      }
+      
+      disableEditMode() {
+        this.editMode = false;
+      }
+      
+      resetDirty(controlName: string) {
+        let control = this.userForm.get(controlName);
+        if (control.value === this.user[controlName]) {
+          control.markAsPristine();
+          control.markAsUntouched();
+        }
+      }
+      
+      resetField(controlName: string) {
+        const originalValue = this.user[controlName];
+        this.userForm.get(controlName).setValue(originalValue);
+        this.userForm.get(controlName).markAsPristine();
+        this.userForm.get(controlName).markAsUntouched();
+      }
+      
+      
+      private _fetchData(id: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+          this.userProfileService.getOne(id).subscribe(
+            (data: any) => {
+              this.user = new User();
+              this.user.active = data.active;
+              this.user.authorized_connection = data.authorized_connection;
+              this.user.company = data.company;
+              this.user.email = data.email;
+              this.user.firstName = data.firstname
+              this.user.lastName = data.lastname;
+              this.user.phone = data.phone;
+              this.user.role = data.role;
+              this.user.id = id;
+              console.log("Utilisateur récupéré: ", this.user);
+              resolve();
+            },
+            (error: any) => {
+              console.log("Erreur pendant la récupération de l'utilisateur: ", error);
+              reject(error);
+            }
+            );
+          });
+        }
+        
+        getRoleClass(role: string): string {
+          const roleClassMap = {
+            'superAdmin': 'badge-superadmin',
+            'cocontractor': 'badge-cocontractor',
+            'subcontractor': 'badge-subcontractor',
+            'customer': 'badge-customer',
+            'comanager': 'badge-comanager',
+            'supermanager': 'badge-supermanager'
+          };
+          return roleClassMap[role] || 'badge-default';
+        }
+        
+        /**
+        * Charge la liste des entreprises.
+        */
+        loadInitialCompanies() {
+          this.companyService.getCompanies() 
+          .subscribe(companies => this.companies = companies);
+        }
+        
+        /**
+        * Filtre la liste des entreprises en fonction de la valeur saisie dans le champ de recherche.
+        * @param val La valeur saisie dans le champ de recherche.
+        * @returns Un Observable contenant un tableau d'entreprises filtrées.
+        */
+        filterCompanies(val: string): Observable<any[]> {
+          return this.companyService.searchCompanies(val);
+        }
+        
+        /**
+        * Ajoute une nouvelle entreprise à la liste des entreprises si elle n'existe pas déjà.
+        * Cette fonction est appelée lorsque le champ de recherche perd le focus. et permet
+        * à l'utilisateur d'ajouter une nouvelle entreprise à la liste, et donc de conserver
+        * le nom d'une nouvelle entreprise dans le formulaire.
+        * @param event L'événement de saisie dans le champ de recherche.
+        */
+        onCompanyInputBlur(event: any): void {
+          console.log("onCompanyInputBlur");
+          const inputValue = event.target.value;
+          if (inputValue && !this.companies.includes(inputValue)) {
+            // Ajoute inputValue à la liste des entreprises
+            this.companies = [...this.companies, inputValue];
+            // S'assure que la valeur est sélectionnée
+            this.userForm.get('company').setValue(inputValue);
+          }
+        }
 
-  validateChanges(){}
-  resetPassword(){}
-}
+        openConfirmationModalForModification(content: any) {
+          if (this.userForm.valid) {
+            const modalRef = this.modalService.open(content);
+            modalRef.result.then((result) => {
+              if (result === 'Confirm') {
+                // Logique de confirmation (par exemple, enregistrer les modifications)
+                this.validateUserModification();
+              }
+            }, (reason) => {
+              // Logique en cas d'annulation ou de fermeture du modal
+            });
+          }
+        }
+
+        openDeleteConfirmationModal(deleteModal: any) {
+          this.confirmationInput = ''; // Réinitialiser le texte de confirmation
+          this.modalService.open(deleteModal);
+        }
+      
+        confirmDeletion() {
+          if (this.confirmationInput === (this.user?.firstName + ' ' + this.user?.lastName)) {
+            // Logique de suppression de l'utilisateur
+            // Par exemple: this.userProfileService.deleteUser(this.user.id).subscribe(...);
+            console.log('Utilisateur supprimé');
+          } else {
+            console.log('Texte de confirmation incorrect');
+          }
+        }
+
+        isTextMatching(): boolean {
+          return this.confirmationInput === (this.user?.firstName + ' ' + this.user?.lastName);
+        }
+        
+        
+        validateUserModification() {
+          console.log("validateUserModification");
+          if (this.userForm.valid) {
+            let updatedUser = new User();
+            updatedUser.id = this.user.id;
+            updatedUser.firstName = this.userForm.get('firstName').value;
+            updatedUser.lastName = this.userForm.get('lastName').value;
+            updatedUser.email = this.userForm.get('email').value;
+            updatedUser.role = this.userForm.get('role').value;
+            updatedUser.company = this.userForm.get('company').value;
+            updatedUser.phone = this.userForm.get('phone').value;
+            updatedUser.active = this.userForm.get('status').value;
+            updatedUser.authorized_connection = this.userForm.get('authorized_connection').value;
+            updatedUser.address = this.userForm.get('address').value;
+            console.log("Utilisateur prêt à être mis à jour: ", updatedUser);
+            this.userProfileService.update(this.user.id, updatedUser).subscribe(
+              response => {
+                console.log('Mise à jour réussie', response);
+                this.successMessage = 'Utilisateur mis à jour avec succès.';
+                this.editMode = false;
+              },
+              error => {
+                console.error('Erreur lors de la mise à jour', error);
+                this.errorMessage = 'Erreur lors de la mise à jour de l’utilisateur.';
+              }
+            );
+          } else {
+            this.errorMessage = 'Veuillez remplir correctement le formulaire.';
+          }
+        }
+        
+
+        validateUserDeletion() {
+          if (this.confirmationInput === (this.user?.firstName + ' ' + this.user?.lastName)) {
+            this.userProfileService.delete(this.user.id).subscribe(
+              response => {
+                console.log('Suppression réussie', response);
+                this.successMessage = 'Utilisateur supprimé avec succès.';
+                // Rediriger ou rafraîchir la liste des utilisateurs ici
+              },
+              error => {
+                console.error('Erreur lors de la suppression', error);
+                this.errorMessage = 'Erreur lors de la suppression de l’utilisateur.';
+              }
+            );
+          } else {
+            this.errorMessage = 'Confirmation incorrecte.';
+          }
+        }
+        
+
+        openResetPasswordModal(resetPasswordModal: any) {
+          const modalRef = this.modalService.open(resetPasswordModal);
+          modalRef.result.then((result) => {
+              // Gérer la confirmation ici
+          }, (reason) => {
+              // Gérer l'annulation ici
+          });
+      }
+
+        resetPassword(){}
+      }

@@ -1,0 +1,41 @@
+.ng-dirty:not(form) {
+    border: 2px solid #007bff; /* couleur bleue de Bootstrap pour 'info' */
+}
+
+.ng-dirty.ng-invalid:not(form) {
+    border-color: #dc3545; /* couleur rouge de Bootstrap pour 'danger' */
+}
+
+.role-badge {
+    padding: 2px 5px;
+    border-radius: 15px;
+    color: var(--bs-white);
+    font-weight: bold;
+    
+    &.badge-superadmin { background-color: #e74c3c; } // Rouge pour superAdmin
+    &.badge-cocontractor { background-color: #3498db; } // Bleu pour cocontractor
+    &.badge-subcontractor { background-color: #2ecc71; } // Vert pour subcontractor
+    &.badge-customer { background-color: #f1c40f; } // Jaune pour customer
+    &.badge-comanager { background-color: #9b59b6; } // Violet pour comanager
+    &.badge-supermanager { background-color: #95a5a6; } // Gris pour supermanager
+}
+
+.input-group .input-group-append .input-group-text {
+    padding: 0.75rem 0.75rem; /* Ajuster cette valeur pour correspondre à la hauteur du champ */
+    height: auto; /* Permettre au bouton de s'ajuster à la hauteur du champ */
+}
+
+.input-group .form-control {
+    height: auto; /* Assurez-vous que la hauteur du champ de saisie s'ajuste au contenu */
+}
+
+.modified-field,
+.modified-field th,
+.modified-field td {
+    font-weight: bold;
+    color: #ffffff !important;
+    background-color: #dc3545;
+}
+
+
+

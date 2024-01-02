@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const mongoose = require('mongoose');
 
 console.log('Importation du authController');
 
@@ -130,6 +131,56 @@ exports.getUserById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Fonction pour modifier un utilisateur
+exports.updateUser = async (req, res) => {
+  console.log('Modification de l’utilisateur');
+  console.log('Request :', req);
+  console.log('Request body:', req.body);
+  console.log('Request params:', req.params);
+  try {
+    console.log('Modification de l’utilisateur');
+    const { userId } = req.params;
+    const { email, firstname, lastname, phone, company, role, active, authorized_connection } = req.body;
+    console.log('User id:', userId);
+    // Mise à jour de l'utilisateur
+    const updatedUser = await User.findByIdAndUpdate(new mongoose.Types.ObjectId(userId), {
+      email, firstname, lastname, phone, company, role, active, authorized_connection
+    }, { new: true });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+    }
+
+    console.log('Utilisateur modifié avec succès');
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Erreur lors de la modification de l’utilisateur:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+// Fonction pour supprimer un utilisateur
+exports.deleteUser = async (req, res) => {
+  try {
+    console.log('Suppression de l’utilisateur');
+    const { userId } = req.params;
+
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+    }
+
+    console.log('Utilisateur supprimé avec succès');
+    res.status(200).json({ message: 'Utilisateur supprimé avec succès.' });
+  } catch (error) {
+    console.error('Erreur lors de la suppression de l’utilisateur:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 
 
 //// ENTREPRISES TEST
