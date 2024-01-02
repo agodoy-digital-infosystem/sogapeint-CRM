@@ -12,6 +12,7 @@ import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChang
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 
 
@@ -42,7 +43,8 @@ export class UserDetailComponent implements OnInit {
     private userProfileService: UserProfileService,
     private companyService: CompanyService,
     private modalService: NgbModal,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
     ) {
       this.route.params.subscribe(params => {
         this.id = params['userId'];
@@ -231,6 +233,19 @@ export class UserDetailComponent implements OnInit {
           if (this.confirmationInput === (this.user?.firstName + ' ' + this.user?.lastName)) {
             // Logique de suppression de l'utilisateur
             // Par exemple: this.userProfileService.deleteUser(this.user.id).subscribe(...);
+            this.userProfileService.delete(this.user.id).subscribe(
+              response => {
+                console.log('Suppression réussie', response);
+                this.successMessage = 'Utilisateur supprimé avec succès.';
+                // Rediriger vers la liste des utilisateurs ici
+                this.router.navigate(['/manageUsers']);
+
+              },
+              error => {
+                console.error('Erreur lors de la suppression', error);
+                this.errorMessage = 'Erreur lors de la suppression de l’utilisateur.';
+              }
+            );
             console.log('Utilisateur supprimé');
           } else {
             console.log('Texte de confirmation incorrect');
@@ -261,7 +276,10 @@ export class UserDetailComponent implements OnInit {
               response => {
                 console.log('Mise à jour réussie', response);
                 this.successMessage = 'Utilisateur mis à jour avec succès.';
-                this.editMode = false;
+                // this.editMode = false;
+                this._fetchData(this.user.id);
+                this.disableEditMode();
+                
               },
               error => {
                 console.error('Erreur lors de la mise à jour', error);
@@ -274,23 +292,23 @@ export class UserDetailComponent implements OnInit {
         }
         
 
-        validateUserDeletion() {
-          if (this.confirmationInput === (this.user?.firstName + ' ' + this.user?.lastName)) {
-            this.userProfileService.delete(this.user.id).subscribe(
-              response => {
-                console.log('Suppression réussie', response);
-                this.successMessage = 'Utilisateur supprimé avec succès.';
-                // Rediriger ou rafraîchir la liste des utilisateurs ici
-              },
-              error => {
-                console.error('Erreur lors de la suppression', error);
-                this.errorMessage = 'Erreur lors de la suppression de l’utilisateur.';
-              }
-            );
-          } else {
-            this.errorMessage = 'Confirmation incorrecte.';
-          }
-        }
+        // validateUserDeletion() {
+        //   if (this.confirmationInput === (this.user?.firstName + ' ' + this.user?.lastName)) {
+        //     this.userProfileService.delete(this.user.id).subscribe(
+        //       response => {
+        //         console.log('Suppression réussie', response);
+        //         this.successMessage = 'Utilisateur supprimé avec succès.';
+        //         // Rediriger ou rafraîchir la liste des utilisateurs ici
+        //       },
+        //       error => {
+        //         console.error('Erreur lors de la suppression', error);
+        //         this.errorMessage = 'Erreur lors de la suppression de l’utilisateur.';
+        //       }
+        //     );
+        //   } else {
+        //     this.errorMessage = 'Confirmation incorrecte.';
+        //   }
+        // }
         
 
         openResetPasswordModal(resetPasswordModal: any) {

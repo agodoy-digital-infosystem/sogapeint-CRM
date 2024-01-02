@@ -134,7 +134,7 @@ export class CreateUserComponent implements OnInit {
         },
         error: (error) => {
           console.error('Erreur lors de la création de l\'utilisateur:', error);
-          this.errorMessage = 'Erreur lors de la création de l\'utilisateur';
+          this.errorMessage = 'Erreur lors de la création de l\'utilisateur : '+error;
         },
         complete: () => {
           console.log('Création de l\'utilisateur terminée');

@@ -324,7 +324,7 @@
                 <button 
                     type="button" 
                     class="btn btn-danger" 
-                    (click)="confirmDeletion()" 
+                    (click)="confirmDeletion();modal.close()" 
                     ngbTooltip="Un petit clic pour une grande conséquence..." 
                     *ngIf="isTextMatching()"
                 >Confirmer la Suppression</button>
