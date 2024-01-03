@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
@@ -43,9 +43,11 @@ export class LoginComponent implements OnInit {
    */
   ngOnInit() {
     // Initialisation du formulaire de connexion
-    this.loginForm = this.formBuilder.group({
-      email: ['admin@sogapeint.corp', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
+    // this.loginForm = this.formBuilder.group({
+      this.loginForm = new FormGroup({
+      email: new FormControl('admin@sogapeint.corp', [Validators.required, Validators.email]),
+      password: new FormControl('123456', [Validators.required]),
+      rememberMe: new FormControl(false)
     });
 
     // Récupération de l'URL de retour après la connexion
