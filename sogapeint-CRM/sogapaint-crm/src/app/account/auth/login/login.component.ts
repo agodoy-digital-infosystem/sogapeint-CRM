@@ -50,6 +50,11 @@ export class LoginComponent implements OnInit {
       rememberMe: new FormControl(false)
     });
 
+    // Écoute les changements sur le champ 'rememberMe'
+    this.loginForm.get('rememberMe').valueChanges.subscribe(value => {
+      this.rememberMe = value;
+    });
+
     // Récupération de l'URL de retour après la connexion
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
@@ -74,7 +79,7 @@ export class LoginComponent implements OnInit {
       return;
     } else {
       // Appel au service d'authentification
-      this.authenticationService.login(this.f.email.value, this.f.password.value, this.rememberMe)
+      this.authenticationService.login(this.f.email.value, this.f.password.value, this.f.rememberMe.value)
         .pipe(first())
         .subscribe(
           data => {

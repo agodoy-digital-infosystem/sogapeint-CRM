@@ -46,6 +46,7 @@ exports.login = async (req, res) => {
     // const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
     // Vérifie si l'utilisateur a coché "Se souvenir de moi"
   const expiresIn = req.body.rememberMe ? '7d' : '1h'; // 7 jours si "Se souvenir de moi" est coché, sinon 1 heure
+  console.log('Expiration du token:', expiresIn);
 
   const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: expiresIn });
 

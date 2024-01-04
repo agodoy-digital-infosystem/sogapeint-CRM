@@ -292,23 +292,6 @@ export class UserDetailComponent implements OnInit {
         }
         
 
-        // validateUserDeletion() {
-        //   if (this.confirmationInput === (this.user?.firstName + ' ' + this.user?.lastName)) {
-        //     this.userProfileService.delete(this.user.id).subscribe(
-        //       response => {
-        //         console.log('Suppression réussie', response);
-        //         this.successMessage = 'Utilisateur supprimé avec succès.';
-        //         // Rediriger ou rafraîchir la liste des utilisateurs ici
-        //       },
-        //       error => {
-        //         console.error('Erreur lors de la suppression', error);
-        //         this.errorMessage = 'Erreur lors de la suppression de l’utilisateur.';
-        //       }
-        //     );
-        //   } else {
-        //     this.errorMessage = 'Confirmation incorrecte.';
-        //   }
-        // }
         
 
         openResetPasswordModal(resetPasswordModal: any) {
