@@ -25,3 +25,31 @@ table > tbody > tr > td {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.cell-centered {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.active-icon {
+  font-size: 25px;
+}
+
+.role-badge {
+  padding: 2px 5px;
+  border-radius: 15px;
+  color: var(--bs-white);
+  font-weight: bold;
+  
+  &.badge-superadmin { background-color: #e74c3c; } // Rouge pour superAdmin
+  &.badge-cocontractor { background-color: #3498db; } // Bleu pour cocontractor
+  &.badge-subcontractor { background-color: #2ecc71; } // Vert pour subcontractor
+  &.badge-customer { background-color: #f1c40f; } // Jaune pour customer
+  &.badge-comanager { background-color: #9b59b6; } // Violet pour comanager
+  &.badge-supermanager { background-color: #95a5a6; } // Gris pour supermanager
+}
+
+td {
+  // vertical-align: middle;
+  cursor: pointer;
+}

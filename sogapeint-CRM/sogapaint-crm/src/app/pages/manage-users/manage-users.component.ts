@@ -36,6 +36,7 @@ export class ManageUsersComponent implements OnInit {
     { name: 'role', displayName: 'Rôle' },
     { name: 'company', displayName: 'Entreprise' },
     { name: 'phone', displayName: 'Téléphone' },
+    { name: 'active', displayName: 'Actif' },
     // Ajoutez d'autres colonnes au besoin
   ];
 
@@ -137,5 +138,17 @@ export class ManageUsersComponent implements OnInit {
     this.router.navigate(['/user-detail', user._id]);
   }
   
+  formatPhoneNumber(phoneNumber: string): string {
+    // Supprime tout caractère non numérique, sauf le signe plus pour les indicatifs internationaux
+    const cleaned = ('' + phoneNumber).replace(/\D/g, '');
+    // Format de base: suppose qu'il s'agit d'un numéro français sans l'indicatif international
+    let formatted = cleaned.match(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/);
+    if (formatted) {
+      // Retourne le numéro formaté (par exemple, "01 23 45 67 89")
+      return `${formatted[1]} ${formatted[2]} ${formatted[3]} ${formatted[4]} ${formatted[5]}`;
+    }
+    // Si le format ne correspond pas, retourne le numéro original
+    return phoneNumber;
+  }
   
 }
