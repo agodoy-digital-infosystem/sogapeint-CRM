@@ -195,15 +195,19 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   addDocumentationLinkIfSuperAdmin() {
-    const user = this.userProfileService.getCurrentUser(); // Obtenez les informations de l'utilisateur actuel
+    const user = this.userProfileService.getCurrentUser(); // Obtient les informations de l'utilisateur actuel
     if (user && user.role === 'superAdmin') {
-      // Ajoutez l'élément de menu pour la documentation si l'utilisateur est un superAdmin
-      this.menuItems.push({
-        id: 666, /* un nouvel ID unique */
-        label: 'Documentation',
-        icon: 'ri-file-text-line', /* icône de documentation */
-        link: '/documentation'
-      });
+      // Vérifie si l'élément de menu "Documentation" existe déjà pour éviter les doublons
+      const documentationExists = this.menuItems.some(item => item.id === 666); // Utilise l'ID  attribué au lien de la documentation
+      if (!documentationExists) {
+        // Ajoute l'élément de menu pour la documentation si l'utilisateur est un superAdmin et s'il n'existe pas déjà
+        this.menuItems.push({
+          id: 666, // Un ID unique pour l'élément de menu Documentation
+          label: 'Documentation',
+          icon: 'ri-file-text-line', // icône de documentation
+          link: '/documentation'
+        });
+      }
     }
   }
 
