@@ -116,14 +116,20 @@ export class ManageUsersComponent implements OnInit {
    * Filtre les utilisateurs en fonction du terme de recherche.
    */
   onSearch(): void {
+    console.log("onSearch");
     if (!this.filter) {
       this.filteredUsers = this.users; // Pas de filtre, affiche tous les utilisateurs
     } else {
       this.filteredUsers = this.users.filter(user => {
         const searchTerm = this.filter.toLowerCase();
+        // return this.columns.some(column => {
+        //   const userData = user[column.name];
+        //   return userData && userData.toLowerCase().includes(searchTerm);
+        // });
         return this.columns.some(column => {
           const userData = user[column.name];
-          return userData && userData.toLowerCase().includes(searchTerm);
+          // Convertit toutes les valeurs en chaînes avant de les comparer
+          return String(userData).toLowerCase().includes(searchTerm);
         });
       });
     }

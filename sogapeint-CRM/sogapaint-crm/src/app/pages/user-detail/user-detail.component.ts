@@ -297,11 +297,30 @@ export class UserDetailComponent implements OnInit {
         openResetPasswordModal(resetPasswordModal: any) {
           const modalRef = this.modalService.open(resetPasswordModal);
           modalRef.result.then((result) => {
-              // Gérer la confirmation ici
+            if (result === 'Confirm') {
+              this.resetPassword();
+            }
           }, (reason) => {
-              // Gérer l'annulation ici
+            // Modal dismissed
           });
-      }
+        }
 
-        resetPassword(){}
+        resetPassword() {
+          console.log("resetPassword");
+          console.log("Utilisateur à réinitialiser: ", this.user);
+          console.log("user id: ", this.user.id );
+          this.userProfileService.resetPasswordByAdmin(this.user.id).subscribe({
+            next: (response) => {
+              // Affiche un message de succès :
+              this.successMessage = 'Mot de passe réinitialisé avec succès et e-mail envoyé.';
+              this.modalService.dismissAll();
+              this.disableEditMode();
+            },
+            error: (error) => {
+              // Affiche un message d'erreur:
+              this.errorMessage = 'Erreur lors de la réinitialisation du mot de passe: ' + error?.error?.message ?? ' ';
+              
+            }
+          });
+        }
       }

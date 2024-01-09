@@ -96,4 +96,15 @@ export class UserProfileService {
     delete(userId: string) {
         return this.http.delete(`${environment.apiUrl}/api/auth/user/${userId}`);
     }
+
+    /**
+     * Réinitialise le mot de passe d'un utilisateur par un administrateur.
+     *
+     * Envoie une requête POST au backend pour réinitialiser le mot de passe d'un utilisateur spécifique.
+     * @param userId L'identifiant de l'utilisateur dont le mot de passe doit être réinitialisé.
+     * @returns Un Observable pour la réponse de la requête.
+     */
+    resetPasswordByAdmin(userId: string) {
+        return this.http.post(`${environment.apiUrl}/api/auth/resetPasswordFromAdmin`, { userId });
+    }
 }

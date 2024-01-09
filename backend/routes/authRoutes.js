@@ -35,6 +35,9 @@ router.delete('/user/:userId', isAdminOrSuperAdmin, authController.deleteUser);
 // Route pour la connexion
 router.post('/login',loginLimiter, authController.login);
 
+// Route pour la réinitialisation du mot de passe par un administrateur
+router.post('/resetPasswordFromAdmin', isAdminOrSuperAdmin, authController.resetPasswordFromAdmin);
+
 
 //// ENTREPRISES 
 // Route pour obtenir la liste de toutes les entreprises

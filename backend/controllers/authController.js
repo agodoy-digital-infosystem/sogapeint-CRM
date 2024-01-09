@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
+const { sendEmail } = require('../services/emailService');
 
 console.log('Importation du authController');
 
@@ -62,6 +64,41 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     console.error('Erreur lors de la connexion:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// réinitialisation du mot de passe par un super admin
+exports.resetPasswordFromAdmin = async (req, res) => {
+  try {
+    console.log('Réinitialisation du mot de passe');
+    console.log('Request :', req);
+    console.log('Request body:', req.body);
+    console.log('Request params:', req.params);
+    const { userId } = req.body;
+    const newPassword = Math.random().toString(36).slice(-10); // Génération d'un mot de passe aléatoire
+
+    console.log('User id:', userId);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const updatedUser = await User.findByIdAndUpdate(
+      new mongoose.Types.ObjectId(userId),
+      { password: hashedPassword },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+    }
+
+    // Envoi de l'e-mail avec le nouveau mot de passe
+    await sendEmail(updatedUser.email, 'Réinitialisation du mot de passe', {
+      password: newPassword // Assurez-vous que le template contient {{password}} là où le mot de passe doit être affiché
+    });
+
+    console.log('Mot de passe réinitialisé avec succès');
+    res.status(200).json({ message: 'Mot de passe réinitialisé avec succès et e-mail envoyé.' });
+  } catch (error) {
+    console.error('Erreur lors de la réinitialisation du mot de passe:', error);
     res.status(500).json({ error: error.message });
   }
 };
