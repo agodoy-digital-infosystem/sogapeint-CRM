@@ -4,6 +4,7 @@ const User = require('../models/User');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const { sendEmail } = require('../services/emailService');
+const crypto = require('crypto');
 
 console.log('Importation du authController');
 
@@ -90,15 +91,139 @@ exports.resetPasswordFromAdmin = async (req, res) => {
       return res.status(404).json({ message: 'Utilisateur non trouvé.' });
     }
 
+    // Capitalise la première lettre du prénom et met le reste en minuscule
+    const formatFirstName = updatedUser.firstname.charAt(0).toUpperCase() + updatedUser.firstname.slice(1).toLowerCase();
+
+    // Met le nom de famille en majuscule
+    const formatLastName = updatedUser.lastname.toUpperCase();
     // Envoi de l'e-mail avec le nouveau mot de passe
     await sendEmail(updatedUser.email, 'Réinitialisation du mot de passe', {
-      password: newPassword // Assurez-vous que le template contient {{password}} là où le mot de passe doit être affiché
-    });
+      password: newPassword,
+      CRM_URL: process.env.CRM_URL,
+      firstname: formatFirstName,
+      lastname: formatLastName
+    },
+    "passwordResetFromAdminTemplate"
+    );
 
     console.log('Mot de passe réinitialisé avec succès');
     res.status(200).json({ message: 'Mot de passe réinitialisé avec succès et e-mail envoyé.' });
   } catch (error) {
     console.error('Erreur lors de la réinitialisation du mot de passe:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Réinitialisation du mot de passe par l'utilisateur
+// exports.resetPasswordFromUser = async (req, res) => {
+//   try {
+//     // CODE A COMPLETER
+//   } catch (error) {
+//     console.error('Erreur lors de la réinitialisation du mot de passe:', error);
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
+// Fonction pour demander la réinitialisation du mot de passe par un utilisateur
+exports.forgotPassword = async (req, res) => {
+  console.log('Demande de réinitialisation du mot de passe');
+  console.log('Request :', req);
+  console.log('Request body:', req.body);
+  console.log('Request params:', req.params);
+  try {
+    const { email } = req.body;
+    // Vérifier si l'utilisateur existe dans la base de données
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "Aucun utilisateur trouvé avec cet e-mail." });
+    }
+
+    // Générer un code de réinitialisation aléatoire
+    const resetCode = crypto.randomBytes(4).toString('hex');
+    const resetCodeExpiry = new Date(Date.now() + 3600000); // Code valide pour 1 heure
+
+    // Sauvegarder le code et sa date d'expiration dans la base de données
+    await User.findByIdAndUpdate(user._id, { resetCode, resetCodeExpiry });
+
+    // Capitalise la première lettre du prénom et met le reste en minuscule
+    const formatFirstName = user.firstname.charAt(0).toUpperCase() + user.firstname.slice(1).toLowerCase();
+
+    // Met le nom de famille en majuscule
+    const formatLastName = user.lastname.toUpperCase();
+
+    // Envoyer le code à l'utilisateur par e-mail
+    await sendEmail(user.email, 'Code de réinitialisation du mot de passe', {
+      resetCode: resetCode,
+      firstname: formatFirstName,
+      lastname: formatLastName 
+    },
+    'passwordResetCodeTemplate'
+    );
+
+    res.status(200).json({ message: "Un e-mail avec un code de réinitialisation a été envoyé." });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Fonction pour vérifier le code de réinitialisation
+exports.verifyResetCode = async (req, res) => {
+  console.log('Vérification du code de réinitialisation');
+  console.log('Request :', req);
+  console.log('Request body:', req.body);
+  console.log('Request params:', req.params);
+  try {
+    const { email, code } = req.body;
+    console.log('Email:', email);
+    console.log('Code:', code);
+    // Vérifier si le code et l'email correspondent et si le code n'a pas expiré
+    const user = await User.findOne({
+      email,
+      resetCode: code,
+      resetCodeExpiry: { $gt: Date.now() }
+    });
+
+    // const userTest = await User.findOne({
+    //   email
+    // });
+    // console.log('User:', userTest);
+
+    if (!user) {
+      return res.status(400).json({ message: "Code de réinitialisation invalide ou expiré." });
+    }
+
+    res.status(200).json({ message: "Le code de réinitialisation est valide.", userId: user._id });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Fonction pour réinitialiser le mot de passe
+exports.resetPassword = async (req, res) => {
+  console.log('Réinitialisation du mot de passe');
+  try {
+    const { email, code, newPassword } = req.body;
+    console.log('email:', email);
+    console.log('code:', code);
+    // console.log('New password:', newPassword);
+
+    // Vérifier si le code et l'email correspondent et si le code n'a pas expiré
+    const user = await User.findOne({
+      email,
+      resetCode: code,
+      resetCodeExpiry: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Code de réinitialisation invalide ou expiré." });
+    }
+
+    // Hasher le nouveau mot de passe avant de le sauvegarder
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await User.findByIdAndUpdate(user._id, { password: hashedPassword, resetCode: null, resetCodeExpiry: null });
+
+    res.status(200).json({ message: "Mot de passe réinitialisé avec succès." });
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };

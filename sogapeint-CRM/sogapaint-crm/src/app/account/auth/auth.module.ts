@@ -17,6 +17,7 @@ import { SignupComponent } from './signup/signup.component';
 import { PasswordresetComponent } from './passwordreset/passwordreset.component';
 
 import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Module d'authentification.
@@ -46,7 +47,10 @@ import { FormsModule } from '@angular/forms';
     AuthRoutingModule,
 
     // FormsModule pour la gestion des formulaires
-    FormsModule
+    FormsModule,
+
+    // NgbTooltipModule pour utiliser les tooltips Bootstrap
+    NgbTooltipModule
   ],
 
   // CUSTOM_ELEMENTS_SCHEMA permet l'utilisation de balises personnalisées

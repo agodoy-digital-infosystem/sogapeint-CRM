@@ -107,4 +107,34 @@ export class UserProfileService {
     resetPasswordByAdmin(userId: string) {
         return this.http.post(`${environment.apiUrl}/api/auth/resetPasswordFromAdmin`, { userId });
     }
+
+    
+    /**
+     * Méthode pour demander la réinitialisation du mot de passe
+     * 
+     * Envoie une requête POST au backend pour demander la réinitialisation du mot de passe
+     * @param email L'email de l'utilisateur
+     * @returns Un Observable pour la réponse de la requête.
+     */
+    requestPasswordReset(email: string) {
+        return this.http.post(`${environment.apiUrl}/api/auth/forgotPassword`, { email });
+    }
+
+    
+    /**
+     * Méthode pour vérifier le code de réinitialisation
+     * 
+     * Envoie une requête POST au backend pour vérifier le code de réinitialisation
+     * @param email L'email de l'utilisateur
+     * @param code Le code de réinitialisation reçu par email
+     * @returns Un Observable pour la réponse de la requête.
+     */
+    verifyResetCode(email: string, code: string) {
+        return this.http.post(`${environment.apiUrl}/api/auth/verifyResetCode`, { email, code });
+    }
+
+    // Méthode pour réinitialiser le mot de passe avec le code de vérification
+    resetPassword(email: string, code: string, newPassword: string) {
+        return this.http.post(`${environment.apiUrl}/api/auth/resetPassword`, { email, code, newPassword });
+    }
 }

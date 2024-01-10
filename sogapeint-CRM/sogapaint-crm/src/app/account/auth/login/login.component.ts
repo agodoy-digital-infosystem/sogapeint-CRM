@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   year: number = new Date().getFullYear();
   rememberMe: boolean = false;
+  fieldsEmptyied: boolean = false;
 
   /**
    * Constructeur du composant
@@ -90,6 +91,17 @@ export class LoginComponent implements OnInit {
             // Affichage d'un message d'erreur en cas d'échec
             this.error = error ? error : '';
           });
+    }
+  }
+
+  /**
+   * Méthode pour vider les champs du formulaire lors du premier clic
+   * 
+   */
+  onFirstClick() {
+    if (!this.fieldsEmptyied) {
+      this.loginForm.reset();
+      this.fieldsEmptyied = true;
     }
   }
 }

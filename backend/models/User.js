@@ -23,7 +23,15 @@ const userSchema = new mongoose.Schema({
     customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: false },
     bgcolor: String,
     dateUpd: { type: Date, default: Date.now },
-    dateAdd: { type: Date, default: Date.now }
+    dateAdd: { type: Date, default: Date.now },
+    resetCode: {
+        type: String,
+        required: false
+    },
+    resetCodeExpiry: {
+        type: Date,
+        required: false
+    }
 });
 
 module.exports = mongoose.model('User', userSchema);

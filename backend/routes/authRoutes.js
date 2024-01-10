@@ -38,6 +38,15 @@ router.post('/login',loginLimiter, authController.login);
 // Route pour la réinitialisation du mot de passe par un administrateur
 router.post('/resetPasswordFromAdmin', isAdminOrSuperAdmin, authController.resetPasswordFromAdmin);
 
+// Route pour demander la réinitialisation du mot de passe par un utilisateur
+router.post('/forgotPassword', authController.forgotPassword);
+
+// Route pour vérifier le code de réinitialisation
+router.post('/verifyResetCode', authController.verifyResetCode);
+
+// Route pour réinitialiser le mot de passe
+router.post('/resetPassword', authController.resetPassword);
+
 
 //// ENTREPRISES 
 // Route pour obtenir la liste de toutes les entreprises

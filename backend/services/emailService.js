@@ -28,12 +28,12 @@ const readTemplate = (templateName, replacements) => {
 
 
 // Fonction pour envoyer l'e-mail
-const sendEmail = async (to, subject, replacements) => {
+const sendEmail = async (to, subject, replacements, templateName) => {
     console.log('Envoi d\'un e-mail');
     console.log('To:', to);
     console.log('Subject:', subject);
     console.log('Replacements:', replacements);
-    const htmlContent = readTemplate('passwordResetFromAdminTemplate', replacements);
+    const htmlContent = readTemplate(templateName, replacements);
     console.log('HTML content:', htmlContent);
   
     const mailOptions = {

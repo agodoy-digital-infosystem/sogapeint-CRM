@@ -29,8 +29,15 @@
                         <div class="form-group auth-form-group-custom mb-4">
                           <i class="ri-user-2-line auti-custom-input-icon"></i>
                           <label for="email">Email</label>
-                          <input type="email" formControlName="email" class="form-control" id="email" placeholder="Email"
-                            [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                          <input 
+                            type="email" 
+                            formControlName="email" 
+                            class="form-control" 
+                            id="email" 
+                            placeholder="Email"
+                            [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                            (click)="onFirstClick()"
+                          >
                           <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                             <div *ngIf="f.email.errors.required">L'adresse e-mail est requise</div>
                             <div *ngIf="f.email.errors.email">L'adresse e-mail doit être valide</div>
@@ -40,8 +47,15 @@
                         <div class="form-group auth-form-group-custom mb-4">
                           <i class="ri-lock-2-line auti-custom-input-icon"></i>
                           <label for="password">Password</label>
-                          <input type="password" formControlName="password" class="form-control" id="password"
-                            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Password" />
+                          <input 
+                            type="password" 
+                            formControlName="password" 
+                            class="form-control" 
+                            id="password"
+                            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" 
+                            placeholder="Password"
+                            (click)="onFirstClick()" 
+                          />
                           <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                             <div *ngIf="f.password.errors.required">Le mot de passe est requis</div>
                           </div>
@@ -49,7 +63,12 @@
   
                         <div class="form-check">
                           <!-- <input type="checkbox" class="form-check-input" id="customControlInline" [(ngModel)]="rememberMe" name="rememberMe"> -->
-                          <input type="checkbox" class="form-check-input" id="customControlInline" formControlName="rememberMe">
+                          <input 
+                            type="checkbox" 
+                            class="form-check-input" 
+                            id="customControlInline" 
+                            formControlName="rememberMe"
+                          >
                           <label class="form-check-label" for="customControlInline">Se souvenir de moi</label>
                         </div>
   
