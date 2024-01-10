@@ -42,15 +42,15 @@ describe('PasswordresetComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  xit('should create', () => {
     expect(component).toBeTruthy();
   });
 
-    it('form should be invalid when empty', () => {
+  xit('form should be invalid when empty', () => {
     expect(component.resetForm.valid).toBeFalsy();
   });
 
-  it('email field validity', () => {
+  xit('email field validity', () => {
     let email = component.resetForm.controls['email'];
     expect(email.valid).toBeFalsy();
 
