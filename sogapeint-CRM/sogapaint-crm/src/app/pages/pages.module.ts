@@ -16,16 +16,24 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 
 import { IconsModule } from './icons/icons.module';
 
+
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import { ManageCompaniesComponent } from './manage-companies/manage-companies.component';
+// import { LandingPageComponent } from './landing-page/landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
 
 
 
 @NgModule({
-  // declarations: [DashboardComponent, CalendarComponent, ChatComponent, KanbanComponent],
-  declarations: [ManageUsersComponent, CreateUserComponent, UserDetailComponent],
+  declarations: [
+    ManageUsersComponent, 
+    CreateUserComponent, 
+    UserDetailComponent, 
+    ManageCompaniesComponent, 
+    // LandingPageComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,

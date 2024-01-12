@@ -58,7 +58,7 @@ export class CreateUserComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      role: ['customer', Validators.required], // la valeur par défaut est 'user'
+      role: ['customer', Validators.required], // la valeur par défaut est 'customer'
       status: true, // la valeur par défaut est 'active'
       authorized: true, // la valeur par défaut est 'authorized',
       phone: ['', [Validators.required, Validators.pattern(phoneRegex)]],
@@ -130,7 +130,7 @@ export class CreateUserComponent implements OnInit {
           console.log('Utilisateur créé avec succès:', data);
           this.successMessage = 'Utilisateur créé avec succès';
           // Rediriger l'utilisateur vers la page de gestion des utilisateurs
-          this.router.navigate(['/manage-users'])
+          this.router.navigate(['/user-detail/'+data.userId])
         },
         error: (error) => {
           console.error('Erreur lors de la création de l\'utilisateur:', error);

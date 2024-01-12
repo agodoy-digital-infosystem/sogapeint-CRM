@@ -2,9 +2,16 @@
     <app-pagetitle title="Contact" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
     <div class="container mt-4">
         
-        <div class="alert alert-danger" role="alert">
+        <!-- <div class="alert alert-danger" role="alert">
             <strong>Attention !</strong> Ce composant est encore en construction. Portez un casque de sécurité !
-        </div>
+        </div> -->
+        <!-- Messages (erreur/succès)-->
+        <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = ''">
+            {{ successMessage }}
+          </ngb-alert>
+          <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = ''">
+            {{ errorMessage }}
+          </ngb-alert>
 
         <div class="card">
             <div class="card-header">

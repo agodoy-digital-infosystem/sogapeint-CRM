@@ -27,6 +27,21 @@ export const MENU: MenuItem[] = [
         icon: 'ri-contacts-book-upload-line',
         link: '/createUser'
     },
+
+    {
+        id: 3,
+        label: 'Gestion des entreprises',
+        icon: 'ri-building-2-line',
+        link: '/manageCompanies'
+    },
+
+    {
+        id: 4,
+        label: 'FAQ',
+        icon: 'ri-question-answer-line',
+        link: '/FAQ'
+    },
+
     
     // {
     //     id: 3,

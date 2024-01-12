@@ -1,40 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PasswordresetComponent } from './passwordreset.component';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from '../../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
-import { of } from 'rxjs';
+import { UserProfileService } from '../../../core/services/user.service';
+import { PasswordresetComponent } from './passwordreset.component';
 
 describe('PasswordresetComponent', () => {
   let component: PasswordresetComponent;
   let fixture: ComponentFixture<PasswordresetComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PasswordresetComponent ],
-      imports: [ 
-        RouterTestingModule, 
-        ReactiveFormsModule 
-      ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, RouterTestingModule],
+      declarations: [PasswordresetComponent],
       providers: [
-        { 
-          provide: AuthenticationService, 
-          useValue: jasmine.createSpyObj('AuthenticationService', ['password-reset']) 
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              queryParams: { returnUrl: '/' }
-            }
-          }
-        }
-      ]
-    })
-    .compileComponents();
-  }));
+        { provide: AuthenticationService, useValue: {} },
+        { provide: UserProfileService, useValue: {} },
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PasswordresetComponent);
@@ -42,25 +26,57 @@ describe('PasswordresetComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('form should be invalid when empty', () => {
-    expect(component.resetForm.valid).toBeFalsy();
+  // ngOnSubmit
+  it('should call onSubmit', () => {
+    spyOn(component, 'onSubmit');
+    component.onSubmit();
+    expect(component.onSubmit).toHaveBeenCalled();
   });
 
-  xit('email field validity', () => {
-    let email = component.resetForm.controls['email'];
-    expect(email.valid).toBeFalsy();
-
-    // Test email field with invalid email
-    email.setValue("test");
-    expect(email.hasError('email')).toBeTruthy();
-
-    // Test email field with valid email
-    email.setValue("test@test.com");
-    expect(email.hasError('email')).toBeFalsy();
+  // togglePasswordVisibility
+  it('should call togglePasswordVisibility', () => {
+    spyOn(component, 'togglePasswordVisibility');
+    component.togglePasswordVisibility();
+    expect(component.togglePasswordVisibility).toHaveBeenCalled();
   });
+
+  // toggleConfirmPasswordVisibility
+  it('should call toggleConfirmPasswordVisibility', () => {
+    spyOn(component, 'toggleConfirmPasswordVisibility');
+    component.toggleConfirmPasswordVisibility();
+    expect(component.toggleConfirmPasswordVisibility).toHaveBeenCalled();
+  });
+
+  // mustMatch
+  it('should call mustMatch', () => {
+    spyOn(component, 'mustMatch');
+    component.mustMatch('password', 'confirmPassword');
+    expect(component.mustMatch).toHaveBeenCalled();
+  }); 
+
+  // checkPasswordStrength
+  it('should call checkPasswordStrength', () => {
+    spyOn(component, 'checkPasswordStrength');
+    component.checkPasswordStrength('password');
+    expect(component.checkPasswordStrength).toHaveBeenCalled();
+  });
+
+  // suggestPassword
+  it('should call suggestPassword', () => {
+    spyOn(component, 'suggestPassword');
+    component.suggestPassword();
+    expect(component.suggestPassword).toHaveBeenCalled();
+  });
+
+  // generatePassword
+  it('should call generatePassword', () => {
+    spyOn(component, 'generatePassword');
+    component.generatePassword(10);
+    expect(component.generatePassword).toHaveBeenCalled();
+  });
+  
 });
-

@@ -114,15 +114,6 @@ exports.resetPasswordFromAdmin = async (req, res) => {
   }
 };
 
-// Réinitialisation du mot de passe par l'utilisateur
-// exports.resetPasswordFromUser = async (req, res) => {
-//   try {
-//     // CODE A COMPLETER
-//   } catch (error) {
-//     console.error('Erreur lors de la réinitialisation du mot de passe:', error);
-//     res.status(500).json({ error: error.message });
-//   }
-// };
 
 // Fonction pour demander la réinitialisation du mot de passe par un utilisateur
 exports.forgotPassword = async (req, res) => {
@@ -251,10 +242,16 @@ exports.addUser = async (req, res) => {
     if (!isEmail(email)) {
       return res.status(400).json({ message: 'Adresse email invalide.' });
     }
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ message: 'Un utilisateur avec cette adresse email existe déjà.' });
     }
+    // cherche un utilisateur avec le même nom et prénom (insensible à la casse)
+    user = await User.findOne({ firstname: { $regex: new RegExp(`^${firstname}$`, 'i') }, lastname: { $regex: new RegExp(`^${lastname}$`, 'i') } });
+    if (user) {
+      return res.status(400).json({ message: 'Un utilisateur avec ce nom et prénom existe déjà.' });
+    }
+    
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       email,
@@ -269,7 +266,7 @@ exports.addUser = async (req, res) => {
     });
     await newUser.save();
     console.log('New user added');
-    res.status(201).json({ message: 'Utilisateur créé avec succès.' });
+    res.status(201).json({ message: 'Utilisateur créé avec succès.', userId: newUser._id });
   } catch (error) {
     console.error('Error adding new user:', error);
     res.status(500).json({ error: error.message });

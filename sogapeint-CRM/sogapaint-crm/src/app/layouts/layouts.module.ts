@@ -1,6 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+
+import { UserInfoBarComponent } from './shared/user-info-bar/user-info-bar.component';
 
 // Importation du module partagé pour les composants réutilisables
 import { SharedModule } from './shared/shared.module';
@@ -11,7 +13,8 @@ import { HorizontalComponent } from './horizontal/horizontal.component';
 import { LayoutComponent } from './layout/layout.component';
 
 // import { UserInfoBarComponent } from '../user-info-bar/user-info-bar.component';
-import { UserInfoBarComponent } from './shared/user-info-bar/user-info-bar.component';
+
+
 import { TranslateModule } from '@ngx-translate/core';
 
 /**
@@ -22,10 +25,10 @@ import { TranslateModule } from '@ngx-translate/core';
  */
 @NgModule({
   declarations: [
+    UserInfoBarComponent,  // Composant pour la barre d'informations utilisateur
     VerticalComponent,  // Composant pour la disposition verticale
     HorizontalComponent,  // Composant pour la disposition horizontale
-    LayoutComponent,  // Composant principal de mise en page
-    UserInfoBarComponent
+    LayoutComponent  // Composant principal de mise en page
   ],
   imports: [
     TranslateModule.forChild(),
@@ -36,6 +39,7 @@ import { TranslateModule } from '@ngx-translate/core';
   exports: [
     VerticalComponent,  // Exporte le composant vertical pour une utilisation en dehors de ce module
     HorizontalComponent  // Exporte le composant horizontal pour une utilisation en dehors de ce module
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LayoutsModule { }

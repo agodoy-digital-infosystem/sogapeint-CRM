@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer/footer.component';
 import { HorizontalnavbarComponent } from './horizontal-navbar/horizontal-navbar.component';
@@ -11,6 +11,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { RouterModule } from '@angular/router';
 import { NgClickOutsideDirective } from 'ng-click-outside2';
 import { FormsModule } from '@angular/forms';
+// import { UserInfoBarComponent } from './user-info-bar/user-info-bar.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     HorizontaltopbarComponent,
     RightsidebarComponent,
     SidebarComponent,
-    TopbarComponent
+    TopbarComponent,
+    // UserInfoBarComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { FormsModule } from '@angular/forms';
     RightsidebarComponent,
     SidebarComponent,
     TopbarComponent,
-    NgClickOutsideDirective
+    NgClickOutsideDirective,
+    // UserInfoBarComponent
   ]
 })
 export class SharedModule { }

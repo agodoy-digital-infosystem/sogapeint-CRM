@@ -1,17 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { TranslateModule } from '@ngx-translate/core';
 import { SidebarComponent } from './sidebar.component';
+import { EventService } from '../../../core/services/event.service';
+import { UserProfileService } from 'src/app/core/services/user.service';
 
-// Use xdescribe to skip the entire suite of tests
-xdescribe('SidebarComponent', () => {
+describe('SidebarComponent', () => {
   let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SidebarComponent ]
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule, 
+        HttpClientTestingModule, 
+        NgScrollbarModule,
+        TranslateModule.forRoot()
+      ],
+      declarations: [ SidebarComponent ],
+      providers: [EventService, UserProfileService]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SidebarComponent);
@@ -19,10 +31,8 @@ xdescribe('SidebarComponent', () => {
     fixture.detectChanges();
   });
 
-  // Use xit to skip specific tests
-  xit('should create', () => {
-    expect(true).toBeTruthy();
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  // TODO: Implement additional tests later...
 });

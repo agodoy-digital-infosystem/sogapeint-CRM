@@ -37,6 +37,7 @@
     "metismenujs": "^1.4.0",
     "ng-click-outside": "^6.0.0",
     "ng-click-outside2": "^13.0.0",
+    "ng2-charts": "^5.0.4",
     "ngx-cookie-service": "^17.0.1",
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-scrollbar": "^13.0.3",
