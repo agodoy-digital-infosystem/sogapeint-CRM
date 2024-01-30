@@ -54,4 +54,10 @@ router.get('/entreprises', isAdminOrSuperAdmin, authController.getCompanies);
 // Route pour rechercher des entreprises
 router.get('/entreprises/search', isAdminOrSuperAdmin, authController.searchCompanies);
 
+// Route pour scraper l'adresse et l'activité d'une entreprise
+router.get('/entreprises/scrape', isAdminOrSuperAdmin, authController.scrapeCompany);
+
+// Route pour scraper l'adresse et l'activité d'une entreprise par région
+router.get('/entreprises/scrapeByRegion', isAdminOrSuperAdmin, authController.scrapeCompanyByRegion);
+
 module.exports = router;

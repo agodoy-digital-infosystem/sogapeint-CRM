@@ -1,53 +1,7 @@
+// scraperController.js
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-
-
-async function scrapeData(companyName) {
-    try {
-        const browser = await puppeteer.launch({ headless: "new" });
-        const page = await browser.newPage();
-        const url = `https://annuaire-entreprises.data.gouv.fr/rechercher?terme=${encodeURIComponent(companyName)}`;
-        
-        await page.goto(url, { waitUntil: 'networkidle2' });
-        const data = await page.content();
-        
-        const $ = cheerio.load(data);
-        let results = [];
-        
-        $('.results-list .result-item').each((i, element) => {
-            const title = $(element).find('.title span').text().trim();
-            const activity = $(element).find('div:nth-of-type(2)').text().trim();
-            // const address = $(element).find('.adress').text().trim();
-            const mainAddress = $(element).find('.adress').first().text().trim();
-            const additionalAddresses = $(element).find('ul.matching-etablissement li').map((i, el) => {
-                return $(el).text().trim(); // Récupérer le texte de chaque élément <li>
-            }).get(); // Transformer en tableau
-            const siren = $(element).find('.result-link').attr('data-siren');
-            
-            // Vérifier et enlever la dernière entrée si elle contient "en activité"
-            if (additionalAddresses.length > 0 && additionalAddresses[additionalAddresses.length - 1].includes('en activité')) {
-                additionalAddresses.pop();
-            }
-            
-            results.push({
-                title,
-                activity,
-                // address,
-                addresses: [mainAddress, ...additionalAddresses], // Stocker toutes les adresses dans un tableau
-                siren
-            });
-        });
-        
-        await browser.close();
-        // console.log(results)
-        // console.log(JSON.stringify(results, null, 2)); // Afficher les résultats avec un formatage lisible
-        return results;
-    } catch (error) {
-        console.error("Error scraping data:", error);
-        return [];
-    }
-}
 
 const regions = {
     'Île-de-France': ['75', '77', '78', '91', '92', '93', '94', '95'],
@@ -71,6 +25,49 @@ const regions = {
 };
 
 
+async function scrapeData(companyName) {
+    try {
+        const browser = await puppeteer.launch({ headless: "new" });
+        const page = await browser.newPage();
+        const url = `https://annuaire-entreprises.data.gouv.fr/rechercher?terme=${encodeURIComponent(companyName)}`;
+        
+        await page.goto(url, { waitUntil: 'networkidle2' });
+        const data = await page.content();
+        
+        const $ = cheerio.load(data);
+        let results = [];
+        
+        $('.results-list .result-item').each((i, element) => {
+            const title = $(element).find('.title span').text().trim();
+            const activity = $(element).find('div:nth-of-type(2)').text().trim();
+            const mainAddress = $(element).find('.adress').first().text().trim();
+            const additionalAddresses = $(element).find('ul.matching-etablissement li').map((i, el) => {
+                return $(el).text().trim(); // Récupérer le texte de chaque élément <li>
+            }).get(); // Transformer en tableau
+            const siren = $(element).find('.result-link').attr('data-siren');
+            
+            // Vérifier et enlever la dernière entrée si elle contient "en activité"
+            if (additionalAddresses.length > 0 && additionalAddresses[additionalAddresses.length - 1].includes('en activité')) {
+                additionalAddresses.pop();
+            }
+            
+            results.push({
+                title,
+                activity,
+                addresses: [mainAddress, ...additionalAddresses], // Stocker toutes les adresses dans un tableau
+                siren
+            });
+        });
+        
+        await browser.close();
+        return results;
+    } catch (error) {
+        console.error("Error scraping data:", error);
+        return [];
+    }
+}
+
+
 function filterByRegion(results, regionName) {
     const regionPostalCodes = regions[regionName];
     if (!regionPostalCodes) {
@@ -79,7 +76,7 @@ function filterByRegion(results, regionName) {
     }
     
     return results.filter(result => {
-        // Vérifiez chaque adresse pour un match de code postal
+        // Vérifie chaque adresse pour un match de code postal
         return result.addresses.some(address => {
             const postalCodeMatch = address.match(/\b\d{5}\b/);
             if (!postalCodeMatch) return false;
@@ -89,6 +86,20 @@ function filterByRegion(results, regionName) {
     });
 }
 
+
+// Cette fonction est appelée par la première route pour obtenir une liste d'entreprises
+async function getCompanyList(req, res) {
+  const { companyName, region } = req.params;
+  try {
+    const results = await scrapeData(companyName);
+    const filteredResults = filterByRegion(results, region);
+    res.json(filteredResults);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des entreprises." });
+  }
+}
+
+// Cette fonction est appelée par la deuxième route après que l'utilisateur ait sélectionné une entreprise
 async function getCompanyDetailsFromApi(name, postalCode) {
     const query = encodeURIComponent(name);
     const url = `https://recherche-entreprises.api.gouv.fr/search?q=${query}&categorie_entreprise=PME,ETI&code_postal=${postalCode}&minimal=true&include=siege,complements&page=1&per_page=10`;
@@ -106,40 +117,29 @@ async function getCompanyDetailsFromApi(name, postalCode) {
     }
 }
 
-async function enrichWithApiData(filteredResults) {
-    const enrichedResults = [];
-    for (const result of filteredResults) {
-      const companyName = result.title;
-      const postalCodeMatch = result.addresses[0].match(/\b\d{5}\b/);
-      if (postalCodeMatch) {
-        const postalCode = postalCodeMatch[0];
-        const apiResults = await getCompanyDetailsFromApi(companyName, postalCode);
-        if (apiResults && apiResults.length > 0) {
-          // Ajouter les données de l'API au résultat
-          enrichedResults.push({ ...result, ...apiResults[0] });
-        } else {
-          // Garder le résultat original si aucune donnée de l'API n'est trouvée
-          enrichedResults.push(result);
-        }
+// Fonction pour enrichir les données d'une entreprise spécifique
+async function getEnrichedCompanyData(name, postalCode) {
+    try {
+      const apiResults = await getCompanyDetailsFromApi(name, postalCode);
+      if (apiResults && apiResults.length > 0) {
+        return apiResults[0];
       } else {
-        enrichedResults.push(result); // Si aucun code postal n'est trouvé, on garde le résultat original
+        throw new Error('Aucune donnée enrichie trouvée pour cette entreprise.');
       }
+    } catch (error) {
+      throw error;
     }
-    return enrichedResults;
   }
 
 
+module.exports = {
+  getCompanyList,
+  getEnrichedCompanyData,
+};
 
-// Utilisation de la fonction
-// scrapeData("a vos marques").then(results => console.log(results));
-// resultats = scrapeData("a vos marques").then(
-//     results => filterByRegion(results, 'Occitanie')
-//     );
-async function main() {
-    const results = await scrapeData("a vos marques");
-    const filteredResults = filterByRegion(results, 'Occitanie');
-    const enrichedResults = await enrichWithApiData(filteredResults);
-    console.log(JSON.stringify(enrichedResults, null, 2));
-  }
-  
-  main();
+
+
+module.exports = {
+  getCompanyList,
+  getEnrichedCompanyData,
+};
