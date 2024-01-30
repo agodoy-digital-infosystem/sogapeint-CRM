@@ -344,6 +344,7 @@ exports.deleteUser = async (req, res) => {
 
 
 //// ENTREPRISES TEST
+// TODO : modifier les fonctions pour qu'elles correspondent à la nouvelle base de données
 exports.getCompanies = async (req, res) => {
   try {
     const companies = await User.distinct("company"); // Ceci va chercher toutes les valeurs distinctes pour le champ 'company'

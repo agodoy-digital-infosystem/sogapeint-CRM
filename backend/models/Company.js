@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Assurez-vous que le modèle Document est correctement importé
-const Document = require('./document.model'); // Ajustez le chemin selon l'emplacement réel
+const User = require('./User');
+const Document = require('./Document');
+const Contract = require('./Contract');
 
-const companySchema = new Schema({
+const companySchema = new mongoose.Schema({
   names: {
     type: [String],
     required: true
@@ -17,7 +18,7 @@ const companySchema = new Schema({
   address: String,
   employees: [{ 
     type: Schema.Types.ObjectId, 
-    ref: 'User' // Assurez-vous que le modèle User est défini quelque part
+    ref: 'User' // Référence au modèle User importé
   }],
   industry: [String],
   websites: [String],
@@ -28,13 +29,18 @@ const companySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Document' // Référence au modèle Document
   }],
-  contracts: [{ 
+  contractsAsCustomer: [{ 
     type: Schema.Types.ObjectId, 
-    ref: 'Contract' // Assurez-vous que le modèle Contract est défini
+    ref: 'Contract' 
+  }],
+  contractsAsContact: [{ 
+    type: Schema.Types.ObjectId, 
+    ref: 'Contract' 
+  }],
+  contractsAsExternalContributor: [{ 
+    type: Schema.Types.ObjectId, 
+    ref: 'Contract' 
   }]
 });
 
-// Création du modèle Company à partir du schéma
-const Company = mongoose.model('Company', companySchema);
-
-module.exports = Company;
+module.exports = mongoose.model('Company', companySchema);

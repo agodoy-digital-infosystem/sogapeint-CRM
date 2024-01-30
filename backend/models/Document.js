@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Importation du modèle User
+
 const User = require('./User');
 
-const documentSchema = new Schema({
+const documentSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -34,6 +34,6 @@ const documentSchema = new Schema({
 });
 
 // Création du modèle Document à partir du schéma
-const Document = mongoose.model('Document', documentSchema);
+// const Document = mongoose.model('Document', documentSchema);
 
-module.exports = Document;
+module.exports = mongoose.model('Document', documentSchema);

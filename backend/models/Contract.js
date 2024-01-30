@@ -37,6 +37,4 @@ const contractSchema = new mongoose.Schema({
     occupied: Boolean
 });
 
-const Contract = mongoose.model('Contract', contractSchema);
-
-module.exports = Contract;
+module.exports = mongoose.model('Contract', contractSchema, 'orderforms');
