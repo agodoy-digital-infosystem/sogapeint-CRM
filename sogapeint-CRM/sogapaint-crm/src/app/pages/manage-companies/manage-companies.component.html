@@ -1,25 +1,116 @@
+<!-- <pre>{{ companies | json }}</pre> -->
 <div class="container-fluid">
-  <app-pagetitle title="Contacts" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
-  <div class="container mt-4">
-    
-
-
-<div class="alert alert-danger" role="alert">
+    <app-pagetitle title="Entreprises" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+    <div class="container mt-4">
+        <div class="alert alert-danger" role="alert">
             <strong>Attention !</strong> Ce composant est encore en construction. Portez un casque de sécurité !
         </div>
-
-
-
-<!-- affiche la liste des entreprises -->
-<ul>
-    <li *ngFor="let companyGroup of groupedCompanies | keyvalue" [style.background-color]="generateColorForCompany(companyGroup.key)" [style.color]="getOppositeColor(companyGroup.key)">
-      <ul>
-        <li *ngFor="let company of companyGroup.value">
-          {{ company }}
-        </li>
-      </ul>
-    </li>
-  </ul>
-
-  </div>
+        
+        <div class="search-container">
+            <input type="text" class="form-control search-input" placeholder="Rechercher..." [(ngModel)]="filter" (input)="onSearch()" />
+            <div class="tags-in-search">
+                <ng-container *ngFor="let tag of activeTags">
+                    <div class="search-tag badge bg-success" (click)="deactivateTag(tag, $event)">
+                        {{ tag }}
+                        <span class="fa fa-times remove-tag-icon" (click)="deactivateTag(tag, $event)"></span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <br/>
+        <p>Vous pouvez filtrer les entreprises selon l'état des contrats :</p>
+        <div class="available-tags mb-3">
+            <div *ngFor="let tag of availableTags" class="badge bg-primary" (click)="activateTag(tag)">
+                {{ tag }}
+            </div>
+        </div>
+        
+        
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="entreprise-head" scope="col" rowspan="3" (click)="onSort('normalized_name')" (mouseover)="highlightColumn('entreprise')" (mouseleave)="resetHighlight()">
+                            Entreprise
+                            <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'normalized_name'"></i>
+                            <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'normalized_name' && sortDirection === 'asc'"></i>
+                            <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'normalized_name' && sortDirection === 'desc'"></i>
+                        </th>
+                        <th class="contact-head" scope="col" rowspan="3" (click)="onSort('employees')" (mouseover)="highlightColumn('contact')" (mouseleave)="resetHighlight()">
+                            Contacts
+                            <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'employees'"></i>
+                            <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'employees' && sortDirection === 'asc'"></i>
+                            <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'employees' && sortDirection === 'desc'"></i>
+                        </th>
+                        <th scope="col" colspan="7" class="text-center contrat-head" (mouseover)="highlightColumn('contrat')" (mouseleave)="resetHighlight()">Contrats</th>
+                    </tr>
+                    <tr>
+                        <th class="contrat-head total-head" scope="col" rowspan="2" (click)="onSort('totalContracts')" (mouseover)="highlightColumn('total')" (mouseleave)="resetHighlight()">
+                            Total
+                            <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'totalContracts'"></i>
+                            <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'totalContracts' && sortDirection === 'asc'"></i>
+                            <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'totalContracts' && sortDirection === 'desc'"></i>
+                        </th>
+                        <th scope="col" colspan="3" class="text-center contrat-head entantque-head" (mouseover)="highlightColumn('entantque')" (mouseleave)="resetHighlight()">En tant que</th>
+                        <th scope="col" colspan="3" class="text-center contrat-head statut-head" (mouseover)="highlightColumn('statut')" (mouseleave)="resetHighlight()">Statut</th>
+                    </tr>
+                    <tr>
+                        <th class="contrat-head entantque-head client-head" scope="col" (click)="onSort('contractsAsCustomer.length')" (mouseover)="highlightColumn('client')" (mouseleave)="resetHighlight()">
+                            Client
+                            <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'contractsAsCustomer.length'"></i>
+                            <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'contractsAsCustomer.length' && sortDirection === 'asc'"></i>
+                            <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'contractsAsCustomer.length' && sortDirection === 'desc'"></i>
+                        </th>
+                        <th class="contrat-head entantque-head contact-role-head" scope="col" (click)="onSort('contractsAsContact.length')" (mouseover)="highlightColumn('contact-role')" (mouseleave)="resetHighlight()">
+                            Contact
+                            <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'contractsAsContact.length'"></i>
+                            <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'contractsAsContact.length' && sortDirection === 'asc'"></i>
+                            <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'contractsAsContact.length' && sortDirection === 'desc'"></i>
+                        </th>
+                        <th class="contrat-head entantque-head contributeur-head" scope="col" (click)="onSort('contractsAsExternalContributor.length')" (mouseover)="highlightColumn('contributeur')" (mouseleave)="resetHighlight()">
+                            Contributeur
+                            <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'contractsAsExternalContributor.length'"></i>
+                            <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'contractsAsExternalContributor.length' && sortDirection === 'asc'"></i>
+                            <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'contractsAsExternalContributor.length' && sortDirection === 'desc'"></i>
+                        </th>
+                        <th class="contrat-head statut-head encours-head" scope="col" (click)="onSort('contractsInProgress.length')" (mouseover)="highlightColumn('encours')" (mouseleave)="resetHighlight()">
+                            En Cours
+                            <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'contractsInProgress.length'"></i>
+                            <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'contractsInProgress.length' && sortDirection === 'asc'"></i>
+                            <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'contractsInProgress.length' && sortDirection === 'desc'"></i>
+                        </th>
+                        <th class="contrat-head statut-head termine-head" scope="col" (click)="onSort('contractsCompleted.length')" (mouseover)="highlightColumn('termine')" (mouseleave)="resetHighlight()">
+                            Terminés
+                            <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'contractsCompleted.length'"></i>
+                            <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'contractsCompleted.length' && sortDirection === 'asc'"></i>
+                            <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'contractsCompleted.length' && sortDirection === 'desc'"></i>
+                        </th>
+                        <th class="contrat-head statut-head avenir-head" scope="col" (click)="onSort('contractsUpcoming.length')" (mouseover)="highlightColumn('avenir')" (mouseleave)="resetHighlight()">
+                            À Venir
+                            <i class="fas fa-sort float-end" *ngIf="sortColumn !== 'contractsUpcoming.length'"></i>
+                            <i class="fas fa-sort-up float-end" *ngIf="sortColumn === 'contractsUpcoming.length' && sortDirection === 'asc'"></i>
+                            <i class="fas fa-sort-down float-end" *ngIf="sortColumn === 'contractsUpcoming.length' && sortDirection === 'desc'"></i>
+                        </th>
+                        
+                    </tr>
+                </thead>
+                <tbody class="tbody-scrollable">
+                    <!-- Boucle sur les entreprises -->
+                    <tr *ngFor="let company of filteredCompanies">
+                        <td class="entreprise">{{ company.normalized_name }}</td>
+                        <td class="contact">{{ company.employees?.length || 0 }}</td>
+                        <td class="contrat total">{{ getTotalContracts(company) }}</td>
+                        <td class="contrat entantque client">{{ company.contractsAsCustomer?.length || 0 }}</td>
+                        <td class="contrat entantque contact-role">{{ company.contractsAsContact?.length || 0 }}</td>
+                        <td class="contrat entantque contributeur">{{ company.contractsAsExternalContributor?.length || 0 }}</td>
+                        <td class="contrat statut encours">{{ getContractsInStatus(company, 'in_progress') }}</td>
+                        <td class="contrat statut termine">{{ getContractsInStatus(company, 'completed') }}</td>
+                        <td class="contrat statut avenir">{{ getContractsInStatus(company, 'upcoming') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <app-loading *ngIf="isLoading"></app-loading>
+        </div>
+    </div>
 </div>

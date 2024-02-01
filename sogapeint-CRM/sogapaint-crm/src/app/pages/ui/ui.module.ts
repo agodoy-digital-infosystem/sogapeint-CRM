@@ -28,10 +28,28 @@ import { VideoComponent } from './video/video.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { SweetalertComponent } from './sweetalert/sweetalert.component';
 import { RangesliderComponent } from './rangeslider/rangeslider.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
-  declarations: [AlertsComponent, ButtonsComponent, CardsComponent, CarouselComponent, DropdownsComponent, GridComponent, ImagesComponent, ModalsComponent, ProgressbarComponent, TypographyComponent, GeneralComponent, VideoComponent, TabsComponent, SweetalertComponent, RangesliderComponent],
+  declarations: [
+    AlertsComponent, 
+    ButtonsComponent, 
+    CardsComponent, 
+    CarouselComponent, 
+    DropdownsComponent, 
+    GridComponent, 
+    ImagesComponent, 
+    ModalsComponent, 
+    ProgressbarComponent, 
+    TypographyComponent, 
+    GeneralComponent, 
+    VideoComponent, 
+    TabsComponent, 
+    SweetalertComponent, 
+    RangesliderComponent,
+    LoadingComponent
+  ],
   imports: [
     CommonModule,
     UiRoutingModule,
@@ -50,6 +68,9 @@ import { RangesliderComponent } from './rangeslider/rangeslider.component';
     NgbAccordionModule,
     NgbCollapseModule,
   ],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA]
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
+  exports: [
+    LoadingComponent
+  ]
 })
 export class UIModule { }

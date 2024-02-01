@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const CompanyModel = require('../models/Company');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const { sendEmail } = require('../services/emailService');
@@ -344,22 +345,48 @@ exports.deleteUser = async (req, res) => {
 
 
 //// ENTREPRISES TEST
-// TODO : modifier les fonctions pour qu'elles correspondent à la nouvelle base de données
+
+// exports.getCompanies = async (req, res) => {
+//   try {
+//     const companies = await User.distinct("company"); // Ceci va chercher toutes les valeurs distinctes pour le champ 'company'
+//     res.json(companies);
+//   } catch (error) {
+//     res.status(500).send({ message: "Erreur lors de la récupération des entreprises", error });
+//   }
+// };
 exports.getCompanies = async (req, res) => {
+  console.log('Récupération des entreprises');
   try {
-    const companies = await User.distinct("company"); // Ceci va chercher toutes les valeurs distinctes pour le champ 'company'
+    const companies = await CompanyModel.find({}).populate('employees').populate('documents').populate('contractsAsCustomer').populate('contractsAsContact').populate('contractsAsExternalContributor');
+    console.log(`Found ${companies.length} companies`);
     res.json(companies);
   } catch (error) {
     res.status(500).send({ message: "Erreur lors de la récupération des entreprises", error });
+    console.error('Erreur lors de la récupération des entreprises:', error);
   }
 };
 
+
+// exports.searchCompanies = async (req, res) => {
+//   try {
+//     const query = req.query.q;
+//     const companies = await User.find({ 
+//       company: new RegExp(query, 'i') 
+//     }).distinct("company");
+//     res.json(companies);
+//   } catch (error) {
+//     res.status(500).send({ message: "Erreur lors de la recherche des entreprises", error });
+//   }
+// };
 exports.searchCompanies = async (req, res) => {
   try {
     const query = req.query.q;
-    const companies = await User.find({ 
-      company: new RegExp(query, 'i') 
-    }).distinct("company");
+    const companies = await CompanyModel.find({
+      $or: [
+        { normalized_name: new RegExp(query, 'i') },
+        { names: new RegExp(query, 'i') }
+      ]
+    }).select('normalized_name names -_id');
     res.json(companies);
   } catch (error) {
     res.status(500).send({ message: "Erreur lors de la recherche des entreprises", error });

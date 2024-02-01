@@ -1,33 +1,3 @@
-<!-- <div class="container-fluid">
-  <app-pagetitle title="Contacts" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
-  <div class="container mt-4">
-    <input type="text" class="form-control mb-3" placeholder="Rechercher..." [(ngModel)]="filter" (input)="onSearch()" />
-    <div class="table-responsive">
-      <table class="table table-striped table-hover">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col" *ngFor="let column of columns" (click)="onSort(column.name)">
-              {{ column.displayName }}
-              <i class="fas fa-sort float-end" *ngIf="sortColumn !== column.name"></i>
-              <i class="fas fa-sort-up float-end" *ngIf="sortColumn === column.name && sortDirection === 'asc'"></i>
-              <i class="fas fa-sort-down float-end" *ngIf="sortColumn === column.name && sortDirection === 'desc'"></i>
-            </th>
-          </tr>
-        </thead>
-        <tbody class="tbody-scrollable">
-          <tr *ngFor="let user of filteredUsers" (click)="selectUser(user)">
-            <td *ngFor="let column of columns" title="{{ user[column.name] }}">
-              {{ user[column.name] }}
-            </td>            
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
- -->
-
-
  <div class="container-fluid">
   <app-pagetitle title="Contacts" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
   <div class="container mt-4">
