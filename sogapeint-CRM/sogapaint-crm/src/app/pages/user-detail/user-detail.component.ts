@@ -56,12 +56,6 @@ export class UserDetailComponent implements OnInit {
       
       const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
       this.userForm = this.fb.group({
-        // firstName: [''],
-        // lastName: [''],
-        // role: [''],
-        // email: [''],
-        // company: [''],
-        // phone: ['']
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],

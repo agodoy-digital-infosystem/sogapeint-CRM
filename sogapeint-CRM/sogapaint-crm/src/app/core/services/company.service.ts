@@ -48,7 +48,7 @@ export class CompanyService {
    * @param id L'identifiant de l'entreprise.
    * @returns Un Observable contenant l'entreprise.
    */
-  getCompanyById(id: number): Observable<any> {
+  getCompanyById(id: string): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/api/auth/company/${id}`);
   }
 }

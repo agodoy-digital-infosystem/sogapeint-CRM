@@ -57,7 +57,7 @@ router.get('/companies', isConnected, authController.getCompanies);
 router.get('/company/search', isConnected, authController.searchCompanies);
 
 // Route pour obtenir une entreprise (protégée par le middleware)
-router.get('/company/:userId', isConnected, authController.getUserById);
+router.get('/company/:companyId', isConnected, authController.getCompanyById);
 
 
 module.exports = router;

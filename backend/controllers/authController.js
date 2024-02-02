@@ -376,7 +376,7 @@ exports.searchCompanies = async (req, res) => {
 };
 
 // Fonction pour avoir une entreprise par son id
-exports.getComcpanyById = async (req, res) => {
+exports.getCompanyById = async (req, res) => {
   try {
     console.log('Fetching company by id');
     // console.log('Request :', req);
