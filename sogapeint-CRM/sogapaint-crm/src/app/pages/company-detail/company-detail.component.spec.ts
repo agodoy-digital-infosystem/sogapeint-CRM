@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CompanyDetailComponent } from './company-detail.component';
 
 describe('CompanyDetailComponent', () => {
@@ -8,16 +7,20 @@ describe('CompanyDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CompanyDetailComponent]
+      declarations: [ CompanyDetailComponent ]
+      // Ajoutez ici d'autres dépendances nécessaires, comme des modules ou des services
     })
     .compileComponents();
-    
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(CompanyDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
