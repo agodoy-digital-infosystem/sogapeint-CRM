@@ -287,6 +287,10 @@ export class ManageCompaniesComponent implements OnInit {
             
             // Gestion des cas spéciaux
             switch (this.sortColumn) {
+                case 'totalContracts': 
+                valA = this.getTotalContracts(a);
+                valB = this.getTotalContracts(b);
+                break;
                 case 'contractsAsCustomer.length':
                 valA = a.contractsAsCustomer?.length || 0;
                 valB = b.contractsAsCustomer?.length || 0;
