@@ -49,10 +49,15 @@ router.post('/resetPassword', authController.resetPassword);
 
 
 //// ENTREPRISES 
+
 // Route pour obtenir la liste de toutes les entreprises
-router.get('/entreprises', isAdminOrSuperAdmin, authController.getCompanies);
+router.get('/companies', isAdminOrSuperAdmin, authController.getCompanies);
+
 // Route pour rechercher des entreprises
-router.get('/entreprises/search', isAdminOrSuperAdmin, authController.searchCompanies);
+router.get('/company/search', isAdminOrSuperAdmin, authController.searchCompanies);
+
+// Route pour obtenir une entreprise (protégée par le middleware)
+router.get('/company/:userId', isConnected, authController.getUserById);
 
 
 module.exports = router;

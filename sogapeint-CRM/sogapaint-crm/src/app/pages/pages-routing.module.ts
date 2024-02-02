@@ -4,6 +4,7 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { ManageCompaniesComponent } from './manage-companies/manage-companies.component';
+import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { FAQComponent } from './faq/faq.component';
 
@@ -13,6 +14,7 @@ const routes: Routes = [
     { path: 'createUser', component: CreateUserComponent },
     { path: 'user-detail/:userId', component: UserDetailComponent },
     { path: 'manageCompanies', component: ManageCompaniesComponent},
+    { path: 'company-detail/:companyId', component: CompanyDetailComponent},
     { path: 'FAQ', component: FAQComponent },
     // route pour la landing page
     { path: '', component: LandingPageComponent}

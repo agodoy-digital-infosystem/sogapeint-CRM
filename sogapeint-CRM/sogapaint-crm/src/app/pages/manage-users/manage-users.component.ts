@@ -122,10 +122,6 @@ export class ManageUsersComponent implements OnInit {
     } else {
       this.filteredUsers = this.users.filter(user => {
         const searchTerm = this.filter.toLowerCase();
-        // return this.columns.some(column => {
-        //   const userData = user[column.name];
-        //   return userData && userData.toLowerCase().includes(searchTerm);
-        // });
         return this.columns.some(column => {
           const userData = user[column.name];
           // Convertit toutes les valeurs en chaînes avant de les comparer

@@ -27,7 +27,7 @@ export class CompanyService {
    * @returns Un Observable contenant un tableau d'entreprises.
    */
   getCompanies(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/api/auth/entreprises`);
+    return this.http.get<any[]>(`${environment.apiUrl}/api/auth/companies`);
   }
 
   /**
@@ -38,6 +38,17 @@ export class CompanyService {
    * @returns Un Observable contenant un tableau d'entreprises filtrées.
    */
   searchCompanies(query: string): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/api/auth/entreprises/search`, { params: { q: query } });
+    return this.http.get<any[]>(`${environment.apiUrl}/api/auth/company/search`, { params: { q: query } });
+  }
+
+  /**
+   * Récupère une entreprise par son identifiant.
+   *
+   * Envoie une requête GET pour obtenir une entreprise par son identifiant.
+   * @param id L'identifiant de l'entreprise.
+   * @returns Un Observable contenant l'entreprise.
+   */
+  getCompanyById(id: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/auth/companies/${id}`);
   }
 }

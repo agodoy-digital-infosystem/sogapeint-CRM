@@ -1,3 +1,5 @@
+
+/// NE FONCTIONNE PAS AVEC LE SITE DE SOCIETE.COM
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { decode } = require('html-entities');

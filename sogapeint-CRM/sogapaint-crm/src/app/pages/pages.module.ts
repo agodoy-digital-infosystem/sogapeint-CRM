@@ -21,6 +21,7 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { ManageCompaniesComponent } from './manage-companies/manage-companies.component';
+import { CompanyDetailComponent } from './company-detail/company-detail.component';
 // import { LandingPageComponent } from './landing-page/landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -32,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     CreateUserComponent, 
     UserDetailComponent, 
     ManageCompaniesComponent, 
+    CompanyDetailComponent,
     // LandingPageComponent
   ],
   imports: [

@@ -346,14 +346,7 @@ exports.deleteUser = async (req, res) => {
 
 //// ENTREPRISES TEST
 
-// exports.getCompanies = async (req, res) => {
-//   try {
-//     const companies = await User.distinct("company"); // Ceci va chercher toutes les valeurs distinctes pour le champ 'company'
-//     res.json(companies);
-//   } catch (error) {
-//     res.status(500).send({ message: "Erreur lors de la récupération des entreprises", error });
-//   }
-// };
+
 exports.getCompanies = async (req, res) => {
   console.log('Récupération des entreprises');
   try {
@@ -367,17 +360,6 @@ exports.getCompanies = async (req, res) => {
 };
 
 
-// exports.searchCompanies = async (req, res) => {
-//   try {
-//     const query = req.query.q;
-//     const companies = await User.find({ 
-//       company: new RegExp(query, 'i') 
-//     }).distinct("company");
-//     res.json(companies);
-//   } catch (error) {
-//     res.status(500).send({ message: "Erreur lors de la recherche des entreprises", error });
-//   }
-// };
 exports.searchCompanies = async (req, res) => {
   try {
     const query = req.query.q;
@@ -390,5 +372,24 @@ exports.searchCompanies = async (req, res) => {
     res.json(companies);
   } catch (error) {
     res.status(500).send({ message: "Erreur lors de la recherche des entreprises", error });
+  }
+};
+
+// Fonction pour avoir une entreprise par son id
+exports.getComcpanyById = async (req, res) => {
+  try {
+    console.log('Fetching company by id');
+    // console.log('Request :', req);
+    const { companyId } = req.params;
+    console.log('Company id:', companyId);
+    const company = await CompanyModel.findById(companyId);
+    if (!company) {
+      return res.status(404).json({ message: 'Entreprise non trouvée.' });
+    }
+    console.log('Found company:', company);
+    res.status(200).json(company);
+  } catch (error) {
+    console.error('Error retrieving company:', error);
+    res.status(500).json({ error: error.message });
   }
 };

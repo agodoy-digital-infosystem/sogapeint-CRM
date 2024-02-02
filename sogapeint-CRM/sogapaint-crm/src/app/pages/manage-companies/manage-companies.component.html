@@ -97,7 +97,7 @@
                 </thead>
                 <tbody class="tbody-scrollable">
                     <!-- Boucle sur les entreprises -->
-                    <tr *ngFor="let company of filteredCompanies">
+                    <tr *ngFor="let company of filteredCompanies" (click)="selectCompany(company)">
                         <td class="entreprise">{{ company.normalized_name }}</td>
                         <td class="contact">{{ company.employees?.length || 0 }}</td>
                         <td class="contrat total">{{ getTotalContracts(company) }}</td>
