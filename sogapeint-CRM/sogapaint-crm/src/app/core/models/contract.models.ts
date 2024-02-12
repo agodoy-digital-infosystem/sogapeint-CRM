@@ -29,11 +29,12 @@ export class Contract {
     start_date_works: Date | null;
     end_date_works: Date | null;
     end_date_customer: Date | null;
+    start_date_customer: Date | null; // optional
     billing_number: string;
     billing_amount: number | null;
     situation_number: number;
     occupied: boolean | null;
-
+    
     constructor() {
         // Initialiser les valeurs par défaut ici si nécessaire
     }

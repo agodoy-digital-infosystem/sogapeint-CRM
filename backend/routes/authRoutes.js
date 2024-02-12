@@ -59,5 +59,18 @@ router.get('/company/search', isConnected, authController.searchCompanies);
 // Route pour obtenir une entreprise (protégée par le middleware)
 router.get('/company/:companyId', isConnected, authController.getCompanyById);
 
+// Route pour ajouter une entreprise
+router.post('/company', isAdminOrSuperAdmin, authController.addCompany);
+
+// Route pour modifier une entreprise (protégée par le middleware isAdminOrSuperAdmin)
+router.put('/company/:companyId', isAdminOrSuperAdmin, authController.updateCompany);
+
+// Route pour supprimer une entreprise (protégée par le middleware isAdminOrSuperAdmin)
+router.delete('/company/:companyId', isAdminOrSuperAdmin, authController.deleteCompany);
+
+// Route pour obtenir un contrat (protégée par le middleware)
+router.get('/contract/:contractId', isConnected, authController.getContractById);
+
+
 
 module.exports = router;

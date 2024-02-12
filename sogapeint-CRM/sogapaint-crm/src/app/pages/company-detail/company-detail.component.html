@@ -1,4 +1,279 @@
-<p>Company details comming soon...</p>
-<app-loading></app-loading>
+<!-- <pre>{{ this.company|json }}</pre> -->
 
-<pre>{{ this.company|json }}</pre>
+
+<div class="container-fluid">
+    <app-pagetitle title="Détails de l'Entreprise" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+    <div class="container mt-4">
+        <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
+        <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = ''">{{ errorMessage }}</ngb-alert>
+        <app-loading *ngIf="isLoading"></app-loading>
+        <!-- <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">{{ company?.normalized_name }}</h5>
+            </div>
+            <div class="card-body">
+                <h6>Industries</h6>
+                <p>{{ company?.industry?.join(', ') || 'Non renseigné' }}</p>
+                <h6>Sites Web</h6>
+                <p *ngIf="!company?.websites?.length">Non renseigné</p>
+                <ul *ngIf="company?.websites?.length">
+                    <li *ngFor="let website of company?.websites">{{ website }}</li>
+                </ul>
+                <h6>Téléphones</h6>
+                <p *ngIf="!company?.phone?.length">Non renseigné</p>
+                <ul *ngIf="company?.phone?.length">
+                    <li *ngFor="let phone of company?.phone">{{ phone }}</li>
+                </ul>
+                <h6>Emails</h6>
+                <p *ngIf="!company?.email?.length">Non renseigné</p>
+                <ul *ngIf="company?.email?.length">
+                    <li *ngFor="let email of company?.email">{{ email }}</li>
+                </ul>
+                <h6>Documents</h6>
+                <p *ngIf="!company?.documents?.length">Non renseigné</p>
+                <ul *ngIf="company?.documents?.length">
+                    <li *ngFor="let document of company?.documents">{{ document }}</li>
+                </ul>
+                <div *ngIf="company?.additionalFields">
+                    <h6>Champs supplémentaires</h6>
+                    <ul>
+                        <li *ngFor="let field of company?.additionalFields | keyvalue">{{ field.key }}: {{ field.value }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+        <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">{{ company?.normalized_name }}</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <!-- Industries -->
+                <div class="col-md-6">
+                  <h6><i class="fas fa-industry"></i> Industries</h6>
+                  <p>{{ company?.industry?.join(', ') || 'Non renseigné' }}</p>
+                </div>
+                
+                <!-- Sites Web -->
+                <div class="col-md-6">
+                  <h6><i class="fas fa-globe"></i> Sites Web</h6>
+                  <p *ngIf="!company?.websites?.length">Non renseigné</p>
+                  <ul *ngIf="company?.websites?.length">
+                    <li *ngFor="let website of company?.websites">{{ website }}</li>
+                  </ul>
+                </div>
+              </div>
+          
+              <div class="row">
+                <!-- Téléphones -->
+                <div class="col-md-6">
+                  <h6><i class="fas fa-phone"></i> Téléphones</h6>
+                  <p *ngIf="!company?.phone?.length">Non renseigné</p>
+                  <ul *ngIf="company?.phone?.length">
+                    <li *ngFor="let phone of company?.phone">{{ phone }}</li>
+                  </ul>
+                </div>
+                
+                <!-- Emails -->
+                <div class="col-md-6">
+                  <h6><i class="fas fa-envelope"></i> Emails</h6>
+                  <p *ngIf="!company?.email?.length">Non renseigné</p>
+                  <ul *ngIf="company?.email?.length">
+                    <li *ngFor="let email of company?.email">{{ email }}</li>
+                  </ul>
+                </div>
+              </div>
+          
+              <div class="row">
+                <!-- Documents -->
+                <div class="col-md-6">
+                  <h6><i class="fas fa-file-alt"></i> Documents</h6>
+                  <p *ngIf="!company?.documents?.length">Non renseigné</p>
+                  <ul *ngIf="company?.documents?.length">
+                    <li *ngFor="let document of company?.documents">{{ document }}</li>
+                  </ul>
+                </div>
+                
+                <!-- Champs supplémentaires -->
+                <div class="col-md-6" *ngIf="company?.additionalFields">
+                  <h6><i class="fas fa-plus-square"></i> Champs supplémentaires</h6>
+                  <ul>
+                    <li *ngFor="let field of company?.additionalFields | keyvalue">{{ field.key }}: {{ field.value }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        
+        <!-- Liste des employés avec tbody scrollable -->
+        <br/>
+        <div class="card">
+            <div *ngIf="company?.employees?.length">
+                <div class="card-header">
+                    <h6>Liste des employés</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Prénom</th>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Téléphone</th>
+                                    <th>Rôle</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="scrollable-tbody">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr *ngFor="let employee of company?.employees">
+                                        <td>{{ employee.firstName }}</td>
+                                        <td>{{ employee.lastName }}</td>
+                                        <td>{{ employee.email }}</td>
+                                        <td>{{ employee.phone }}</td>
+                                        <td>{{ employee.role }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        <!-- Contrats en tant que client avec tbody scrollable -->
+        <br/>
+        <div class="card">
+            <div *ngIf="company?.contractsAsCustomer?.length">
+                <div class="card-header">
+                    <h6>Contrats en tant que client</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Numéro interne</th>
+                                    <th>Service</th>
+                                    <th>Adresse</th>
+                                    <th>Numéro de devis</th>
+                                    <th>Date de début</th>
+                                    <th>Montant HT</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="scrollable-tbody">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr *ngFor="let contract of company?.contractsAsCustomer">
+                                        <td>{{ contract.internal_number }}</td>
+                                        <td>{{ contract.benefit }}</td>
+                                        <td>{{ contract.address }}</td>
+                                        <td>{{ contract.quote_number }}</td>
+                                        <td>{{ contract.start_date_customer | date }}</td>
+                                        <td>{{ contract.amount_ht | currency:'EUR' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <!-- Contrats en tant que contact avec tbody scrollable -->
+        <br/>
+        <div class="card">
+            <div *ngIf="company?.contractsAsContact?.length">
+                <div class="card-header">
+                    <h6>Contrats en tant que contact</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Numéro interne</th>
+                                    <th>Service</th>
+                                    <th>Adresse</th>
+                                    <th>Numéro de devis</th>
+                                    <th>Date de début</th>
+                                    <th>Montant HT</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="scrollable-tbody">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr *ngFor="let contract of company?.contractsAsContact">
+                                        <td>{{ contract.internal_number }}</td>
+                                        <td>{{ contract.benefit }}</td>
+                                        <td>{{ contract.address }}</td>
+                                        <td>{{ contract.quote_number }}</td>
+                                        <td>{{ contract.start_date_works | date }}</td>
+                                        <td>{{ contract.amount_ht | currency:'EUR' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Contrats en tant que contributeur externe avec tbody scrollable -->
+        <br/>
+        <div class="card">
+            <div *ngIf="company?.contractsAsExternalContributor?.length">
+                <div class="card-header">
+                    <h6>Contrats en tant que contributeur externe</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Numéro interne</th>
+                                    <th>Service</th>
+                                    <th>Adresse</th>
+                                    <th>Numéro de devis</th>
+                                    <th>Date de début</th>
+                                    <th>Montant HT</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="scrollable-tbody">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr *ngFor="let contract of company?.contractsAsExternalContributor">
+                                        <td>{{ contract.internal_number }}</td>
+                                        <td>{{ contract.benefit }}</td>
+                                        <td>{{ contract.address }}</td>
+                                        <td>{{ contract.quote_number }}</td>
+                                        <td>{{ contract.start_date_works | date }}</td>
+                                        <td>{{ contract.amount_ht | currency:'EUR' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="card-footer text-end">
+        <button class="btn btn-outline-secondary" (click)="editCompany()">Modifier</button>
+    </div>
+</div>
+
+

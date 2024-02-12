@@ -1,0 +1,11 @@
+.scrollable-tbody {
+    overflow-y: auto;
+    max-height: 200px; /* Ajustez selon vos besoins */
+}
+
+.table .thead th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+}

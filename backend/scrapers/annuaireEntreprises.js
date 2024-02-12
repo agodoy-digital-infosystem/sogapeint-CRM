@@ -136,7 +136,7 @@ async function enrichWithApiData(filteredResults) {
 //     results => filterByRegion(results, 'Occitanie')
 //     );
 async function main() {
-    const results = await scrapeData("a vos marques");
+    const results = await scrapeData("digital info system");
     const filteredResults = filterByRegion(results, 'Occitanie');
     const enrichedResults = await enrichWithApiData(filteredResults);
     console.log(JSON.stringify(enrichedResults, null, 2));
