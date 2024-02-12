@@ -34,9 +34,14 @@ export const MENU: MenuItem[] = [
         icon: 'ri-building-2-line',
         link: '/manageCompanies'
     },
-
     {
         id: 4,
+        label: 'Ajouter une entreprise',
+        icon: 'ri-building-2-fill',
+        link: '/company-create'
+    },
+    {
+        id: 5,
         label: 'FAQ',
         icon: 'ri-question-answer-line',
         link: '/FAQ'

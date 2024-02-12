@@ -15,7 +15,7 @@ export class CompanyUpdateComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
   breadCrumbItems: Array<{ label: string; url?: string; active?: boolean }> = [];
-  pageTitle: string = 'Détail entreprise';
+  pageTitle: string = 'Modifier les détails de l\'entreprise';
   
   constructor(
     private formBuilder: FormBuilder,

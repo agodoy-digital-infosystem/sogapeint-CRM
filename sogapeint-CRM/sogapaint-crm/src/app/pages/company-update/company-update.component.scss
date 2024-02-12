@@ -2,22 +2,21 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-    color: #007bff; // Bootstrap primary color
+    color: #007bff; 
     outline: none;
-    display: inline-flex; // For centering the icon
+    display: inline-flex; 
     align-items: center;
     justify-content: center;
-    border-radius: 50%; // Makes the button round
-    padding: 0.5rem; // Adds some space around the icon
-    transition: transform 0.3s ease-in-out, color 0.2s; // Smooth transition for transform and color
-  
+    border-radius: 50%; 
+    padding: 0.5rem; 
+    transition: transform 0.3s ease-in-out, color 0.2s; 
+    
     &:hover, &:focus {
-      color: #28a745; // bootstrap success color
-      transform: scale(1.1) rotate(360deg); // Enlarges and rotates the icon
+        color: #28a745; 
+        transform: scale(1.1) rotate(360deg); 
     }
-  
+    
     .fa-plus-circle {
-      font-size: 24px; // Adjust icon size as needed
+        font-size: 24px; 
     }
-  }
-  
+}

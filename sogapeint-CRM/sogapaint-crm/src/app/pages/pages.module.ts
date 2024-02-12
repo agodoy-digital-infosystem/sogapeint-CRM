@@ -23,6 +23,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { ManageCompaniesComponent } from './manage-companies/manage-companies.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { CompanyUpdateComponent } from './company-update/company-update.component';
+import { CompanyCreateComponent } from './company-create/company-create.component';
 // import { LandingPageComponent } from './landing-page/landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -36,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
     ManageCompaniesComponent, 
     CompanyDetailComponent,
     CompanyUpdateComponent,
+    CompanyCreateComponent,
     // LandingPageComponent
   ],
   imports: [

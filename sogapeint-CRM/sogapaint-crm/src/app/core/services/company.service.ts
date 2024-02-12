@@ -31,6 +31,16 @@ export class CompanyService {
   }
 
   /**
+   * récupère tous les noms des entreprises.
+   * 
+   * Envoie une requête GET pour obtenir une liste de tous les noms d'entreprises.
+   * @returns Un Observable contenant un tableau de noms d'entreprises.
+   */
+  getCompaniesNames(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/api/auth/companiesNames`);
+  }
+
+  /**
    * Recherche des entreprises.
    *
    * Envoie une requête GET avec un paramètre de requête pour rechercher des entreprises.
@@ -64,4 +74,14 @@ export class CompanyService {
     return this.http.put(`${environment.apiUrl}/api/auth/company/${id}`, companyData);
   }
   
+  /**
+   * Crée une entreprise.
+   *
+   * Envoie une requête POST pour créer une nouvelle entreprise.
+   * @param companyData Les données de la nouvelle entreprise.
+   * @returns Un Observable contenant la réponse de la requête.
+   */
+  createCompany(companyData: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/api/auth/company`, companyData);
+  }
 }

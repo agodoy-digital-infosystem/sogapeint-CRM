@@ -6,6 +6,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { ManageCompaniesComponent } from './manage-companies/manage-companies.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { CompanyUpdateComponent } from './company-update/company-update.component';
+import { CompanyCreateComponent } from './company-create/company-create.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { FAQComponent } from './faq/faq.component';
 
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'manageCompanies', component: ManageCompaniesComponent},
     { path: 'company-detail/:companyId', component: CompanyDetailComponent},
     { path: 'company-update/:companyId', component: CompanyUpdateComponent},
+    { path: 'company-create', component: CompanyCreateComponent},
     { path: 'FAQ', component: FAQComponent },
     // route pour la landing page
     { path: '', component: LandingPageComponent}
