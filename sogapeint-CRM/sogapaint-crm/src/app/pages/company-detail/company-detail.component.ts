@@ -9,7 +9,7 @@ import { UserProfileService } from 'src/app/core/services/user.service';
 import { Company } from 'src/app/core/models/company.models';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-company-detail',
@@ -35,7 +35,8 @@ export class CompanyDetailComponent implements OnInit {
     private companyService: CompanyService,
     private contractService: ContractService,
     private userProfileService: UserProfileService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -127,42 +128,7 @@ export class CompanyDetailComponent implements OnInit {
     });
   }
   
-  
-  
-  
-
-
-
-
     // Méthode pour obtenir tous les contrats
-    // getContractsDetails() {
-    //   // utilise le service ContractService pour obtenir les contrats en tant que contributeur externe
-    //   // parcours les id des contrats en tant que contributeur externe
-    //   // et retourne le détail de chaque contrat
-    //   const contractCategories = [
-    //     "contractsAsCustomer",
-    //     "contractsAsContact",
-    //     "contractsAsExternalContributor"
-    //   ];
-    //   for (const contractCategory of contractCategories) {
-    //     console.log(contractCategory);
-    //     let contractList = [];
-    //     for (const contractId of this.company.contractsAsExternalContributor) {
-    //       console.log('Récupération des détails du contrat: ', contractId);
-    //       this.contractService.getContractById(String(contractId)).subscribe({
-    //         next: (contract) => {
-    //           console.log('Détails contrat: ', contract);
-    //           contractList.push(contract);
-    //         },
-    //         error: (error) => {
-    //           console.error('Erreur pendant la récupération des détails contrat: ', error);
-    //         }
-    //       });
-    //     }
-    //     this.company[contractCategory] = contractList;
-    //   }
-    // }
-
     getContractsDetails() {
       const contractCategories = [
         "contractsAsCustomer",
@@ -190,6 +156,27 @@ export class CompanyDetailComponent implements OnInit {
     
 
     editCompany() {}
+
+    getRoleClass(role: string): string {
+      const roleClassMap = {
+        'superAdmin': 'badge-superadmin',
+        'cocontractor': 'badge-cocontractor',
+        'subcontractor': 'badge-subcontractor',
+        'customer': 'badge-customer',
+        'comanager': 'badge-comanager',
+        'supermanager': 'badge-supermanager'
+      };
+      return roleClassMap[role] || 'badge-default';
+    }
+
+    /**
+   * Gère la sélection d'un utilisateur.
+   * @param user L'utilisateur sélectionné.
+   */
+  selectUser(user: any) {
+    console.log('Utilisateur sélectionné:', user);
+    this.router.navigate(['/user-detail', user._id]);
+  }
     
   }
 

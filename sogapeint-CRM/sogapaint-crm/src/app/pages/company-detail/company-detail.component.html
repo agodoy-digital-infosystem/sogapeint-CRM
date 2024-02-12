@@ -7,104 +7,70 @@
         <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
         <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = ''">{{ errorMessage }}</ngb-alert>
         <app-loading *ngIf="isLoading"></app-loading>
-        <!-- <div class="card">
+        
+        <div class="card">
             <div class="card-header">
                 <h5 class="card-title mb-0">{{ company?.normalized_name }}</h5>
             </div>
             <div class="card-body">
-                <h6>Industries</h6>
-                <p>{{ company?.industry?.join(', ') || 'Non renseigné' }}</p>
-                <h6>Sites Web</h6>
-                <p *ngIf="!company?.websites?.length">Non renseigné</p>
-                <ul *ngIf="company?.websites?.length">
-                    <li *ngFor="let website of company?.websites">{{ website }}</li>
-                </ul>
-                <h6>Téléphones</h6>
-                <p *ngIf="!company?.phone?.length">Non renseigné</p>
-                <ul *ngIf="company?.phone?.length">
-                    <li *ngFor="let phone of company?.phone">{{ phone }}</li>
-                </ul>
-                <h6>Emails</h6>
-                <p *ngIf="!company?.email?.length">Non renseigné</p>
-                <ul *ngIf="company?.email?.length">
-                    <li *ngFor="let email of company?.email">{{ email }}</li>
-                </ul>
-                <h6>Documents</h6>
-                <p *ngIf="!company?.documents?.length">Non renseigné</p>
-                <ul *ngIf="company?.documents?.length">
-                    <li *ngFor="let document of company?.documents">{{ document }}</li>
-                </ul>
-                <div *ngIf="company?.additionalFields">
-                    <h6>Champs supplémentaires</h6>
-                    <ul>
-                        <li *ngFor="let field of company?.additionalFields | keyvalue">{{ field.key }}: {{ field.value }}</li>
-                    </ul>
-                </div>
-            </div>
-        </div> -->
-        <div class="card">
-            <div class="card-header">
-              <h5 class="card-title mb-0">{{ company?.normalized_name }}</h5>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <!-- Industries -->
-                <div class="col-md-6">
-                  <h6><i class="fas fa-industry"></i> Industries</h6>
-                  <p>{{ company?.industry?.join(', ') || 'Non renseigné' }}</p>
+                <div class="row">
+                    <!-- Industries -->
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-industry"></i> Industries</h6>
+                        <p>{{ company?.industry?.join(', ') || 'Non renseigné' }}</p>
+                    </div>
+                    
+                    <!-- Sites Web -->
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-globe"></i> Sites Web</h6>
+                        <p *ngIf="!company?.websites?.length">Non renseigné</p>
+                        <ul *ngIf="company?.websites?.length">
+                            <li *ngFor="let website of company?.websites">{{ website }}</li>
+                        </ul>
+                    </div>
                 </div>
                 
-                <!-- Sites Web -->
-                <div class="col-md-6">
-                  <h6><i class="fas fa-globe"></i> Sites Web</h6>
-                  <p *ngIf="!company?.websites?.length">Non renseigné</p>
-                  <ul *ngIf="company?.websites?.length">
-                    <li *ngFor="let website of company?.websites">{{ website }}</li>
-                  </ul>
-                </div>
-              </div>
-          
-              <div class="row">
-                <!-- Téléphones -->
-                <div class="col-md-6">
-                  <h6><i class="fas fa-phone"></i> Téléphones</h6>
-                  <p *ngIf="!company?.phone?.length">Non renseigné</p>
-                  <ul *ngIf="company?.phone?.length">
-                    <li *ngFor="let phone of company?.phone">{{ phone }}</li>
-                  </ul>
-                </div>
-                
-                <!-- Emails -->
-                <div class="col-md-6">
-                  <h6><i class="fas fa-envelope"></i> Emails</h6>
-                  <p *ngIf="!company?.email?.length">Non renseigné</p>
-                  <ul *ngIf="company?.email?.length">
-                    <li *ngFor="let email of company?.email">{{ email }}</li>
-                  </ul>
-                </div>
-              </div>
-          
-              <div class="row">
-                <!-- Documents -->
-                <div class="col-md-6">
-                  <h6><i class="fas fa-file-alt"></i> Documents</h6>
-                  <p *ngIf="!company?.documents?.length">Non renseigné</p>
-                  <ul *ngIf="company?.documents?.length">
-                    <li *ngFor="let document of company?.documents">{{ document }}</li>
-                  </ul>
+                <div class="row">
+                    <!-- Téléphones -->
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-phone"></i> Téléphones</h6>
+                        <p *ngIf="!company?.phone?.length">Non renseigné</p>
+                        <ul *ngIf="company?.phone?.length">
+                            <li *ngFor="let phone of company?.phone">{{ phone }}</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Emails -->
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-envelope"></i> Emails</h6>
+                        <p *ngIf="!company?.email?.length">Non renseigné</p>
+                        <ul *ngIf="company?.email?.length">
+                            <li *ngFor="let email of company?.email">{{ email }}</li>
+                        </ul>
+                    </div>
                 </div>
                 
-                <!-- Champs supplémentaires -->
-                <div class="col-md-6" *ngIf="company?.additionalFields">
-                  <h6><i class="fas fa-plus-square"></i> Champs supplémentaires</h6>
-                  <ul>
-                    <li *ngFor="let field of company?.additionalFields | keyvalue">{{ field.key }}: {{ field.value }}</li>
-                  </ul>
+                <div class="row">
+                    <!-- Documents -->
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-file-alt"></i> Documents</h6>
+                        <p *ngIf="!company?.documents?.length">Non renseigné</p>
+                        <ul *ngIf="company?.documents?.length">
+                            <li *ngFor="let document of company?.documents">{{ document }}</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Champs supplémentaires -->
+                    <div class="col-md-6" *ngIf="company?.additionalFields">
+                        <h6><i class="fas fa-plus-square"></i> Champs supplémentaires</h6>
+                        <ul>
+                            <li *ngFor="let field of company?.additionalFields | keyvalue">{{ field.key }}: {{ field.value }}</li>
+                        </ul>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          
+        </div>
+        
         
         <!-- Liste des employés avec tbody scrollable -->
         <br/>
@@ -129,12 +95,20 @@
                         <div class="scrollable-tbody">
                             <table class="table table-striped">
                                 <tbody>
-                                    <tr *ngFor="let employee of company?.employees">
+                                    <tr *ngFor="let employee of company?.employees" (click)="selectUser(employee)" class="hand-pointer">
                                         <td>{{ employee.firstName }}</td>
                                         <td>{{ employee.lastName }}</td>
-                                        <td>{{ employee.email }}</td>
+                                        <td>
+                                            <a href="mailto:{{ employee.email }}">
+                                                {{ employee.email }}
+                                            </a>
+                                        </td>
                                         <td>{{ employee.phone }}</td>
-                                        <td>{{ employee.role }}</td>
+                                        <td>
+                                            <small class="role-badge" [ngClass]="getRoleClass(employee?.role)">
+                                                {{ employee.role }}
+                                            </small>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
