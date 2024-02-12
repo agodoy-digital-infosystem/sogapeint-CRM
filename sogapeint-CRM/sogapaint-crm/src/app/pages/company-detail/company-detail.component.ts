@@ -24,10 +24,12 @@ export class CompanyDetailComponent implements OnInit {
   // Titre de la page
   pageTitle: string = 'Détail entreprise';
   companyForm: FormGroup;
-  editMode: boolean = false;
+  // editMode: boolean = false;
   successMessage: string;
   errorMessage: string;
   isLoading: boolean = false;
+  currentUser: User;
+  // isAdmin: boolean = false;
 
 
   constructor(
@@ -41,6 +43,8 @@ export class CompanyDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Sogapeint' }, { label: this.pageTitle, active: true }];
+    this.currentUser = this.userProfileService.getCurrentUser();
+    // this.isAdmin = this.isAdminOrSuperAdmin();
     this.route.params.subscribe(params => {
       this.id = params['companyId']; 
       // Charge les détails de l'entreprise
@@ -78,19 +82,24 @@ export class CompanyDetailComponent implements OnInit {
     });
   }
 
-  saveCompanyDetails() {
-    // TODO: Implement the saveCompanyDetails method
+  isAdminOrSuperAdmin(): boolean {
+    console.log('Current user role:', this.currentUser.role);
+    return this.currentUser && (this.currentUser.role === 'admin' || this.currentUser.role === 'superAdmin');
   }
 
-  // Méthode pour activer le mode édition
-  activateEditMode() {
-    this.editMode = true;
-  }
+  // saveCompanyDetails() {
+  //   // TODO: Implement the saveCompanyDetails method
+  // }
 
-  // Méthode pour annuler le mode édition
-  cancelEditMode() {
-    this.editMode = false;
-  }
+  // // Méthode pour activer le mode édition
+  // activateEditMode() {
+  //   this.editMode = true;
+  // }
+
+  // // Méthode pour annuler le mode édition
+  // cancelEditMode() {
+  //   this.editMode = false;
+  // }
 
 
 
@@ -155,7 +164,9 @@ export class CompanyDetailComponent implements OnInit {
     }
     
 
-    editCompany() {}
+    editCompany() {
+      this.router.navigate(['/company-update', this.id]);
+    }
 
     getRoleClass(role: string): string {
       const roleClassMap = {

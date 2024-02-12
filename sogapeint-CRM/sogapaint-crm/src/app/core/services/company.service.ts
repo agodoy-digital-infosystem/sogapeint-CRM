@@ -51,4 +51,17 @@ export class CompanyService {
   getCompanyById(id: string): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/api/auth/company/${id}`);
   }
+
+  /**
+   * Met à jour une entreprise.
+   *
+   * Envoie une requête PUT pour mettre à jour une entreprise.
+   * @param id L'identifiant de l'entreprise.
+   * @param companyData Les données de l'entreprise à mettre à jour.
+   * @returns Un Observable contenant la réponse de la requête.
+   */
+  updateCompany(id: string, companyData: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/api/auth/company/${id}`, companyData);
+  }
+  
 }

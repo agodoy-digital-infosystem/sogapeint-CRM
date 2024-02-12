@@ -1,0 +1,80 @@
+<div class="container-fluid">
+    <app-pagetitle title="Mettre à jour l'entreprise" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Informations de l'entreprise</h4>
+                    <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
+                    <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = ''">{{ errorMessage }}</ngb-alert>
+                    <form [formGroup]="companyForm" (ngSubmit)="onSubmit()" class="scrollable-form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nom de l'entreprise</label>
+                            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Nom de l'entreprise" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="industry" class="form-label">Secteur d'activité</label>
+                            <input type="text" class="form-control" id="industry" formControlName="industry" placeholder="Secteur d'activité">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Adresse</label>
+                            <input type="text" class="form-control" id="address" formControlName="address" placeholder="Adresse">
+                        </div>
+
+                        <!-- Sites web -->
+                        <div formArrayName="websites" class="mb-3">
+                            <label class="form-label">Sites web</label>
+                            <div *ngFor="let website of getFormArray('websites').controls; let i=index" class="mb-2">
+                                <div class="input-group">
+                                    <input type="text" [formControlName]="i" class="form-control" placeholder="URL du site web">
+                                    <button class="btn btn-danger" type="button" (click)="removeFormArrayItem('websites', i)">-</button>
+                                </div>
+                            </div>
+                            <button class="btn icon-button" type="button" (click)="addFormArrayItem('websites')" ngbTooltip="Ajouter un site web" container="body">
+                                <i class="fas fa-plus-circle"></i>
+                              </button>
+                        </div>
+
+                        <!-- Numéros de téléphone -->
+                        <div formArrayName="phone" class="mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <div *ngFor="let phone of getFormArray('phone').controls; let i=index" class="mb-2">
+                                <div class="input-group">
+                                    <input type="text" [formControlName]="i" class="form-control" placeholder="Numéro de téléphone">
+                                    <button class="btn btn-danger" type="button" (click)="removeFormArrayItem('phone', i)">-</button>
+                                </div>
+                            </div>
+                            <button class="btn icon-button" type="button" (click)="addFormArrayItem('phone')" ngbTooltip="Ajouter un numéro de téléphone" container="body">
+                                <i class="fas fa-plus-circle"></i>
+                              </button>
+                        </div>
+
+                        <!-- Champs supplémentaires -->
+                        <div formGroupName="additionalFields" class="mb-3">
+                            <label class="form-label">Champs supplémentaires</label>
+                            <div *ngFor="let controlName of additionalFieldsKeys(); let i=index" class="mb-2">
+                                <div class="input-group">
+                                  <input type="text" [formControlName]="controlName" class="form-control me-2" placeholder="Clé">
+                                  <input type="text" class="form-control" [formControlName]="controlName" placeholder="Valeur">
+                                  <button class="btn btn-danger" type="button" (click)="removeAdditionalField(controlName)">-</button>
+                                </div>
+                              </div>
+                              
+                              <button class="btn icon-button" type="button" (click)="addAdditionalField()" ngbTooltip="Ajouter un champ supplémentaire, ainsi que sa clé" container="body">
+                                <i class="fas fa-plus-circle"></i>
+                              </button>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

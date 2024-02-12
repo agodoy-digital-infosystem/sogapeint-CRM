@@ -14,8 +14,8 @@ export interface Company {
   email?: string[];
   additionalFields?: {[key: string]: any};
   documents?: Document[]; // Peut-être remplacé par des identifiants de type string si vous ne chargez pas les objets Document complets
-  contractsAsCustomer?: Contract[]; // Nouveau champ
-  contractsAsContact?: Contract[]; // Nouveau champ
-  contractsAsExternalContributor?: Contract[]; // Nouveau champ
+  contractsAsCustomer?: Contract[]; 
+  contractsAsContact?: Contract[]; 
+  contractsAsExternalContributor?: Contract[];
 }
 
