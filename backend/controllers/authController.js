@@ -421,11 +421,11 @@ exports.updateCompany = async (req, res) => {
   try {
     // console.log('Modification de l’entreprise');
     const { companyId } = req.params;
-    const { name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor } = req.body;
+    const { normalized_name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor } = req.body;
     // console.log('Company id:', companyId);
     // Mise à jour de l'entreprise
     const updatedCompany = await CompanyModel.findByIdAndUpdate(new mongoose.Types.ObjectId(companyId), {
-      name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor
+      normalized_name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor
     }, { new: true });
 
     if (!updatedCompany) {
@@ -464,19 +464,32 @@ exports.deleteCompany = async (req, res) => {
 exports.addCompany = async (req, res) => {
   try {
     // console.log('Ajout d’une nouvelle entreprise');
-    const { name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor } = req.body;
-    let company = await CompanyModel.findOne({ name });
+    const { normalized_name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor } = req.body;
+    let company = await CompanyModel.findOne({ normalized_name });
     if (company) {
       return res.status(400).json({ message: 'Une entreprise avec ce nom existe déjà.' });
     }
     const newCompany = new CompanyModel({
-      name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor
+      normalized_name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor
     });
     await newCompany.save();
     // console.log('Nouvelle entreprise ajoutée');
     res.status(201).json({ message: 'Entreprise créée avec succès.', companyId: newCompany._id });
   } catch (error) {
     console.error('Erreur lors de l’ajout d’une nouvelle entreprise:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Fonction pour obtenir uniquement la liste des noms des entreprises
+exports.getCompaniesNames = async (req, res) => {
+  try {
+    // console.log('Fetching companies names');
+    const companies = await CompanyModel.find().select('name');
+    // console.log(`Found ${companies.length} companies`);
+    res.status(200).json(companies);
+  } catch (error) {
+    console.error('Error retrieving companies names:', error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -499,3 +512,4 @@ exports.getContractById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+

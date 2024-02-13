@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyService } from '../../core/services/company.service';
 import { Location } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-company-update',
@@ -17,12 +18,15 @@ export class CompanyUpdateComponent implements OnInit {
   breadCrumbItems: Array<{ label: string; url?: string; active?: boolean }> = [];
   pageTitle: string = 'Modifier les détails de l\'entreprise';
   
+  @ViewChild('confirmationModal', { static: false }) confirmationModal; // Référence au modal dans le template
+  
   constructor(
     private formBuilder: FormBuilder,
     private companyService: CompanyService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private modalService: NgbModal
     ) {
       this.companyForm = this.formBuilder.group({
         name: ['', Validators.required],
@@ -118,20 +122,21 @@ export class CompanyUpdateComponent implements OnInit {
       
       
       onSubmit(): void {
-        if (this.companyForm.valid) {
-          this.companyService.updateCompany(this.companyId, this.companyForm.value).subscribe({
-            next: (res) => {
-              this.successMessage = 'Entreprise mise à jour avec succès.';
-              this.errorMessage = '';
-              setTimeout(() => this.location.back(), 3000);
-            },
-            error: (err) => {
-              this.errorMessage = 'Erreur lors de la mise à jour de l\'entreprise.';
-              this.successMessage = '';
-              console.error('Error updating the company', err);
-            }
-          });
-        }
+        // if (this.companyForm.valid) {
+        //   this.companyService.updateCompany(this.companyId, this.companyForm.value).subscribe({
+        //     next: (res) => {
+        //       this.successMessage = 'Entreprise mise à jour avec succès.';
+        //       this.errorMessage = '';
+        //       setTimeout(() => this.location.back(), 3000);
+        //     },
+        //     error: (err) => {
+        //       this.errorMessage = 'Erreur lors de la mise à jour de l\'entreprise.';
+        //       this.successMessage = '';
+        //       console.error('Error updating the company', err);
+        //     }
+        //   });
+        // }
+        this.openConfirmationModal();
       }
       
       // Utilitaires pour ajouter ou supprimer des éléments des FormArray
@@ -142,4 +147,39 @@ export class CompanyUpdateComponent implements OnInit {
       removeFormArrayItem(fieldName: string, index: number): void {
         this.getFormArray(fieldName).removeAt(index);
       }
-    }
+      
+      openConfirmationModal() {
+        if (this.companyForm.dirty) { // Vérifie si des modifications ont été apportées
+          this.modalService.open(this.confirmationModal).result.then(
+            (result) => {
+              if (result === 'confirm') {
+                this.confirmUpdate();
+              }
+            },
+            (reason) => {
+              // Gestion de la fermeture du modal sans confirmation
+            }
+            );
+          } else {
+            // Pas de modifications détectées, pas besoin d'ouvrir le modal
+          }
+        }
+        
+        // Méthode appelée pour confirmer la mise à jour
+        confirmUpdate() {
+          if (this.companyForm.valid) {
+            this.companyService.updateCompany(this.companyId, this.companyForm.value).subscribe({
+              next: (res) => {
+                this.successMessage = 'Entreprise mise à jour avec succès.';
+                this.errorMessage = '';
+                setTimeout(() => this.location.back(), 3000);
+              },
+              error: (err) => {
+                this.errorMessage = 'Erreur lors de la mise à jour de l\'entreprise.';
+                this.successMessage = '';
+                console.error('Error updating the company', err);
+              }
+            });
+          }
+        }
+      }

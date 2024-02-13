@@ -20,3 +20,11 @@
         font-size: 24px; 
     }
 }
+
+.modified-field,
+.modified-field th,
+.modified-field td {
+    font-weight: bold;
+    color: #ffffff !important;
+    background-color: #dc3545;
+}

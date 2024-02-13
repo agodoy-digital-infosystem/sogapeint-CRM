@@ -78,3 +78,64 @@
         </div>
     </div>
 </div>
+
+
+<!-- Template pour le Modal de Confirmation pour la mise à jour de l'entreprise -->
+<ng-template #confirmationModal let-modal>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation de la mise à jour</h5>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Veuillez confirmer les modifications apportées :</p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr [ngClass]="{'modified-field': companyForm.controls['name'].dirty}">
+                                <th scope="row">Nom de l'entreprise</th>
+                                <td>{{ companyForm.value.name }}</td>
+                            </tr>
+                            <tr [ngClass]="{'modified-field': companyForm.controls['industry'].dirty}">
+                                <th scope="row">Secteur d'activité</th>
+                                <td>{{ companyForm.value.industry }}</td>
+                            </tr>
+                            <tr [ngClass]="{'modified-field': companyForm.controls['email'].dirty}">
+                                <th scope="row">Email</th>
+                                <td>{{ companyForm.value.email }}</td>
+                            </tr>
+                            <tr [ngClass]="{'modified-field': companyForm.controls['address'].dirty}">
+                                <th scope="row">Adresse</th>
+                                <td>{{ companyForm.value.address }}</td>
+                            </tr>
+                            <!-- Sites web -->
+                            <tr *ngFor="let website of getFormArray('websites').controls; let i = index" [ngClass]="{'modified-field': website.dirty}">
+                                <th scope="row">Site web {{i + 1}}</th>
+                                <td>{{ website.value }}</td>
+                            </tr>
+                            <!-- Numéros de téléphone -->
+                            <tr *ngFor="let phone of getFormArray('phone').controls; let i = index" [ngClass]="{'modified-field': phone.dirty}">
+                                <th scope="row">Téléphone {{i + 1}}</th>
+                                <td>{{ phone.value }}</td>
+                            </tr>
+                            <!-- Dynamiquement pour les champs supplémentaires -->
+                            <ng-container *ngFor="let key of additionalFieldsKeys()">
+                                <tr [ngClass]="{'modified-field': companyForm.get('additionalFields').get(key).dirty}">
+                                    <th scope="row">{{ key }}</th>
+                                    <td>{{ companyForm.get('additionalFields').get(key).value }}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Annuler</button>
+                <button type="button" class="btn btn-primary" (click)="confirmUpdate(); modal.close()">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

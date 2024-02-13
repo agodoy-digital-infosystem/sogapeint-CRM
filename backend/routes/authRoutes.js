@@ -53,6 +53,9 @@ router.post('/resetPassword', authController.resetPassword);
 // Route pour obtenir la liste de toutes les entreprises
 router.get('/companies', isConnected, authController.getCompanies);
 
+// Route pour obtenir la liste des noms d'entreprises
+router.get('/companiesNames', isConnected, authController.getCompaniesNames);
+
 // Route pour rechercher des entreprises
 router.get('/company/search', isConnected, authController.searchCompanies);
 
