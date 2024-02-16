@@ -74,8 +74,29 @@
                     <div class="card-header">Prestation</div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="prestation" class="form-label">Prestation</label>
-                            <input type="text" class="form-control" id="prestation" ngModel name="prestation">
+                            <div class="input-group">
+                                <!-- <label for="prestation" class="form-label">Prestation</label><br/> -->
+                                <select class="form-control" id="prestation" ngModel name="prestation">
+                                    <option value="5e4ba27006d62fd4a4e49916">Peinture</option>
+                                    <option value="5e4ba27606d62fd4a4e49917">Sol</option>
+                                    <option value="5e52cb8148f8b27b3d077a84">Électricité</option>
+                                    <option value="5e52cb8148f8b27b3d077a85">Plomberie</option>
+                                    <option value="5e52cb8148f8b27b3d077a86">Maçonnerie</option>
+                                    <option value="5e52cb8148f8b27b3d077a87">Menuiserie</option>
+                                    <option value="5e52cb8148f8b27b3d077a88">Vitrification</option>
+                                    <option value="5e52cb8148f8b27b3d077a89">Nettoyage</option>
+                                    <option value="5f58fef3bfdad857fcfbba50">Faïence</option>
+                                    <option value="5f58fefdbfdad857fcfbba51">Placo</option>
+                                    <option value="5f58ff06bfdad857fcfbba52">Carrelage</option>
+                                </select>
+
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                      <i class="fa-solid fa-chevron-down"></i> <!--icône chevron bas-->
+                                    </span>
+                                  </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
