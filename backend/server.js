@@ -6,6 +6,7 @@ require('dotenv').config();
 // Importation des routes
 const authRoutes = require('./routes/authRoutes');
 const scraperRoutes = require('./routes/scraperRoutes');
+const kpiRoutes = require('./routes/kpiRoutes');
 
 // Initialisation d'Express
 const app = express();
@@ -22,7 +23,9 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 // Utilisation des routes
 app.use('/api/auth', authRoutes);
 // app.use('/api', companyRoutes);
-app.use('/api/scrape', scraperRoutes)
+app.use('/api/scrape', scraperRoutes);
+// route pour les kpis
+app.use('/api/kpi', kpiRoutes);
 
 // Middleware pour la gestion des erreurs
 app.use((err, req, res, next) => {
