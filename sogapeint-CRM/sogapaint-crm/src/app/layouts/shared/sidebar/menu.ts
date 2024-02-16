@@ -2,6 +2,12 @@ import { MenuItem } from './menu.model';
 
 export const MENU: MenuItem[] = [
     {
+        id: 0,
+        label: 'Dashboard',
+        icon: 'ri-dashboard-line',
+        link: '/dashboard'
+    },
+    {
         id: 1,
         label: 'Gestion des contacts',
         icon: "ri-contacts-book-fill",

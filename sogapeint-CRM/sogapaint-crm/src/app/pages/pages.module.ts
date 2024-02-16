@@ -8,13 +8,19 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgScrollbar } from 'ngx-scrollbar';
+
+import { WidgetModule } from '../shared/widget/widget.module';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { NgbNavModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { IconsModule } from './icons/icons.module';
+
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 import { ManageUsersComponent } from './manage-users/manage-users.component';
@@ -25,12 +31,18 @@ import { CompanyDetailComponent } from './company-detail/company-detail.componen
 import { CompanyUpdateComponent } from './company-update/company-update.component';
 import { CompanyCreateComponent } from './company-create/company-create.component';
 // import { LandingPageComponent } from './landing-page/landing-page.component';
-import { HttpClientModule } from '@angular/common/http';
 
+// import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardFakeComponent } from './dashboard-fake/dashboard-fake.component';
+import { DashboardModule } from './dashboard/dashboard.module';
+
+import { HttpClientModule } from '@angular/common/http';
+import { FilterPipe } from './dashboard-fake/filter.pipe';
 
 
 @NgModule({
   declarations: [
+    FilterPipe,
     ManageUsersComponent, 
     CreateUserComponent, 
     UserDetailComponent, 
@@ -38,6 +50,9 @@ import { HttpClientModule } from '@angular/common/http';
     CompanyDetailComponent,
     CompanyUpdateComponent,
     CompanyCreateComponent,
+    DashboardFakeComponent,
+    
+    // DashboardComponent
     // LandingPageComponent
   ],
   imports: [
@@ -56,6 +71,11 @@ import { HttpClientModule } from '@angular/common/http';
     NgScrollbarModule, 
     IconsModule,
     HttpClientModule,
+    NgApexchartsModule,
+    DashboardModule,
+    WidgetModule,
+    NgScrollbarModule,
+    LeafletModule
   ],
   providers: [
     
