@@ -11,6 +11,8 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { FAQComponent } from './faq/faq.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardFakeComponent } from './dashboard-fake/dashboard-fake.component';
+import { OrderFormComponent } from './order-form/order-form.component';
+
 
 const routes: Routes = [
     { path: 'icons', loadChildren: () => import('./icons/icons.module').then(m => m.IconsModule) },
@@ -23,6 +25,7 @@ const routes: Routes = [
     { path: 'company-create', component: CompanyCreateComponent},
     { path: 'dashboard', component: DashboardFakeComponent},
     { path: 'FAQ', component: FAQComponent },
+    { path: 'order-form', component: OrderFormComponent },
     // route pour la landing page
     { path: '', component: LandingPageComponent}
 ];

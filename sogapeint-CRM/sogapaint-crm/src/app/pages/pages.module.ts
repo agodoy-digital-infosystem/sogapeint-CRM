@@ -35,9 +35,10 @@ import { CompanyCreateComponent } from './company-create/company-create.componen
 // import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardFakeComponent } from './dashboard-fake/dashboard-fake.component';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { OrderFormComponent } from './order-form/order-form.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { FilterPipe } from './dashboard-fake/filter.pipe';
+import { FilterPipe } from './dashboard-fake/filter.pipe'; // TODO pipe à modifier
 
 
 @NgModule({
@@ -51,7 +52,7 @@ import { FilterPipe } from './dashboard-fake/filter.pipe';
     CompanyUpdateComponent,
     CompanyCreateComponent,
     DashboardFakeComponent,
-    
+    OrderFormComponent,
     // DashboardComponent
     // LandingPageComponent
   ],

@@ -52,7 +52,12 @@ export const MENU: MenuItem[] = [
         icon: 'ri-question-answer-line',
         link: '/FAQ'
     },
-
+    {
+        id: 6,
+        label: 'Saisir une commande',
+        icon: 'ri-shopping-cart-2-line',
+        link: '/order-form'
+    },
     
     // {
     //     id: 3,
