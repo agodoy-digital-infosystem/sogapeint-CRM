@@ -24,7 +24,7 @@
                             <label for="address" class="form-label">Adresse</label>
                             <input type="text" class="form-control" id="address" formControlName="address" placeholder="Adresse">
                         </div>
-
+                        
                         <!-- Sites web -->
                         <div formArrayName="websites" class="mb-3">
                             <label class="form-label">Sites web</label>
@@ -36,9 +36,9 @@
                             </div>
                             <button class="btn icon-button" type="button" (click)="addFormArrayItem('websites')" ngbTooltip="Ajouter un site web" container="body">
                                 <i class="fas fa-plus-circle"></i>
-                              </button>
+                            </button>
                         </div>
-
+                        
                         <!-- Numéros de téléphone -->
                         <div formArrayName="phone" class="mb-3">
                             <label class="form-label">Téléphone</label>
@@ -50,26 +50,29 @@
                             </div>
                             <button class="btn icon-button" type="button" (click)="addFormArrayItem('phone')" ngbTooltip="Ajouter un numéro de téléphone" container="body">
                                 <i class="fas fa-plus-circle"></i>
-                              </button>
+                            </button>
                         </div>
-
+                        
                         <!-- Champs supplémentaires -->
                         <div formGroupName="additionalFields" class="mb-3">
                             <label class="form-label">Champs supplémentaires</label>
                             <div *ngFor="let controlName of additionalFieldsKeys(); let i=index" class="mb-2">
                                 <div class="input-group">
-                                  <input type="text" [formControlName]="controlName" class="form-control me-2" placeholder="Clé">
-                                  <input type="text" class="form-control" [formControlName]="controlName" placeholder="Valeur">
-                                  <button class="btn btn-danger" type="button" (click)="removeAdditionalField(controlName)">-</button>
+                                    <input type="text" [formControlName]="controlName" class="form-control me-2" placeholder="Clé">
+                                    <input type="text" class="form-control" [formControlName]="controlName" placeholder="Valeur">
+                                    <button class="btn btn-danger" type="button" (click)="removeAdditionalField(controlName)">-</button>
                                 </div>
-                              </div>
-                              
-                              <button class="btn icon-button" type="button" (click)="addAdditionalField()" ngbTooltip="Ajouter un champ supplémentaire, ainsi que sa clé" container="body">
+                            </div>
+                            
+                            <button class="btn icon-button" type="button" (click)="addAdditionalField()" ngbTooltip="Ajouter un champ supplémentaire, ainsi que sa clé" container="body">
                                 <i class="fas fa-plus-circle"></i>
-                              </button>
+                            </button>
                         </div>
-
+                        
                         <div class="d-flex justify-content-end">
+                            <!-- Bouton Annuler -->
+                            <button type="button" class="btn btn-secondary me-2" (click)="cancelUpdate()">Annuler</button>
+                            <!-- Bouton Metre à jour -->
                             <button type="submit" class="btn btn-primary">Mettre à jour</button>
                         </div>
                     </form>

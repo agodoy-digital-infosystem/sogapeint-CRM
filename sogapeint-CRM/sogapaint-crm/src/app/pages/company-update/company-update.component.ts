@@ -182,4 +182,10 @@ export class CompanyUpdateComponent implements OnInit {
             });
           }
         }
+
+        cancelUpdate(): void {
+          // Redirige vers la page de détail de l'entreprise en utilisant l'ID de l'entreprise
+          this.router.navigate(['/company-detail', this.companyId]);
+        }
+        
       }
