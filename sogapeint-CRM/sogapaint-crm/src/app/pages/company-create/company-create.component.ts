@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CompanyService } from '../../core/services/company.service';
@@ -29,6 +29,7 @@ export class CompanyCreateComponent implements OnInit {
   ngOnInit(): void {
     this.companyForm = this.fb.group({
       normalized_name: ['', Validators.required],
+      abbreviation: ['', [Validators.required, this.consonantValidator]],
       names: ['', Validators.required],
       industry: [''],
       email: ['', Validators.email],
@@ -39,6 +40,34 @@ export class CompanyCreateComponent implements OnInit {
     });
     
     this.getCompaniesNames();
+  }
+
+  // Validateur personnalisé pour le champ abbréviation
+  consonantValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value || '';
+    const consonants = value.replace(/[^BCDFGHJKLMNPQRSTVWXYZ]/gi, '');
+    if (consonants.length === 5 && value === consonants) {
+      return null; // La validation réussit
+    }
+    return { consonants: true }; // Retourner un objet d'erreur si la validation échoue
+  }
+
+  // Méthode pour générer l'abbréviation à partir du nom de l'entreprise
+  // generateAbbreviation(name: string): string {
+  //   const normalized = this.normalizeCompanyName(name);
+  //   let consonants = normalized.replace(/[aeiouAEIOU]/g, '');
+  //   consonants = consonants.substr(0, 5); // Prendre les 5 premières consonnes
+  //   return consonants;
+  // }
+  generateAbbreviation(name: string): string {
+    // Normaliser le nom et retirer les accents
+    const normalized = this.normalizeCompanyName(name);
+    // Filtrer uniquement les consonnes et les convertir en majuscules
+    let consonants = normalized
+                      .toUpperCase()
+                      .replace(/[^BCDFGHJKLMNPQRSTVWXYZ]/g, ''); // Ne garder que les consonnes en majuscule
+    // Retourner les 5 premières consonnes
+    return consonants.substr(0, 5);
   }
   
   getCompaniesNames(): void {
@@ -68,6 +97,10 @@ export class CompanyCreateComponent implements OnInit {
     checkCompanyName() {
       const name = this.companyForm.get('names').value;
       const normalized = this.normalizeCompanyName(name);
+      this.companyForm.get('normalized_name').setValue(normalized, {emitEvent: false});
+      // Génération et mise à jour de l'abbréviation lors de la vérification du nom de l'entreprise
+      const abbreviation = this.generateAbbreviation(normalized);
+      this.companyForm.get('abbreviation').setValue(abbreviation);
       if (this.existingCompanyNames.includes(normalized)) {
         this.errorMessage = 'Une entreprise avec ce nom existe déjà.';
       } else {
@@ -75,14 +108,23 @@ export class CompanyCreateComponent implements OnInit {
       }
     }
 
-    normalizeCompanyName(name: string): string {
-      return name
-          .toUpperCase() // Convertir en majuscules
-          .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Supprimer les accents
-          .replace(/\d{4}/g, "") // Supprimer les années
-          .trim() // Supprimer les espaces avant et après
-          .replace(/\s+/g, ' '); // Remplacer les espaces multiples par un seul espace
+  //   normalizeCompanyName(name: string): string {
+  //     return name
+  //         .toUpperCase() // Convertir en majuscules
+  //         .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Supprimer les accents
+  //         .replace(/\d{4}/g, "") // Supprimer les années
+  //         .trim() // Supprimer les espaces avant et après
+  //         .replace(/\s+/g, ' '); // Remplacer les espaces multiples par un seul espace
+  // }
+  normalizeCompanyName(name: string): string {
+    return name
+        .toUpperCase() // Convertir en majuscules
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Retirer les accents
+        .replace(/\d+/g, "") // Retirer tous les chiffres
+        .trim() // Retirer les espaces au début et à la fin
+        .replace(/\s{2,}/g, ' '); // Remplacer les espaces multiples par un seul espace
   }
+  
     
     onSubmit() {
       this.companyForm.addControl('normalized_name', this.fb.control(''));
@@ -123,18 +165,12 @@ export class CompanyCreateComponent implements OnInit {
       phoneNumbers.push(this.fb.control('', Validators.required));
     }
     
-    // addAdditionalField(): void {
-    //   const additionalFields = this.companyForm.get('additionalFields') as FormArray;
-    //   additionalFields.push(this.fb.group({
-    //     key: ['', Validators.required],
-    //     value: ['']
-    //   }));
-    // }
+    
     addAdditionalField(): void {
       const additionalFields = this.companyForm.get('additionalFields') as FormArray;
       const group = this.fb.group({
-        key: ['', Validators.required], // Peut-être voulez-vous ajouter des validateurs ici
-        value: [''] // Peut-être voulez-vous ajouter des validateurs ici
+        key: ['', Validators.required], // Peut-être devrait-on ajouter des validateurs ici
+        value: [''] // Peut-être devrait-on ajouter des validateurs ici
       });
       additionalFields.push(group);
     }

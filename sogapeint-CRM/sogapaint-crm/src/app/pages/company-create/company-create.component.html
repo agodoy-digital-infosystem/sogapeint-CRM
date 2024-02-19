@@ -13,6 +13,16 @@
                             <input type="text" class="form-control" id="names" formControlName="names" placeholder="Nom de l'entreprise" required (input)="checkCompanyName()">
                         </div>
                         <div class="mb-3">
+                            <label for="normalized-name" class="form-label">Nom Normalisé</label>
+                            <input type="text" class="form-control" id="normalized-name" formControlName="normalized_name" placeholder="Nom normalisé" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="abbreviation" class="form-label">Abbréviation</label>
+                            <input type="text" class="form-control" id="abbreviation" formControlName="abbreviation"
+                            placeholder="Abbréviation" [ngModel]="companyForm.get('abbreviation').value | uppercase"
+                            (ngModelChange)="companyForm.get('abbreviation').setValue($event.toUpperCase())">
+                        </div>
+                        <div class="mb-3">
                             <label for="industry" class="form-label">Secteur d'activité</label>
                             <input type="text" class="form-control" id="industry" formControlName="industry" placeholder="Secteur d'activité">
                         </div>
@@ -48,19 +58,6 @@
                                 <i class="fas fa-plus-circle"></i>
                             </button>
                         </div>
-                        <!-- <div formGroupName="additionalFields" class="mb-3">
-                            <label class="form-label">Champs supplémentaires</label>
-                            <div *ngFor="let controlName of additionalFieldsKeys(); let i=index" class="mb-2">
-                                <div class="input-group">
-                                    <input type="text" [formControlName]="controlName" class="form-control me-2" placeholder="Clé">
-                                    <input type="text" class="form-control" [formControlName]="controlName" placeholder="Valeur">
-                                    <button class="btn btn-danger" type="button" (click)="removeAdditionalField(i)">-</button>
-                                </div>
-                            </div>
-                            <button class="btn icon-button" type="button" (click)="addAdditionalField()" ngbTooltip="Ajouter un champ supplémentaire, ainsi que sa clé" container="body">
-                                <i class="fas fa-plus-circle"></i>
-                            </button>
-                        </div> -->
                         <div formArrayName="additionalFields" class="mb-3">
                             <label class="form-label">Champs supplémentaires</label>
                             <div *ngFor="let additionalField of getFormArray('additionalFields').controls; let i=index" class="mb-2">
