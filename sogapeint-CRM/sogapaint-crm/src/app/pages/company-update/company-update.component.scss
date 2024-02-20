@@ -28,3 +28,31 @@
     color: #ffffff !important;
     background-color: #dc3545;
 }
+
+.ng-dirty:not(form) {
+    border: 2px solid #007bff; /* couleur bleue de Bootstrap pour 'info' */
+}
+
+.ng-dirty.ng-invalid:not(form) {
+    border-color: #dc3545; /* couleur rouge de Bootstrap pour 'danger' */
+}
+
+// .input-group .input-group-append .input-group-text {
+//     padding: 0.75rem 0.75rem; 
+//     height: auto
+// }
+
+// .input-group .form-control {
+//     height: auto;
+// }
+
+.modified-field,
+.modified-field th,
+.modified-field td {
+    font-weight: bold;
+    color: #ffffff !important;
+    background-color: #dc3545;
+}
+
+
+

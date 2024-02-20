@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyService } from '../../core/services/company.service';
 import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Company } from '../../core/models/company.models';
 
 @Component({
   selector: 'app-company-update',
@@ -13,6 +14,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class CompanyUpdateComponent implements OnInit {
   companyForm: FormGroup;
   companyId: string;
+  company: Company;
   successMessage: string = '';
   errorMessage: string = '';
   breadCrumbItems: Array<{ label: string; url?: string; active?: boolean }> = [];
@@ -29,14 +31,15 @@ export class CompanyUpdateComponent implements OnInit {
     private modalService: NgbModal
     ) {
       this.companyForm = this.formBuilder.group({
-        name: ['', Validators.required],
+        name: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9 ]+$')]],
         address: [''],
-        industry: [''],
-        websites: this.formBuilder.array([]),
-        phone: this.formBuilder.array([]),
-        email: [''],
-        additionalFields: this.formBuilder.group({}) // additionalFields comme un FormGroup vide
+        industry: ['', Validators.pattern('^[A-Za-z0-9 ]+$')],
+        websites: this.formBuilder.array([], this.validUrl),
+        phone: this.formBuilder.array([], this.validFrenchPhoneNumber),
+        email: ['', Validators.email],
+        additionalFields: this.formBuilder.group({}) 
       });
+      
       this.companyId = '';
       this.breadCrumbItems = [{ label: 'Sogapeint' }, { label: this.pageTitle, active: true }];
     }
@@ -49,6 +52,7 @@ export class CompanyUpdateComponent implements OnInit {
           this.loadCompanyDetails(this.companyId);
         }
       });
+      
     }
     
     loadCompanyDetails(id: string): void {
@@ -62,6 +66,8 @@ export class CompanyUpdateComponent implements OnInit {
             industry: company.industry,
             email: company.email
           });
+          this.company = company;
+          this.setupValueChangeSubscriptions(company);
           this.setFormArrays('websites', company.websites);
           this.setFormArrays('phone', company.phone);
           this.setAdditionalFields(company.additionalFields);
@@ -72,6 +78,67 @@ export class CompanyUpdateComponent implements OnInit {
         }
         );
       }
+      
+      setupValueChangeSubscriptions(company: Company): void {
+        // Assuming company has properties like 'normalized_name', 'address', etc.
+        this.companyForm.get('name').valueChanges.subscribe(() => {
+          this.resetControlIfUnchanged('name', company.normalized_name);
+        });
+        
+        if (company.hasOwnProperty('address')) {
+          this.companyForm.get('address').valueChanges.subscribe(() => {
+            this.resetControlIfUnchanged('address', company.address);
+          });
+        }
+        
+        if (company.hasOwnProperty('industry')) {
+          this.companyForm.get('industry').valueChanges.subscribe(() => {
+            this.resetControlIfUnchanged('industry', company.industry);
+          });
+        }
+        
+        if (company.hasOwnProperty('email')) {
+          this.companyForm.get('email').valueChanges.subscribe(() => {
+            this.resetControlIfUnchanged('email', company.email);
+          });
+        }
+        
+      }
+      
+      resetControlIfUnchanged(controlName: string, originalValue: any): void {
+        console.log('resetControlIfUnchanged', controlName, originalValue);
+        const control = this.companyForm.get(controlName);
+        
+        const isOriginallyUndefined = originalValue === undefined || originalValue === null || originalValue === '' || originalValue.length === 0;
+        const isControlValueUnchanged = isOriginallyUndefined ? control.value === '' || control.value === null : control.value === originalValue;
+        
+        if (isControlValueUnchanged) {
+          control.markAsPristine();
+          control.markAsUntouched();
+        }
+      }
+      
+      
+      validUrl(control: FormControl): ValidationErrors | null {
+        const urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+        return urlPattern.test(control.value) ? null : { invalidUrl: true };
+      }
+      
+      // validation des numéros internationaux, si besoin plus tard
+      validPhoneNumber(control: FormControl): ValidationErrors | null {
+        const phonePattern = /^\+?[1-9]\d{1,14}$/; 
+        return phonePattern.test(control.value) ? null : { invalidPhoneNumber: true };
+      }
+      
+      validFrenchPhoneNumber(control: FormControl): ValidationErrors | null {
+        // Ce modèle correspond aux numéros de téléphone français en permettant au chiffre de départ d'être 0,
+        // suivi d'un chiffre compris entre 1 et 9 (pour les fixes) ou 6 ou 7 (pour les mobiles),
+        // puis n'importe quelle combinaison de 8 chiffres.
+        // Il autorise également des espaces entre les groupes de deux chiffres pour plus de lisibilité.
+        const phonePattern = /^(0[1-9]|0[6-7])(?:\s?\d{2}){4}$/;
+        return phonePattern.test(control.value) ? null : { invalidPhoneNumber: true };
+      }
+      
       
       setFormArrays(fieldName: string, items: string[]): void {
         const formArray = this.companyForm.get(fieldName) as FormArray;
@@ -88,6 +155,16 @@ export class CompanyUpdateComponent implements OnInit {
         return this.companyForm.get(fieldName) as FormArray;
       }
       
+      addWebsite(): void {
+        const control = this.formBuilder.control('', Validators.compose([Validators.required, this.validUrl]));
+        (this.companyForm.get('websites') as FormArray).push(control);
+      }
+      
+      addPhone(): void {
+        const control = this.formBuilder.control('', Validators.compose([Validators.required, this.validFrenchPhoneNumber]));
+        (this.companyForm.get('phone') as FormArray).push(control);
+      }
+      
       setAdditionalFields(fields: {[key: string]: any} | null | undefined): void {
         const additionalFieldsGroup = this.companyForm.get('additionalFields') as FormGroup;
         // Clear the existing FormGroup controls
@@ -102,8 +179,7 @@ export class CompanyUpdateComponent implements OnInit {
         }
       }
       
-      
-      
+
       addAdditionalField(): void {
         const additionalFieldsGroup = this.companyForm.get('additionalFields') as FormGroup;
         // Utilisez un identifiant unique ou un prompt pour le nom du champ
@@ -182,10 +258,26 @@ export class CompanyUpdateComponent implements OnInit {
             });
           }
         }
-
+        
         cancelUpdate(): void {
           // Redirige vers la page de détail de l'entreprise en utilisant l'ID de l'entreprise
           this.router.navigate(['/company-detail', this.companyId]);
+        }
+        
+        // Ces méthodes sont utiles pour gérer la couleur des champs de formulaire
+        resetDirty(controlName: string) {
+          let control = this.companyForm.get(controlName);
+          if (control.value === this.company[controlName]) {
+            control.markAsPristine();
+            control.markAsUntouched();
+          }
+        }
+        
+        resetField(controlName: string) {
+          const originalValue = this.company[controlName];
+          this.companyForm.get(controlName).setValue(originalValue);
+          this.companyForm.get(controlName).markAsPristine();
+          this.companyForm.get(controlName).markAsUntouched();
         }
         
       }

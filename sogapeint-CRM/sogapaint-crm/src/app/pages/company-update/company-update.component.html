@@ -10,19 +10,19 @@
                     <form [formGroup]="companyForm" (ngSubmit)="onSubmit()" class="scrollable-form">
                         <div class="mb-3">
                             <label for="name" class="form-label">Nom de l'entreprise</label>
-                            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Nom de l'entreprise" required>
+                            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Nom de l'entreprise" required [ngClass]="{'ng-dirty': companyForm.controls['name'].dirty, 'ng-dirty.ng-invalid': companyForm.controls['name'].dirty && companyForm.controls['name'].invalid}">
                         </div>
                         <div class="mb-3">
                             <label for="industry" class="form-label">Secteur d'activité</label>
-                            <input type="text" class="form-control" id="industry" formControlName="industry" placeholder="Secteur d'activité">
+                            <input type="text" class="form-control" id="industry" formControlName="industry" placeholder="Secteur d'activité" [ngClass]="{'ng-dirty': companyForm.controls['industry'].dirty, 'ng-dirty.ng-invalid': companyForm.controls['industry'].dirty && companyForm.controls['industry'].invalid}">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
+                            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email" [ngClass]="{'ng-dirty': companyForm.controls['email'].dirty, 'ng-dirty.ng-invalid': companyForm.controls['email'].dirty && companyForm.controls['email'].invalid}">
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">Adresse</label>
-                            <input type="text" class="form-control" id="address" formControlName="address" placeholder="Adresse">
+                            <input type="text" class="form-control" id="address" formControlName="address" placeholder="Adresse" [ngClass]="{'ng-dirty': companyForm.controls['address'].dirty, 'ng-dirty.ng-invalid': companyForm.controls['address'].dirty && companyForm.controls['address'].invalid}">
                         </div>
                         
                         <!-- Sites web -->
@@ -30,11 +30,11 @@
                             <label class="form-label">Sites web</label>
                             <div *ngFor="let website of getFormArray('websites').controls; let i=index" class="mb-2">
                                 <div class="input-group">
-                                    <input type="text" [formControlName]="i" class="form-control" placeholder="URL du site web">
+                                    <input type="text" [formControlName]="i" class="form-control" id="website{{i}}" placeholder="URL du site web" [ngClass]="{'ng-dirty': companyForm.controls['website' + i].dirty, 'ng-dirty.ng-invalid': companyForm.controls['website' + i].dirty && companyForm.controls['website' + i].invalid}">
                                     <button class="btn btn-danger" type="button" (click)="removeFormArrayItem('websites', i)">-</button>
                                 </div>
                             </div>
-                            <button class="btn icon-button" type="button" (click)="addFormArrayItem('websites')" ngbTooltip="Ajouter un site web" container="body">
+                            <button class="btn icon-button" type="button" (click)="addWebsite()" ngbTooltip="Ajouter un site web" container="body">
                                 <i class="fas fa-plus-circle"></i>
                             </button>
                         </div>
@@ -44,11 +44,12 @@
                             <label class="form-label">Téléphone</label>
                             <div *ngFor="let phone of getFormArray('phone').controls; let i=index" class="mb-2">
                                 <div class="input-group">
-                                    <input type="text" [formControlName]="i" class="form-control" placeholder="Numéro de téléphone">
+                                    
+                                    <input type="text" [formControlName]="i" id="phone{{i}}" class="form-control" placeholder="Numéro de téléphone" [ngClass]="{'ng-dirty': companyForm.controls['phonei' + i].dirty, 'ng-dirty.ng-invalid': companyForm.controls['phonei' + i].dirty && companyForm.controls['phonei' + i].invalid}">
                                     <button class="btn btn-danger" type="button" (click)="removeFormArrayItem('phone', i)">-</button>
                                 </div>
                             </div>
-                            <button class="btn icon-button" type="button" (click)="addFormArrayItem('phone')" ngbTooltip="Ajouter un numéro de téléphone" container="body">
+                            <button class="btn icon-button" type="button" (click)="addPhone()" ngbTooltip="Ajouter un numéro de téléphone" container="body">
                                 <i class="fas fa-plus-circle"></i>
                             </button>
                         </div>
