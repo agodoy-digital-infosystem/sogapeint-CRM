@@ -179,7 +179,7 @@ export class CompanyUpdateComponent implements OnInit {
         }
       }
       
-
+      
       addAdditionalField(): void {
         const additionalFieldsGroup = this.companyForm.get('additionalFields') as FormGroup;
         // Utilisez un identifiant unique ou un prompt pour le nom du champ
@@ -274,7 +274,32 @@ export class CompanyUpdateComponent implements OnInit {
         }
         
         resetField(controlName: string) {
-          const originalValue = this.company[controlName];
+          // map the original value to the form control
+          // this.company.normalized_name => this.companyForm.get('name').setValue(this.company.normalized_name);
+          // this.company.address => this.companyForm.get('address').setValue(this.company.address);
+          // this.company.industry => this.companyForm.get('industry').setValue(this.company.industry);
+          // this.company.email => this.companyForm.get('email').setValue(this.company.email);
+          // bref, il me fait faire un mapping : controlName => this.company[controlName]
+          
+          // const originalValue = this.company[controlName];
+          let originalValue;
+          switch(controlName) {
+            case 'name':
+            originalValue = this.company.normalized_name;
+            break;
+            case 'address':
+            originalValue = this.company.address;
+            break;
+            case 'industry':
+            originalValue = this.company.industry;
+            break;
+            case 'email':
+            originalValue = this.company.email;
+            break;
+            default:
+            console.error(`Invalid controlName: ${controlName}`);
+            return;
+          }
           this.companyForm.get(controlName).setValue(originalValue);
           this.companyForm.get(controlName).markAsPristine();
           this.companyForm.get(controlName).markAsUntouched();
