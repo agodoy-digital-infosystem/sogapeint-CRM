@@ -1,93 +1,178 @@
-<div class="container-fluid">
-    <app-pagetitle title="Saisie d'une commande" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
 
-<div class="container mt-5">
-    <div class="row">
-      <div class="col-12 mb-2">
-        <h2>Détails de la Commande</h2>
-        <hr>
-      </div>
-  
-      <!-- Informations Générales -->
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            Informations Générales
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Numéro Interne: {{ contract?.internal_number }}</li>
-            <li class="list-group-item">Client ID: {{ contract?.customer }}</li>
-            <li class="list-group-item">Contact ID: {{ contract?.contact }}</li>
-            <li class="list-group-item">Prestation: {{ contract?.benefit }}</li>
-            <li class="list-group-item">Statut: {{ contract?.status }}</li>
-          </ul>
-        </div>
-      </div>
-  
-      <!-- Informations de Facturation -->
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            Informations de Facturation
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Numéro de Facture: {{ contract?.invoice_number }}</li>
-            <li class="list-group-item">Montant HT: {{ contract?.amount_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}</li>
-            <li class="list-group-item">Bénéfice HT: {{ contract?.benefit_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}</li>
-          </ul>
-        </div>
-      </div>
-  
-      <!-- Informations sur l'exécution -->
-      <div class="col-12 mt-3">
-        <div class="card">
-          <div class="card-header">
-            Informations sur l'Exécution
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <p class="mb-1">Heures Prévues: {{ contract?.prevision_data_hour }}</p>
-                <p>Jours Prévus: {{ contract?.prevision_data_day }}</p>
-              </div>
-              <div class="col-md-6">
-                <p class="mb-1">Heures Réalisées: {{ contract?.execution_data_hour }}</p>
-                <p>Jours Réalisés: {{ contract?.execution_data_day }}</p>
-              </div>
+<div *ngIf="showSecretDiv" class="secret-div">
+    <div class="machine-wrap">
+        <div class="machine">
+            <div class="machine-roof">
+                <div class="machine-silencer">
+                    <div class="machine-smoke"></div>
+                </div>
             </div>
-          </div>
+            <div class="machine-main">
+                <div class="machine-body"></div>
+                <div class="machine-back"></div>
+                <div class="machine-front"></div>
+            </div>	
         </div>
-      </div>
-  
-      <!-- Adresse de la Commande -->
-      <div class="col-12 mt-3">
-        <div class="card">
-          <div class="card-header">
-            Adresse de la Commande
-          </div>
-          <div class="card-body">
-            <p class="mb-1">Adresse: {{ contract?.address }}</p>
-            <p>Numéro d'Appartement: {{ contract?.appartment_number }}</p>
-            <p>Occupé: {{ contract?.occupied ? 'Oui' : 'Non' }}</p>
-          </div>
+        <div class="road">
+            <div class="mud-wrap clearfix">
+                <div class="mud"></div>
+                <div class="mud"></div>
+                <div class="mud"></div>
+                <div class="mud"></div>
+            </div>
         </div>
-      </div>
-  
-      <!-- Dates Importantes -->
-      <div class="col-12 mt-3">
-        <div class="card">
-          <div class="card-header">
-            Dates Importantes
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Début des Travaux: {{ contract?.start_date_works | date }}</li>
-            <li class="list-group-item">Fin des Travaux: {{ contract?.end_date_works | date }}</li>
-            <li class="list-group-item">Date de Fin Client: {{ contract?.end_date_customer | date }}</li>
-          </ul>
-        </div>
-      </div>
-  
     </div>
-  </div>
-  
+</div>
+<!-- GNAGNAGNAGNAGNA -->
+<div class="container-fluid">
+    <app-pagetitle title="Détails de la Commande" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+    
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 mb-2">
+                <h2>Détails de la Commande</h2>
+                <hr>
+            </div>
+            
+            <!-- Première ligne de cartes -->
+            <div class="col-md-6">
+                <!-- Informations Générales -->
+                <div class="card mb-3">
+                    <div class="card-header">Informations Générales</div>
+                    <div class="card-body">
+                        <!-- Informations Générales ici -->
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Numéro Interne</th>
+                                    <td>{{ contract?.internal_number }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Client ID</th>
+                                    <td>{{ contract?.customer }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Contact ID</th>
+                                    <td>{{ contract?.contact }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Prestation</th>
+                                    <td>{{ contract?.benefit }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Statut</th>
+                                    <td>{{ contract?.status }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Informations sur l'exécution -->
+                <div class="card">
+                    <div class="card-header">Informations sur l'Exécution</div>
+                    <div class="card-body">
+                        <!-- Informations sur l'exécution ici -->
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Heures Prévues</th>
+                                    <td>{{ contract?.prevision_data_hour }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Jours Prévus</th>
+                                    <td>{{ contract?.prevision_data_day }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Heures Réalisées</th>
+                                    <td>{{ contract?.execution_data_hour }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Jours Réalisés</th>
+                                    <td>{{ contract?.execution_data_day }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <!-- Informations de Facturation -->
+                <div class="card mb-3">
+                    <div class="card-header">Informations de Facturation</div>
+                    <div class="card-body">
+                        <!-- Informations de Facturation ici -->
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Numéro de Facture</th>
+                                    <td>{{ contract?.invoice_number }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Montant HT</th>
+                                    <td>{{ contract?.amount_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Bénéfice HT</th>
+                                    <td>{{ contract?.benefit_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Adresse de la Commande -->
+                <div class="card">
+                    <div class="card-header">Adresse de la Commande</div>
+                    <div class="card-body">
+                        <!-- Adresse de la Commande ici -->
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Adresse</th>
+                                    <td>{{ contract?.address }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Numéro d'Appartement</th>
+                                    <td>{{ contract?.appartment_number }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Occupé</th>
+                                    <td>{{ contract?.occupied ? 'Oui' : 'Non' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Deuxième ligne de cartes -->
+            <div class="col-12 mt-3">
+                <!-- Dates Importantes -->
+                <div class="card">
+                    <div class="card-header">Dates Importantes</div>
+                    <div class="card-body">
+                        <!-- Dates Importantes ici -->
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Début des Travaux</th>
+                                    <td>{{ contract?.start_date_works | date }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Fin des Travaux</th>
+                                    <td>{{ contract?.end_date_works | date }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Date de Fin Client</th>
+                                    <td>{{ contract?.end_date_customer | date }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

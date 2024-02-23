@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContractService } from '../../core/services/contract.service';
 
@@ -14,6 +14,9 @@ export class OrderDetailComponent implements OnInit {
     { label: 'Détail Commande', active: true }
   ];
   contract: any; // Contiendra les détails de la commande
+  showSecretDiv: boolean = false;
+  private konamiCode: string[] = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  private currentInput: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -37,5 +40,23 @@ export class OrderDetailComponent implements OnInit {
       },
       error: (error) => console.error('Erreur lors du chargement des détails de la commande', error)
     });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    this.currentInput.push(event.key);
+    if (this.currentInput.length > this.konamiCode.length) {
+      this.currentInput.shift();
+    }
+    if (this.konamiCode.every((code, index) => code === this.currentInput[index])) {
+      this.showSecret();
+    }
+  }
+
+  showSecret() {
+    // scrolle automatiquement vers le haut de la page
+    window.scrollTo(0, 0);
+    this.showSecretDiv = true;
+    setTimeout(() => this.showSecretDiv = false, 5000);
   }
 }
