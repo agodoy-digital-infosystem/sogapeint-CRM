@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const contractSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    // _id: mongoose.Schema.Types.ObjectId,
     file: [mongoose.Schema.Types.Mixed], // Assuming mixed types in the array
     trash: Boolean,
     date_cde: Date,

@@ -51,4 +51,16 @@ export class ContractService {
     getContractById(contractId: string): Observable<any> {
         return this.http.get<any>(`${environment.apiUrl}/api/auth/contract/${contractId}`);
     }
+    
+    /**
+    * Crée un nouveau contrat.
+    * 
+    * Envoie une requête POST pour créer un nouveau contrat avec les données fournies.
+    * @param contractData Les données du contrat à créer.
+    * @returns Un Observable contenant la réponse du serveur.
+    */
+    addContract(contractData: any): Observable<any> {
+        return this.http.post<any>(`${environment.apiUrl}/api/auth/contract`, contractData);
+    }
+    
 }

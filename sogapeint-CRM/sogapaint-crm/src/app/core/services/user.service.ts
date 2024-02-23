@@ -98,6 +98,19 @@ export class UserProfileService {
     }
 
     /**
+     * Recherche des utilisateurs par nom, prénom ou email.
+     * 
+     * Envoie une requête GET avec un paramètre de requête pour rechercher des utilisateurs.
+     * @param query La chaîne de caractères pour filtrer les utilisateurs.
+     * @returns Un Observable contenant un tableau d'utilisateurs filtrés.
+     */
+    searchUsers(query: string) {
+        console.log('searchUsers', query);
+        console.log('searchUsers', `${environment.apiUrl}/api/auth/user/search`);
+        return this.http.get<User[]>(`${environment.apiUrl}/api/auth/user-search`, { params: { q: query } });
+    }
+
+    /**
      * Réinitialise le mot de passe d'un utilisateur par un administrateur.
      *
      * Envoie une requête POST au backend pour réinitialiser le mot de passe d'un utilisateur spécifique.

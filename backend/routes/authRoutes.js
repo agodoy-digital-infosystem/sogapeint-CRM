@@ -32,6 +32,9 @@ router.put('/user/:userId', isAdminOrSuperAdmin, authController.updateUser);
 // Route pour supprimer un utilisateur (protégée par le middleware isAdminOrSuperAdmin)
 router.delete('/user/:userId', isAdminOrSuperAdmin, authController.deleteUser);
 
+// Route pour rechercher un utilisateur par nom, prénom ou email
+router.get('/user-search', isConnected, authController.searchUsers);
+
 // Route pour la connexion
 router.post('/login',loginLimiter, authController.login);
 
@@ -46,6 +49,8 @@ router.post('/verifyResetCode', authController.verifyResetCode);
 
 // Route pour réinitialiser le mot de passe
 router.post('/resetPassword', authController.resetPassword);
+
+
 
 
 //// ENTREPRISES 
@@ -74,6 +79,7 @@ router.delete('/company/:companyId', isAdminOrSuperAdmin, authController.deleteC
 // Route pour obtenir un contrat (protégée par le middleware)
 router.get('/contract/:contractId', isConnected, authController.getContractById);
 
-
+// Route pour ajouter un contrat
+router.post('/contract', isAdminOrSuperAdmin, authController.addContract);
 
 module.exports = router;

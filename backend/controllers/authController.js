@@ -360,6 +360,29 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+// Fonction pour rechercher un utilisateur par nom, prénom ou email (insensible à la casse)
+exports.searchUsers = async (req, res) => {
+  console.log('Recherche d\’utilisateurs');
+  try {
+    console.log('Recherche d\’utilisateurs');
+    console.log('Request :', req.query);
+    const query = req.query.q;
+    // Recherche insensible à la casse, selon une partie du prénom, du nom ou de l'email
+    const users = await User.find({
+      $or: [
+        { firstname: { $regex: query, $options: 'i' } },
+        { lastname: { $regex: query, $options: 'i' } },
+        { email: { $regex: query, $options: 'i' } }
+      ]
+    });
+    console.log('Nombre d\’utilisateurs trouvés:', users.length);
+    console.log('Users:', users);
+    res.json(users);
+  } catch (error) {
+    res.status(500).send({ message: "Erreur lors de la recherche des utilisateurs", error });
+  }
+};
+
 
 
 //// ENTREPRISES TEST
@@ -377,7 +400,7 @@ exports.getCompanies = async (req, res) => {
   }
 };
 
-
+// Fonction pour rechercher des entreprises par nom
 exports.searchCompanies = async (req, res) => {
   try {
     const query = req.query.q;
@@ -513,3 +536,51 @@ exports.getContractById = async (req, res) => {
   }
 };
 
+/// Contrats
+
+// Fonction pour obtenir la liste de tous les contrats
+exports.getContracts = async (req, res) => {
+  try {
+    // console.log('Récupération de tous les contrats');
+    const contracts = await ContractModel.find();
+    // console.log(`Found ${contracts.length} contracts`);
+    res.json(contracts);
+  } catch (error) {
+    res.status(500).send({ message: "Erreur lors de la récupération des contrats", error });
+    console.error('Erreur lors de la récupération des contrats:', error);
+  }
+};
+
+// Fonction pour ajouter un nouveau contrat
+exports.addContract = async (req, res) => {
+  try {
+    // Extraction des champs nécessaires du corps de la requête
+    const {
+      internal_number, customer, contact, external_contributor, address, appartment_number, quote_number,
+      mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
+      status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
+    } = req.body;
+    console.log('internal_number:', internal_number);
+    // Vérification de l'existence préalable du contrat via le numéro interne
+    let contract = await ContractModel.findOne({ internal_number });
+    if (contract) {
+      return res.status(400).json({ message: 'Un contrat avec ce numéro interne existe déjà.'+JSON.stringify(contract) });
+    }
+
+    // Création d'un nouveau contrat avec les champs adaptés
+    const newContract = new ContractModel({
+      internal_number, customer, contact, external_contributor, address, appartment_number, quote_number,
+      mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
+      status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
+    });
+
+    // Enregistrement du nouveau contrat dans la base de données
+    await newContract.save();
+
+    // Réponse indiquant la réussite de l'ajout du contrat
+    res.status(201).json({ message: 'Contrat créé avec succès.', contractId: newContract._id });
+  } catch (error) {
+    console.error('Erreur lors de l’ajout d’un nouveau contrat:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
