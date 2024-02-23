@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContractService } from '../../core/services/contract.service';
+import { UserProfileService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -17,10 +18,15 @@ export class OrderDetailComponent implements OnInit {
   showSecretDiv: boolean = false;
   private konamiCode: string[] = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   private currentInput: string[] = [];
+  customer: any;
+  coContractor: any;
+  sogapeintContact: any;
+  subcontractor: any;
 
   constructor(
     private route: ActivatedRoute,
-    private contractService: ContractService
+    private contractService: ContractService,
+    private userProfileService: UserProfileService
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +35,7 @@ export class OrderDetailComponent implements OnInit {
       if (contractId) {
         this.loadContractDetails(contractId);
       }
+      
     });
   }
 
@@ -37,9 +44,54 @@ export class OrderDetailComponent implements OnInit {
       next: (data) => {
         this.contract = data;
         console.log('Détails de la commande chargés', this.contract);
+        // si on a réussi à charger le contrat, on va chercher les détails du client, du co-traitant, du contact sogapeint et du sous-traitant
+        if (this.contract) {
+          this.loadUserDetails();
+        }
       },
       error: (error) => console.error('Erreur lors du chargement des détails de la commande', error)
     });
+  }
+
+  loadUserDetails(){
+    console.log('Chargement des détails des utilisateurs');
+        this.userProfileService.getOne(this.contract.customer).subscribe({
+          next: (data) => {
+            this.customer = data;
+            console.log('Détails du client chargés', data);
+          },
+          error: (error) => console.error('Erreur lors du chargement des détails du client', error)
+        });
+        if (this.contract.external_contributor){
+          this.userProfileService.getOne(this.contract.external_contributor).subscribe({
+            next: (data) => {
+              this.coContractor = data;
+              console.log('Détails du co-traitant chargés', data);
+            },
+            error: (error) => console.error('Erreur lors du chargement des détails du co-traitant', error)
+          });
+        }
+          
+        if (this.contract.contact) {
+          this.userProfileService.getOne(this.contract.contact).subscribe({
+            next: (data) => {
+              this.sogapeintContact = data;
+              console.log('Détails du contact Sogapeint chargés', data);
+            },
+            error: (error) => console.error('Erreur lors du chargement des détails du contact Sogapeint', error)
+          });
+        }
+        
+        if (this.contract.subcontractor) {
+          this.userProfileService.getOne(this.contract.subcontractor).subscribe({
+            next: (data) => {
+              this.subcontractor = data;
+              console.log('Détails du sous-traitant chargés', data);
+            },
+            error: (error) => console.error('Erreur lors du chargement des détails du sous-traitant', error)
+          });
+        }
+        
   }
 
   @HostListener('window:keydown', ['$event'])

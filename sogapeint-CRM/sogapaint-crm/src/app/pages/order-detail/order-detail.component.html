@@ -47,13 +47,27 @@
                                     <th scope="row">Numéro Interne</th>
                                     <td>{{ contract?.internal_number }}</td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <th scope="row">Client ID</th>
                                     <td>{{ contract?.customer }}</td>
+                                </tr> -->
+                                <tr>
+                                    <th scope="row">Nom du Client</th>
+                                    <td>{{ customer?.firstname }} {{ customer?.lastname }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Contact ID</th>
-                                    <td>{{ contract?.contact }}</td>
+                                    <!-- <th scope="row">Contact ID</th>
+                                    <td>{{ contract?.contact }}</td> -->
+                                    <th scope="row">Nom du Contact Sogapeint</th>
+                                    <td>{{ sogapeintContact?.firstname }} {{ sogapeintContact?.lastname }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Nom du Co-Traitant</th>
+                                    <td>{{ coContractor?.firstname }} {{ coContractor?.lastname }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Nom du Sous-Traitant</th>
+                                    <td>{{ subcontractor?.firstname }} {{ subcontractor?.lastname }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Prestation</th>
