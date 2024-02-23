@@ -12,6 +12,7 @@ import { FAQComponent } from './faq/faq.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardFakeComponent } from './dashboard-fake/dashboard-fake.component';
 import { OrderFormComponent } from './order-form/order-form.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
     { path: 'dashboard', component: DashboardFakeComponent},
     { path: 'FAQ', component: FAQComponent },
     { path: 'order-form', component: OrderFormComponent },
+    { path: 'order-detail/:orderId', component: OrderDetailComponent },
     // route pour la landing page
     { path: '', component: LandingPageComponent}
 ];

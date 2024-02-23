@@ -27,6 +27,7 @@ const contractSchema = new mongoose.Schema({
     execution_data_hour: Number,
     external_contributor_invoice_date: Date,
     internal_contributor: String,
+    subcontractor: String,
     external_contributor_amount: Number,
     start_date_works: Date,
     end_date_works: Date,

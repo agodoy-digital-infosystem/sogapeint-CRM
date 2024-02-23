@@ -36,6 +36,7 @@ import { CompanyCreateComponent } from './company-create/company-create.componen
 import { DashboardFakeComponent } from './dashboard-fake/dashboard-fake.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { OrderFormComponent } from './order-form/order-form.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from './dashboard-fake/filter.pipe'; // TODO pipe à modifier
@@ -53,6 +54,7 @@ import { FilterPipe } from './dashboard-fake/filter.pipe'; // TODO pipe à modif
     CompanyCreateComponent,
     DashboardFakeComponent,
     OrderFormComponent,
+    OrderDetailComponent
     // DashboardComponent
     // LandingPageComponent
   ],

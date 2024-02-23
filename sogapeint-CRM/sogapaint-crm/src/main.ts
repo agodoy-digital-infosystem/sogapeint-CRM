@@ -6,6 +6,12 @@ import { AppModule } from './app/app.module';
 // Importation des paramètres d'environnement
 import { environment } from './environments/environment';
 
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr);
+
+
 /**
  * Active le mode de production si l'environnement de l'application est configuré pour la production.
  *

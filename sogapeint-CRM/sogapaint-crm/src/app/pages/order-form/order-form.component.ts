@@ -181,37 +181,6 @@ export class OrderFormComponent implements OnInit {
         this.userInput$.next('');
       }
       
-      // onSubmit(): void {
-      //   console.log('Form errors', this.orderForm.errors);
-      //   console.log('Form value', this.orderForm.value);
-      //   Object.keys(this.orderForm.controls).forEach(key => {
-      //     console.log(key, 'errors:', this.orderForm.get(key).errors);
-      //   });
-        
-      //   if (this.orderForm.valid) {
-      //     // Combine the form data with the model
-      //     this.contractData = { ...this.contractData, ...this.orderForm.value };
-          
-      //     // Log the contract data for debugging
-      //     console.log('Submitting contract data', this.contractData);
-          
-      //     // Call your preparation function here if necessary
-      //     this.prepareDataForSubmission();
-          
-      //     // Now, submit the data to the server
-      //     this.contractService.addContract(this.contractData).subscribe({
-      //       next: (response) => {
-      //         console.log('Contrat créé avec succès', response);
-      //         this.router.navigate(['/contracts']); // Navigate after success
-      //       },
-      //       error: (error) => {
-      //         console.error('Erreur lors de la création du contrat', error);
-      //       }
-      //     });
-      //   } else {
-      //     console.error('Form is not valid', this.orderForm.errors);
-      //   }
-      // }
       onSubmit(): void {
         if (this.orderForm.valid) {
           this.prepareDataForSubmission(); // Prépare les données juste avant la soumission.
@@ -235,7 +204,7 @@ export class OrderFormComponent implements OnInit {
         this.contractService.addContract(this.contractData).subscribe({
           next: (response) => {
             console.log('Contrat créé avec succès', response);
-            this.router.navigate(['/contracts']);
+            this.router.navigate(['/oder-detail', response.contractId]);
           },
           error: (error) => {
             console.error('Erreur lors de la création du contrat', error);
@@ -243,25 +212,6 @@ export class OrderFormComponent implements OnInit {
         });
       }
       
-      // private prepareDataForSubmission(): void {
-      //   // Log pour débogage
-      //   console.log('Preparing data for submission', this.contractData);
-        
-      //   // Conversion des champs booléens et numériques
-      //   this.contractData.mailSended = this.convertToBoolean(this.contractData.mailSended);
-      //   this.contractData.occupied = this.convertToBoolean(this.contractData.occupied);
-      //   this.contractData.trash = this.convertToBoolean(this.contractData.trash);
-        
-      //   this.contractData.amountHt = this.convertToNumber(this.contractData.amountHt);
-      //   this.contractData.benefitHt = this.convertToNumber(this.contractData.benefitHt);
-      //   this.contractData.executionDataDay = this.convertToNumber(this.contractData.executionDataDay);
-      //   this.contractData.executionDataHour = this.convertToNumber(this.contractData.executionDataHour);
-      //   this.contractData.previsionDataHour = this.convertToNumber(this.contractData.previsionDataHour);
-      //   this.contractData.previsionDataDay = this.convertToNumber(this.contractData.previsionDataDay);
-        
-      //   // Log final pour vérifier les données préparées
-      //   console.log('Data prepared for submission', this.contractData);
-      // }
       private prepareDataForSubmission(): void {
         // Convert each key in the contractData object to snake_case.
         const dataForSubmission = {};
@@ -299,13 +249,7 @@ export class OrderFormComponent implements OnInit {
       }
       
       onUserInputBlur(event: any): void {
-        console.log("onUserInputBlur");
-        // const inputValue = event.target.value;
-        // if (inputValue && !this.users.includes(inputValue)) {
-        // Ajoute inputValue à la liste des entreprises
-        // this.users = [...this.users, inputValue];
-        // S'assure que la valeur est sélectionnée
-        // this.Form.get('company').setValue(inputValue); // Voir create-user.component.ts
-        // }
+        // console.log("onUserInputBlur");
+
       }
     }

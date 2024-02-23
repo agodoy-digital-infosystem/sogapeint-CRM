@@ -26,6 +26,7 @@ export class Contract {
     external_contributor_invoice_date: Date | null;
     internal_contributor: string;
     external_contributor_amount: number;
+    subcontractor: string;
     start_date_works: Date | null;
     end_date_works: Date | null;
     end_date_customer: Date | null;
