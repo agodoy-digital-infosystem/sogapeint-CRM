@@ -21,7 +21,7 @@ export class ManageOrdersComponent implements OnInit {
   tags: string[] = ['En cours', 'Non attribué', 'Réalisé', 'Facturé', 'Anomalie', 'Annulé', 'Incident'];
   availableTags: string[] = [];
   activeTags: string[] = [];
-  // contracts: Contract[] = [];
+  orders: Contract[] = [];
   
   constructor(
     private contractService: ContractService,
@@ -41,7 +41,8 @@ export class ManageOrdersComponent implements OnInit {
       this.isLoading = true;
       this.contractService.getContracts().subscribe({
         next: (data) => {
-          this.filteredOrders = data;
+          this.orders = data; // Stocker tous les contrats
+          this.filteredOrders = [...this.orders]; // Copier pour l'affichage initial
           this.availableTags = this.tags;
           this.isLoading = false;
           // console.log('Commandes chargées:', this.filteredOrders);
@@ -61,8 +62,57 @@ export class ManageOrdersComponent implements OnInit {
       this.sortOrders();
     }
     
-    onSearch() {
-      // TODO: Implement search
+    // onSearch(): void {
+    //   const searchTerms = this.filter.toLowerCase().split(' '); // Séparer les termes de recherche
+  
+    //   if (!this.filter) {
+    //     this.filteredOrders = [...this.orders]; // Afficher tous les contrats si le filtre est vide
+    //   } else {
+    //     this.filteredOrders = this.orders.filter(order =>
+    //       searchTerms.every(term => this.searchInOrder(order, term))
+    //     );
+    //   }
+    // }
+    onSearch(): void {
+      const searchTerms = this.filter.toLowerCase().split(' ');
+  
+      // Filtrer d'abord par le texte de recherche
+      let filteredBySearchText = !this.filter ? [...this.orders] : this.orders.filter(order =>
+        searchTerms.every(term => this.searchInOrder(order, term))
+      );
+  
+      // Ensuite, filtrer par les tags actifs
+      this.filteredOrders = filteredBySearchText.filter(order => 
+        this.activeTags.length === 0 || this.activeTags.every(tag => this.orderHasTag(order, tag))
+      );
+    }
+  
+    orderHasTag(order: any, tag: string): boolean {
+      // Implémentez cette méthode en fonction de la logique de correspondance entre les commandes et les tags
+      // Exemple de logique de correspondance basique :
+      switch(tag) {
+        case 'En cours':
+          return order.status === 'in_progress';
+        case 'Réalisé':
+          return order.status === 'completed';
+        // Ajoutez d'autres cas selon les tags et les propriétés de vos commandes
+        default:
+          return false;
+      }
+    }
+  
+    searchInOrder(order: any, searchTerm: string): boolean {
+      // Méthode pour rechercher récursivement dans les objets et tableaux imbriqués
+      const searchInObject = (obj: any): boolean => {
+        return Object.values(obj).some(value => {
+          if (typeof value === 'object' && value !== null) {
+            return Array.isArray(value) ? value.some(subValue => searchInObject(subValue)) : searchInObject(value);
+          }
+          return String(value).toLowerCase().includes(searchTerm);
+        });
+      };
+  
+      return searchInObject(order);
     }
     
     sortOrders() {
