@@ -76,6 +76,11 @@ router.put('/company/:companyId', isAdminOrSuperAdmin, authController.updateComp
 // Route pour supprimer une entreprise (protégée par le middleware isAdminOrSuperAdmin)
 router.delete('/company/:companyId', isAdminOrSuperAdmin, authController.deleteCompany);
 
+//////////// CONTRATS
+
+// Route pour obtenir la liste de tous les contrats
+router.get('/contracts', isConnected, authController.getContracts);
+
 // Route pour obtenir un contrat (protégée par le middleware)
 router.get('/contract/:contractId', isConnected, authController.getContractById);
 

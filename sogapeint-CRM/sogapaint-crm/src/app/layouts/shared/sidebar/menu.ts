@@ -58,6 +58,12 @@ export const MENU: MenuItem[] = [
         icon: 'ri-shopping-cart-2-line',
         link: '/order-form'
     },
+    {
+        id: 7,
+        label: 'Gestion des commandes',
+        icon: 'ri-shopping-cart-2-fill',
+        link: '/manageOrders'
+    },
     
     // {
     //     id: 3,

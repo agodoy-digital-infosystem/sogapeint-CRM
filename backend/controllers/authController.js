@@ -8,37 +8,37 @@ const nodemailer = require('nodemailer');
 const { sendEmail } = require('../services/emailService');
 const crypto = require('crypto');
 
-// console.log('Importation du authController');
+// // console.log('Importation du authController');
 
 const { isEmail } = require('validator');
 
 exports.login = async (req, res) => {
   try {
-    // console.log('Tentative de connexion');
+    // // console.log('Tentative de connexion');
     const { email, password } = req.body;
     if (!isEmail(email)) {
       return res.status(400).json({ message: 'Adresse email invalide.' });
     }
 
-    // console.log('Email:', email);
+    // // console.log('Email:', email);
 
     // Recherche de l'utilisateur avec des conditions supplémentaires (actif et autorisé)
     const user = await User.findOne({ email, active: true, authorized_connection: true });
-    // console.log('Utilisateur trouvé:', user ? 'Oui' : 'Non');
+    // // console.log('Utilisateur trouvé:', user ? 'Oui' : 'Non');
 
     if (!user) {
       return res.status(401).json({ message: 'Utilisateur non trouvé ou non autorisé.' });
     }
 
-    // console.log('Vérification du mot de passe');
+    // // console.log('Vérification du mot de passe');
     const isMatch = await bcrypt.compare(password, user.password);
-    // console.log('Le mot de passe correspond:', isMatch ? 'Oui' : 'Non');
+    // // console.log('Le mot de passe correspond:', isMatch ? 'Oui' : 'Non');
 
     if (!isMatch) {
       return res.status(401).json({ message: 'Mauvais mot de passe.' });
     }
 
-    // console.log('Génération du token JWT');
+    // // console.log('Génération du token JWT');
     const tokenPayload = { 
       userId: user._id, 
       role: user.role, 
@@ -51,11 +51,11 @@ exports.login = async (req, res) => {
     // const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
     // Vérifie si l'utilisateur a coché "Se souvenir de moi"
   const expiresIn = req.body.rememberMe ? '7d' : '1h'; // 7 jours si "Se souvenir de moi" est coché, sinon 1 heure
-  // console.log('Expiration du token:', expiresIn);
+  // // console.log('Expiration du token:', expiresIn);
 
   const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: expiresIn });
 
-    // console.log('Connexion réussie, token généré');
+    // // console.log('Connexion réussie, token généré');
     res.status(200).json({
       userId: user._id,
       token,
@@ -74,14 +74,14 @@ exports.login = async (req, res) => {
 // réinitialisation du mot de passe par un super admin
 exports.resetPasswordFromAdmin = async (req, res) => {
   try {
-    // console.log('Réinitialisation du mot de passe');
-    // console.log('Request :', req);
-    // console.log('Request body:', req.body);
-    // console.log('Request params:', req.params);
+    // // console.log('Réinitialisation du mot de passe');
+    // // console.log('Request :', req);
+    // // console.log('Request body:', req.body);
+    // // console.log('Request params:', req.params);
     const { userId } = req.body;
     const newPassword = Math.random().toString(36).slice(-10); // Génération d'un mot de passe aléatoire
 
-    // console.log('User id:', userId);
+    // // console.log('User id:', userId);
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     const updatedUser = await User.findByIdAndUpdate(
       new mongoose.Types.ObjectId(userId),
@@ -108,7 +108,7 @@ exports.resetPasswordFromAdmin = async (req, res) => {
     "passwordResetFromAdminTemplate"
     );
 
-    // console.log('Mot de passe réinitialisé avec succès');
+    // // console.log('Mot de passe réinitialisé avec succès');
     res.status(200).json({ message: 'Mot de passe réinitialisé avec succès et e-mail envoyé.' });
   } catch (error) {
     console.error('Erreur lors de la réinitialisation du mot de passe:', error);
@@ -119,10 +119,10 @@ exports.resetPasswordFromAdmin = async (req, res) => {
 
 // Fonction pour demander la réinitialisation du mot de passe par un utilisateur
 exports.forgotPassword = async (req, res) => {
-  // console.log('Demande de réinitialisation du mot de passe');
-  // console.log('Request :', req);
-  // console.log('Request body:', req.body);
-  // console.log('Request params:', req.params);
+  // // console.log('Demande de réinitialisation du mot de passe');
+  // // console.log('Request :', req);
+  // // console.log('Request body:', req.body);
+  // // console.log('Request params:', req.params);
   try {
     const { email } = req.body;
     // Vérifier si l'utilisateur existe dans la base de données
@@ -161,14 +161,14 @@ exports.forgotPassword = async (req, res) => {
 
 // Fonction pour vérifier le code de réinitialisation
 exports.verifyResetCode = async (req, res) => {
-  // console.log('Vérification du code de réinitialisation');
-  // console.log('Request :', req);
-  // console.log('Request body:', req.body);
-  // console.log('Request params:', req.params);
+  // // console.log('Vérification du code de réinitialisation');
+  // // console.log('Request :', req);
+  // // console.log('Request body:', req.body);
+  // // console.log('Request params:', req.params);
   try {
     const { email, code } = req.body;
-    // console.log('Email:', email);
-    // console.log('Code:', code);
+    // // console.log('Email:', email);
+    // // console.log('Code:', code);
     // Vérifier si le code et l'email correspondent et si le code n'a pas expiré
     const user = await User.findOne({
       email,
@@ -179,7 +179,7 @@ exports.verifyResetCode = async (req, res) => {
     // const userTest = await User.findOne({
     //   email
     // });
-    // // console.log('User:', userTest);
+    // // // console.log('User:', userTest);
 
     if (!user) {
       return res.status(400).json({ message: "Code de réinitialisation invalide ou expiré." });
@@ -193,12 +193,12 @@ exports.verifyResetCode = async (req, res) => {
 
 // Fonction pour réinitialiser le mot de passe
 exports.resetPassword = async (req, res) => {
-  // console.log('Réinitialisation du mot de passe');
+  // // console.log('Réinitialisation du mot de passe');
   try {
     const { email, code, newPassword } = req.body;
-    // console.log('email:', email);
-    // console.log('code:', code);
-    // // console.log('New password:', newPassword);
+    // // console.log('email:', email);
+    // // console.log('code:', code);
+    // // // console.log('New password:', newPassword);
 
     // Vérifier si le code et l'email correspondent et si le code n'a pas expiré
     const user = await User.findOne({
@@ -226,9 +226,9 @@ exports.resetPassword = async (req, res) => {
 // Fonction pour obtenir tous les utilisateurs
 exports.getAllUsers = async (req, res) => {
   try {
-    // console.log('Fetching all users');
+    // // console.log('Fetching all users');
     const users = await User.find();
-    // console.log(`Found ${users.length} users`);
+    // // console.log(`Found ${users.length} users`);
     // supprimer le mot de passe de chaque utilisateur
     users.forEach(user => {
       user.password = undefined;
@@ -249,7 +249,7 @@ exports.getAllUsers = async (req, res) => {
 // Fonction pour ajouter un nouvel utilisateur
 exports.addUser = async (req, res) => {
   try {
-    // console.log('Adding new user');
+    // // console.log('Adding new user');
     const { email, password, firstname, lastname, phone, company, role, active, authorized_connection } = req.body;
     if (!isEmail(email)) {
       return res.status(400).json({ message: 'Adresse email invalide.' });
@@ -277,7 +277,7 @@ exports.addUser = async (req, res) => {
       authorized_connection,
     });
     await newUser.save();
-    // console.log('New user added');
+    // // console.log('New user added');
     res.status(201).json({ message: 'Utilisateur créé avec succès.', userId: newUser._id });
   } catch (error) {
     console.error('Error adding new user:', error);
@@ -288,15 +288,15 @@ exports.addUser = async (req, res) => {
 // Fonction pour avoir un utilisateur par son id
 exports.getUserById = async (req, res) => {
   try {
-    // console.log('Fetching user by id');
-    // // console.log('Request :', req);
+    // // console.log('Fetching user by id');
+    // // // console.log('Request :', req);
     const { userId } = req.params;
-    // console.log('User id:', userId);
+    // // console.log('User id:', userId);
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: 'Utilisateur non trouvé.' });
     }
-    // console.log('Found user:', user);
+    // // console.log('Found user:', user);
     // supprimer le mot de passe de la réponse
     user.password = undefined;
     // supprimer le code de réinitialisation et sa date d'expiration de la réponse
@@ -313,15 +313,15 @@ exports.getUserById = async (req, res) => {
 
 // Fonction pour modifier un utilisateur
 exports.updateUser = async (req, res) => {
-  // console.log('Modification de l’utilisateur');
-  // console.log('Request :', req);
-  // console.log('Request body:', req.body);
-  // console.log('Request params:', req.params);
+  // // console.log('Modification de l’utilisateur');
+  // // console.log('Request :', req);
+  // // console.log('Request body:', req.body);
+  // // console.log('Request params:', req.params);
   try {
-    // console.log('Modification de l’utilisateur');
+    // // console.log('Modification de l’utilisateur');
     const { userId } = req.params;
     const { email, firstname, lastname, phone, company, role, active, authorized_connection } = req.body;
-    // console.log('User id:', userId);
+    // // console.log('User id:', userId);
     // Mise à jour de l'utilisateur
     const updatedUser = await User.findByIdAndUpdate(new mongoose.Types.ObjectId(userId), {
       email, firstname, lastname, phone, company, role, active, authorized_connection
@@ -331,7 +331,7 @@ exports.updateUser = async (req, res) => {
       return res.status(404).json({ message: 'Utilisateur non trouvé.' });
     }
 
-    // console.log('Utilisateur modifié avec succès');
+    // // console.log('Utilisateur modifié avec succès');
     res.status(200).json(updatedUser);
   } catch (error) {
     console.error('Erreur lors de la modification de l’utilisateur:', error);
@@ -343,7 +343,7 @@ exports.updateUser = async (req, res) => {
 // Fonction pour supprimer un utilisateur
 exports.deleteUser = async (req, res) => {
   try {
-    // console.log('Suppression de l’utilisateur');
+    // // console.log('Suppression de l’utilisateur');
     const { userId } = req.params;
 
     const deletedUser = await User.findByIdAndDelete(userId);
@@ -352,7 +352,7 @@ exports.deleteUser = async (req, res) => {
       return res.status(404).json({ message: 'Utilisateur non trouvé.' });
     }
 
-    // console.log('Utilisateur supprimé avec succès');
+    // // console.log('Utilisateur supprimé avec succès');
     res.status(200).json({ message: 'Utilisateur supprimé avec succès.' });
   } catch (error) {
     console.error('Erreur lors de la suppression de l’utilisateur:', error);
@@ -362,10 +362,10 @@ exports.deleteUser = async (req, res) => {
 
 // Fonction pour rechercher un utilisateur par nom, prénom ou email (insensible à la casse)
 exports.searchUsers = async (req, res) => {
-  console.log('Recherche d\’utilisateurs');
+  // console.log('Recherche d\’utilisateurs');
   try {
-    console.log('Recherche d\’utilisateurs');
-    console.log('Request :', req.query);
+    // console.log('Recherche d\’utilisateurs');
+    // console.log('Request :', req.query);
     const query = req.query.q;
     // Recherche insensible à la casse, selon une partie du prénom, du nom ou de l'email
     const users = await User.find({
@@ -375,8 +375,8 @@ exports.searchUsers = async (req, res) => {
         { email: { $regex: query, $options: 'i' } }
       ]
     });
-    console.log('Nombre d\’utilisateurs trouvés:', users.length);
-    console.log('Users:', users);
+    // console.log('Nombre d\’utilisateurs trouvés:', users.length);
+    // console.log('Users:', users);
     res.json(users);
   } catch (error) {
     res.status(500).send({ message: "Erreur lors de la recherche des utilisateurs", error });
@@ -389,10 +389,10 @@ exports.searchUsers = async (req, res) => {
 
 
 exports.getCompanies = async (req, res) => {
-  // console.log('Récupération des entreprises');
+  // // console.log('Récupération des entreprises');
   try {
     const companies = await CompanyModel.find({}).populate('employees').populate('documents').populate('contractsAsCustomer').populate('contractsAsContact').populate('contractsAsExternalContributor');
-    // console.log(`Found ${companies.length} companies`);
+    // // console.log(`Found ${companies.length} companies`);
     res.json(companies);
   } catch (error) {
     res.status(500).send({ message: "Erreur lors de la récupération des entreprises", error });
@@ -419,15 +419,15 @@ exports.searchCompanies = async (req, res) => {
 // Fonction pour avoir une entreprise par son id
 exports.getCompanyById = async (req, res) => {
   try {
-    // console.log('Fetching company by id');
-    // // console.log('Request :', req);
+    // // console.log('Fetching company by id');
+    // // // console.log('Request :', req);
     const { companyId } = req.params;
-    // console.log('Company id:', companyId);
+    // // console.log('Company id:', companyId);
     const company = await CompanyModel.findById(companyId);
     if (!company) {
       return res.status(404).json({ message: 'Entreprise non trouvée.' });
     }
-    // // console.log('Found company:', company);
+    // // // console.log('Found company:', company);
     res.status(200).json(company);
   } catch (error) {
     console.error('Error retrieving company:', error);
@@ -437,15 +437,15 @@ exports.getCompanyById = async (req, res) => {
 
 // Fonction pour modifier une entreprise
 exports.updateCompany = async (req, res) => {
-  // console.log('Modification de l’entreprise');
-  // console.log('Request :', req);
-  // console.log('Request body:', req.body);
-  // console.log('Request params:', req.params);
+  // // console.log('Modification de l’entreprise');
+  // // console.log('Request :', req);
+  // // console.log('Request body:', req.body);
+  // // console.log('Request params:', req.params);
   try {
-    // console.log('Modification de l’entreprise');
+    // // console.log('Modification de l’entreprise');
     const { companyId } = req.params;
     const { normalized_name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor } = req.body;
-    // console.log('Company id:', companyId);
+    // // console.log('Company id:', companyId);
     // Mise à jour de l'entreprise
     const updatedCompany = await CompanyModel.findByIdAndUpdate(new mongoose.Types.ObjectId(companyId), {
       normalized_name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor
@@ -455,7 +455,7 @@ exports.updateCompany = async (req, res) => {
       return res.status(404).json({ message: 'Entreprise non trouvée.' });
     }
 
-    // console.log('Entreprise modifiée avec succès');
+    // // console.log('Entreprise modifiée avec succès');
     res.status(200).json(updatedCompany);
   } catch (error) {
     console.error('Erreur lors de la modification de l’entreprise:', error);
@@ -466,7 +466,7 @@ exports.updateCompany = async (req, res) => {
 // Fonction pour supprimer une entreprise
 exports.deleteCompany = async (req, res) => {
   try {
-    // console.log('Suppression de l’entreprise');
+    // // console.log('Suppression de l’entreprise');
     const { companyId } = req.params;
 
     const deletedCompany = await CompanyModel.findByIdAndDelete(companyId);
@@ -475,7 +475,7 @@ exports.deleteCompany = async (req, res) => {
       return res.status(404).json({ message: 'Entreprise non trouvée.' });
     }
 
-    // console.log('Entreprise supprimée avec succès');
+    // // console.log('Entreprise supprimée avec succès');
     res.status(200).json({ message: 'Entreprise supprimée avec succès.' });
   } catch (error) {
     console.error('Erreur lors de la suppression de l’entreprise:', error);
@@ -486,7 +486,7 @@ exports.deleteCompany = async (req, res) => {
 // Fonction pour ajouter une entreprise
 exports.addCompany = async (req, res) => {
   try {
-    // console.log('Ajout d’une nouvelle entreprise');
+    // // console.log('Ajout d’une nouvelle entreprise');
     const { normalized_name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor } = req.body;
     let company = await CompanyModel.findOne({ normalized_name });
     if (company) {
@@ -496,7 +496,7 @@ exports.addCompany = async (req, res) => {
       normalized_name, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor
     });
     await newCompany.save();
-    // console.log('Nouvelle entreprise ajoutée');
+    // // console.log('Nouvelle entreprise ajoutée');
     res.status(201).json({ message: 'Entreprise créée avec succès.', companyId: newCompany._id });
   } catch (error) {
     console.error('Erreur lors de l’ajout d’une nouvelle entreprise:', error);
@@ -507,9 +507,9 @@ exports.addCompany = async (req, res) => {
 // Fonction pour obtenir uniquement la liste des noms des entreprises
 exports.getCompaniesNames = async (req, res) => {
   try {
-    // console.log('Fetching companies names');
+    // // console.log('Fetching companies names');
     const companies = await CompanyModel.find().select('name');
-    // console.log(`Found ${companies.length} companies`);
+    // // console.log(`Found ${companies.length} companies`);
     res.status(200).json(companies);
   } catch (error) {
     console.error('Error retrieving companies names:', error);
@@ -520,15 +520,15 @@ exports.getCompaniesNames = async (req, res) => {
 // Fonction pour obtenir un contrat par son id
 exports.getContractById = async (req, res) => {
   try {
-    // console.log('Fetching contract by id');
-    // console.log('Request :', req);
+    // // console.log('Fetching contract by id');
+    // // console.log('Request :', req);
     const { contractId } = req.params;
-    // console.log('Contract id:', contractId);
+    // // console.log('Contract id:', contractId);
     const contract = await ContractModel.findById(contractId);
     if (!contract) {
       return res.status(404).json({ message: 'Contrat non trouvé.' });
     }
-    // // console.log('Found contract:', contract);
+    // // // console.log('Found contract:', contract);
     res.status(200).json(contract);
   } catch (error) {
     console.error('Error retrieving contract:', error);
@@ -542,7 +542,13 @@ exports.getContractById = async (req, res) => {
 exports.getContracts = async (req, res) => {
   try {
     // console.log('Récupération de tous les contrats');
-    const contracts = await ContractModel.find();
+    // Récupère tous les contrats, remplace les id de customer, contact, external_contributor et subcontractor par les user correspondants
+    const contracts = await ContractModel.find()
+    .populate('customer')
+    .populate('contact')
+    .populate('external_contributor')
+    .populate('subcontractor');
+    // const contracts = await ContractModel.find();
     // console.log(`Found ${contracts.length} contracts`);
     res.json(contracts);
   } catch (error) {
@@ -560,7 +566,7 @@ exports.addContract = async (req, res) => {
       mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
       status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
     } = req.body;
-    console.log('internal_number:', internal_number);
+    // console.log('internal_number:', internal_number);
     // Vérification de l'existence préalable du contrat via le numéro interne
     let contract = await ContractModel.findOne({ internal_number });
     if (contract) {

@@ -13,6 +13,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardFakeComponent } from './dashboard-fake/dashboard-fake.component';
 import { OrderFormComponent } from './order-form/order-form.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { ManageOrdersComponent } from './manage-orders/manage-orders.component';
+
 
 
 const routes: Routes = [
@@ -28,6 +30,7 @@ const routes: Routes = [
     { path: 'FAQ', component: FAQComponent },
     { path: 'order-form', component: OrderFormComponent },
     { path: 'order-detail/:orderId', component: OrderDetailComponent },
+    { path: 'manageOrders', component: ManageOrdersComponent },
     // route pour la landing page
     { path: '', component: LandingPageComponent}
 ];
