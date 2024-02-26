@@ -626,3 +626,35 @@ exports.addContract = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+  // Fonction pour modifier un contrat
+exports.updateContract = async (req, res) => {
+  // console.log('Modification du contrat');
+  // console.log('Request :', req);
+  // console.log('Request body:', req.body);
+  // console.log('Request params:', req.params);
+  try {
+    // console.log('Modification du contrat');
+    const { contractId } = req.params;
+    const { internal_number, customer, contact, external_contributor, address, appartment_number, quote_number,
+      mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
+      status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde } = req.body;
+    // console.log('Contract id:', contractId);
+    // Mise à jour du contrat
+    const updatedContract = await ContractModel.findByIdAndUpdate(new mongoose.Types.ObjectId(contractId), {
+      internal_number, customer, contact, external_contributor, address, appartment_number, quote_number,
+      mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
+      status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
+    }, { new: true });
+
+    if (!updatedContract) {
+      return res.status(404).json({ message: 'Contrat non trouvé.' });
+    }
+
+    // console.log('Contrat modifié avec succès');
+    res.status(200).json(updatedContract);
+  } catch (error) {
+    console.error('Erreur lors de la modification du contrat:', error);
+    res.status(500).json({ error: error.message });
+  }
+};

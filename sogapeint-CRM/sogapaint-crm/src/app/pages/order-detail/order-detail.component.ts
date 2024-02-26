@@ -2,6 +2,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContractService } from '../../core/services/contract.service';
 import { UserProfileService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/core/models/auth.models';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-order-detail',
@@ -22,16 +25,19 @@ export class OrderDetailComponent implements OnInit {
   coContractor: any;
   sogapeintContact: any;
   subcontractor: any;
+  currentUser: User;
 
   constructor(
     private route: ActivatedRoute,
     private contractService: ContractService,
-    private userProfileService: UserProfileService
+    private userProfileService: UserProfileService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.currentUser = this.userProfileService.getCurrentUser();
     this.route.params.subscribe(params => {
-      const contractId = params['orderId']; // Assurez-vous que 'id' correspond au nom de paramètre défini dans votre route
+      const contractId = params['orderId']; // Vérifier que 'id' correspond au nom de paramètre défini dans votre route
       if (contractId) {
         this.loadContractDetails(contractId);
       }
@@ -110,5 +116,17 @@ export class OrderDetailComponent implements OnInit {
     window.scrollTo(0, 0);
     this.showSecretDiv = true;
     setTimeout(() => this.showSecretDiv = false, 5000);
+  }
+
+  isAdminOrSuperAdmin(): boolean {
+    const result = this.currentUser && (this.currentUser.role === 'admin' || this.currentUser.role === 'superAdmin');
+    console.log('isAdminOrSuperAdmin:', result);
+    return result;
+  }
+
+  goToEditOrder() {
+    // Rediriger vers la page de mise à jour de la commande
+    // 'order-update/:orderId'
+    this.router.navigate([`/order-update/${this.contract._id}`]);
   }
 }

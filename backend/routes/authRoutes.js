@@ -87,4 +87,7 @@ router.get('/contract/:contractId', isConnected, authController.getContractById)
 // Route pour ajouter un contrat
 router.post('/contract', isAdminOrSuperAdmin, authController.addContract);
 
+// Route pour modifier un contrat (protégée par le middleware isAdminOrSuperAdmin)
+router.put('/contract/:contractId', isAdminOrSuperAdmin, authController.updateContract);
+
 module.exports = router;

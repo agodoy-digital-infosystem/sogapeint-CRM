@@ -14,6 +14,7 @@ import { DashboardFakeComponent } from './dashboard-fake/dashboard-fake.componen
 import { OrderFormComponent } from './order-form/order-form.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { ManageOrdersComponent } from './manage-orders/manage-orders.component';
+import { OrderUpdateComponent } from './order-update/order-update.component';
 
 
 
@@ -31,6 +32,7 @@ const routes: Routes = [
     { path: 'order-form', component: OrderFormComponent },
     { path: 'order-detail/:orderId', component: OrderDetailComponent },
     { path: 'manageOrders', component: ManageOrdersComponent },
+    { path: 'order-update/:orderId', component: OrderUpdateComponent },
     // route pour la landing page
     { path: '', component: LandingPageComponent}
 ];

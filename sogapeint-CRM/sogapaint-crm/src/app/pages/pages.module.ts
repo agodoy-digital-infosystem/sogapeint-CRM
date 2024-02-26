@@ -38,9 +38,11 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { OrderFormComponent } from './order-form/order-form.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { ManageOrdersComponent } from './manage-orders/manage-orders.component';
+import { OrderUpdateComponent } from './order-update/order-update.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from './dashboard-fake/filter.pipe'; // TODO pipe à modifier
+
 
 
 @NgModule({
@@ -56,7 +58,8 @@ import { FilterPipe } from './dashboard-fake/filter.pipe'; // TODO pipe à modif
     DashboardFakeComponent,
     OrderFormComponent,
     OrderDetailComponent,
-    ManageOrdersComponent
+    ManageOrdersComponent,
+    OrderUpdateComponent,
     // DashboardComponent
     // LandingPageComponent
   ],

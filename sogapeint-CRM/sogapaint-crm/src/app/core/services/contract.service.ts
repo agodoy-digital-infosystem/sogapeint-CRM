@@ -63,4 +63,15 @@ export class ContractService {
         return this.http.post<any>(`${environment.apiUrl}/api/auth/contract`, contractData);
     }
     
+    /**
+     * Met à jour un contrat existant.
+     * 
+     * Envoie une requête PUT pour mettre à jour un contrat existant avec les données fournies.
+     * @param contractId L'identifiant du contrat à mettre à jour.
+     * @param contractData Les données du contrat à mettre à jour.
+     * @returns Un Observable contenant la réponse du serveur.
+     */ 
+    updateContract(contractId: string, contractData: any): Observable<any> {
+        return this.http.put<any>(`${environment.apiUrl}/api/auth/contract/${contractId}`, contractData);
+    }
 }
