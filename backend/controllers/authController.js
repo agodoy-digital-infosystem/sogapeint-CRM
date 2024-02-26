@@ -542,13 +542,49 @@ exports.getContractById = async (req, res) => {
 exports.getContracts = async (req, res) => {
   try {
     // console.log('Récupération de tous les contrats');
-    // Récupère tous les contrats, remplace les id de customer, contact, external_contributor et subcontractor par les user correspondants
+    // Récupère tous les contrats, remplace les objectId contenus dans customer, contact, external_contributor et subcontractor par les user complets
     const contracts = await ContractModel.find()
     .populate('customer')
     .populate('contact')
     .populate('external_contributor')
     .populate('subcontractor');
-    // const contracts = await ContractModel.find();
+
+    // supprime les mots de passe et le sel de chaque utilisateur
+    contracts.forEach(contract => {
+      if (contract.customer){
+        if (contract.customer.password){
+          contract.customer.password = undefined;
+        }
+        if (contract.customer.salt){
+          contract.customer.salt = undefined;
+        }
+      }
+      if (contract.contact){
+        if (contract.contact.password){
+          contract.contact.password = undefined;
+        }
+        if (contract.contact.salt){
+          contract.contact.salt = undefined;
+        }
+      }
+      if (contract.external_contributor){
+        if (contract.external_contributor.password){
+          contract.external_contributor.password = undefined;
+        }
+        if (contract.external_contributor.salt){
+          contract.external_contributor.salt = undefined;
+        }
+      }
+      if (contract.subcontractor){
+        if (contract.subcontractor.password){
+          contract.subcontractor.password = undefined;
+        }
+        if (contract.subcontractor.salt){
+          contract.subcontractor.salt = undefined;
+        }
+      }
+    });
+
     // console.log(`Found ${contracts.length} contracts`);
     res.json(contracts);
   } catch (error) {

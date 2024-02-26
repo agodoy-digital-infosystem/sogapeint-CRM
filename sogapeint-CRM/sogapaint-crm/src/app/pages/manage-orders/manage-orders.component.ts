@@ -18,7 +18,7 @@ export class ManageOrdersComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
   filter: string = ''; 
   filteredOrders: any[] = [];
-  tags: string[] = ['En cours', 'Non attribué', 'Réalisé', 'Facturé', 'Anomalie', 'Annulé', 'Incident'];
+  tags: string[] = ['En cours', 'Non attribué', 'Réalisé', 'Facturé', 'Annulé', 'Incident'];
   availableTags: string[] = [];
   activeTags: string[] = [];
   orders: Contract[] = [];
@@ -64,7 +64,7 @@ export class ManageOrdersComponent implements OnInit {
     
     // onSearch(): void {
     //   const searchTerms = this.filter.toLowerCase().split(' '); // Séparer les termes de recherche
-  
+    
     //   if (!this.filter) {
     //     this.filteredOrders = [...this.orders]; // Afficher tous les contrats si le filtre est vide
     //   } else {
@@ -75,92 +75,118 @@ export class ManageOrdersComponent implements OnInit {
     // }
     onSearch(): void {
       const searchTerms = this.filter.toLowerCase().split(' ');
-  
+      
       // Filtrer d'abord par le texte de recherche
       let filteredBySearchText = !this.filter ? [...this.orders] : this.orders.filter(order =>
         searchTerms.every(term => this.searchInOrder(order, term))
-      );
-  
-      // Ensuite, filtrer par les tags actifs
-      this.filteredOrders = filteredBySearchText.filter(order => 
-        this.activeTags.length === 0 || this.activeTags.every(tag => this.orderHasTag(order, tag))
-      );
-    }
-  
-    orderHasTag(order: any, tag: string): boolean {
-      // Implémentez cette méthode en fonction de la logique de correspondance entre les commandes et les tags
-      // Exemple de logique de correspondance basique :
-      switch(tag) {
-        case 'En cours':
-          return order.status === 'in_progress';
-        case 'Réalisé':
-          return order.status === 'completed';
-        // Ajoutez d'autres cas selon les tags et les propriétés de vos commandes
-        default:
-          return false;
-      }
-    }
-  
-    searchInOrder(order: any, searchTerm: string): boolean {
-      // Méthode pour rechercher récursivement dans les objets et tableaux imbriqués
-      const searchInObject = (obj: any): boolean => {
-        return Object.values(obj).some(value => {
-          if (typeof value === 'object' && value !== null) {
-            return Array.isArray(value) ? value.some(subValue => searchInObject(subValue)) : searchInObject(value);
+        );
+        
+        // Ensuite, filtrer par les tags actifs
+        this.filteredOrders = filteredBySearchText.filter(order => 
+          this.activeTags.length === 0 || this.activeTags.every(tag => this.orderHasTag(order, tag))
+          );
+        }
+        
+        orderHasTag(order: any, tag: string): boolean {
+          // Implémentez cette méthode en fonction de la logique de correspondance entre les commandes et les tags
+          // Exemple de logique de correspondance basique :
+          switch(tag) {
+            case 'En cours':
+            return order.status === 'in_progress';
+            case 'Réalisé':
+            return order.status === 'achieve';
+            case 'Facturé':
+            return order.status === 'invoiced';
+            // case 'Anomalie':
+            //   return order.status === 'anomaly';
+            case 'Annulé':
+            return order.status === 'canceled';
+            // case 'Incident':
+            //   return order.status === 'incident';
+            case 'Incident':
+            // Vérifie si le tableau 'incident' n'est pas vide
+            return Array.isArray(order.incident) && order.incident.length > 0;
+            case 'Non attribué':
+            return order.status === null;
+            default:
+            return false;
           }
-          return String(value).toLowerCase().includes(searchTerm);
-        });
-      };
-  
-      return searchInObject(order);
-    }
-    
-    sortOrders() {
-      // TODO: Implement sorting
-    }
-    
-    /**
-    * Ajoute un tag à la recherche et met à jour la liste des entreprises filtrées
-    * @param tag Le tag à ajouter
-    */
-    activateTag(tag: string) {
-      if (!this.activeTags.includes(tag)) {
-        this.activeTags.push(tag); // Ajouter le tag à la liste des tags actifs
-        this.availableTags = this.availableTags.filter(t => t !== tag); // Enlever le tag de la liste des tags disponibles
-        this.onSearch(); // Mettre à jour la recherche avec le nouveau tag
+        }
+        
+        searchInOrder(order: any, searchTerm: string): boolean {
+          // Méthode pour rechercher récursivement dans les objets et tableaux imbriqués
+          const searchInObject = (obj: any): boolean => {
+            return Object.values(obj).some(value => {
+              if (typeof value === 'object' && value !== null) {
+                return Array.isArray(value) ? value.some(subValue => searchInObject(subValue)) : searchInObject(value);
+              }
+              return String(value).toLowerCase().includes(searchTerm);
+            });
+          };
+          
+          return searchInObject(order);
+        }
+        
+        sortOrders() {
+          // TODO: Implement sorting
+        }
+        
+        /**
+        * Ajoute un tag à la recherche et met à jour la liste des entreprises filtrées
+        * @param tag Le tag à ajouter
+        */
+        activateTag(tag: string) {
+          if (!this.activeTags.includes(tag)) {
+            this.activeTags.push(tag); // Ajouter le tag à la liste des tags actifs
+            this.availableTags = this.availableTags.filter(t => t !== tag); // Enlever le tag de la liste des tags disponibles
+            this.onSearch(); // Mettre à jour la recherche avec le nouveau tag
+          }
+        }
+        
+        /**
+        * Supprime un tag de la recherche et met à jour la liste des entreprises filtrées
+        * @param tag Le tag à supprimer
+        * @param event L'événement de clic
+        */
+        deactivateTag(tag: string, event: MouseEvent) {
+          event.stopPropagation(); // Empêche le clic de se propager à l'élément parent
+          const index = this.activeTags.indexOf(tag);
+          this.availableTags.push(tag); // Ajouter le tag à la liste des tags disponibles
+          // trie les tags disponibles selon l'ordre de la liste des tags
+          this.availableTags.sort((a, b) => this.tags.indexOf(a) - this.tags.indexOf(b));
+          if (index > -1) {
+            this.activeTags.splice(index, 1);
+            this.onSearch(); // Mettre à jour la recherche sans le tag
+          }
+        }
+        
+        selectOrder(order: any) {
+          console.log('Commande sélectionnée:', order);
+          this.router.navigate(['/order-detail', order._id]);
+        }
+        
+        
+        // remplace les id des utilisateurs par leurs noms et prénoms
+        getUserName(userId: string) {
+          return this.userService.getOne(userId).subscribe({
+            next: (user) => {
+              return `${user.firstName} ${user.lastName}`;
+            },
+            error: (error) => console.error('Erreur lors de la récupération de l\'utilisateur', error)
+          });
+        }
+        
+        mapTagToStatus(tag: string): string | null {
+          const tagStatusMapping: { [key: string]: string } = {
+            'in_progress': 'En cours',
+            null: 'Non attribué',
+            'achieve': 'Réalisé',
+            'invoiced': 'Facturé',
+            // 'anomaly': 'Anomalie',
+            'canceled': 'Annulé',
+            // 'incident': 'Incident'
+          };
+          
+          return tagStatusMapping[tag] || null; // Returns null if the tag is not found in the mapping
+        }
       }
-    }
-    
-    /**
-    * Supprime un tag de la recherche et met à jour la liste des entreprises filtrées
-    * @param tag Le tag à supprimer
-    * @param event L'événement de clic
-    */
-    deactivateTag(tag: string, event: MouseEvent) {
-      event.stopPropagation(); // Empêche le clic de se propager à l'élément parent
-      const index = this.activeTags.indexOf(tag);
-      this.availableTags.push(tag); // Ajouter le tag à la liste des tags disponibles
-      // trie les tags disponibles selon l'ordre de la liste des tags
-      this.availableTags.sort((a, b) => this.tags.indexOf(a) - this.tags.indexOf(b));
-      if (index > -1) {
-        this.activeTags.splice(index, 1);
-        this.onSearch(); // Mettre à jour la recherche sans le tag
-      }
-    }
-    
-    selectOrder(order: any) {
-      console.log('Commande sélectionnée:', order);
-      this.router.navigate(['/order-detail', order._id]);
-    }
-    
-    
-    // remplace les id des utilisateurs par leurs noms et prénoms
-    getUserName(userId: string) {
-      return this.userService.getOne(userId).subscribe({
-        next: (user) => {
-          return `${user.firstName} ${user.lastName}`;
-        },
-        error: (error) => console.error('Erreur lors de la récupération de l\'utilisateur', error)
-      });
-    }
-  }

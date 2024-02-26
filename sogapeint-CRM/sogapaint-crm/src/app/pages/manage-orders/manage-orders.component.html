@@ -1,6 +1,6 @@
 <!-- <pre>{{ orders | json }}</pre> -->
 <div class="container-fluid">
-    <app-pagetitle title="Entreprises" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+    <app-pagetitle title="Commandes" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
     <div class="container mt-4">
         <!-- <div class="alert alert-danger" role="alert">
             <strong>Attention !</strong> Ce composant est encore en construction. Portez un casque de sécurité !
@@ -102,8 +102,7 @@
                         <td>{{ order?.external_contributor?.firstname }} {{ order?.external_contributor?.lastname }}</td> 
                         <td>{{ order?.benefit }}</td>
                         <td>{{ order?.date_cde | date:'shortDate' }}</td>
-                        <td>{{ order?.status }}</td>
-                        <td>{{ order?.amount_ht | currency }}</td>
+                        <td>{{ order?.amount_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr'  }}</td>
                         <td>{{ order?.start_date_works | date:'shortDate' }}</td>
                         <td>{{ order?.end_date_works | date:'shortDate' }}</td>
                     </tr>
@@ -112,7 +111,8 @@
             <app-loading *ngIf="isLoading"></app-loading>
             
         </div>
-        <!-- <pre>{{ filteredOrders | json }}</pre> -->
+        <!-- <app-loading *ngIf="isLoading"></app-loading> -->
+        <!-- <pre>{{ orders | json }}</pre> -->
     </div>
 </div>
 
