@@ -92,7 +92,7 @@ export class ManageOrdersComponent implements OnInit {
         this.filteredOrders = filteredBySearchText.filter(order => 
           this.activeTags.length === 0 || this.activeTags.every(tag => this.orderHasTag(order, tag))
           );
-        }
+    }
         
         orderHasTag(order: any, tag: string): boolean {
           // Implémentez cette méthode en fonction de la logique de correspondance entre les commandes et les tags
@@ -135,8 +135,43 @@ export class ManageOrdersComponent implements OnInit {
         }
         
         sortOrders() {
-          // TODO: Implement sorting
+          if (!this.sortColumn) return;
+        
+          this.filteredOrders.sort((a, b) => {
+            // Obtenir les valeurs selon la colonne sélectionnée.
+            let valueA = this.getColumnValue(a, this.sortColumn);
+            let valueB = this.getColumnValue(b, this.sortColumn);
+        
+            // Gérer les valeurs nulles ou indéfinies.
+            if (valueA == null) valueA = '';
+            if (valueB == null) valueB = '';
+        
+            // Comparaison insensible à la casse si ce sont des chaînes.
+            if (typeof valueA === 'string') valueA = valueA.toLowerCase();
+            if (typeof valueB === 'string') valueB = valueB.toLowerCase();
+        
+            // Comparaison pour un tri ascendant.
+            let comparison = valueA > valueB ? 1 : (valueA < valueB ? -1 : 0);
+        
+            // Inverser la comparaison pour un tri descendant.
+            return this.sortDirection === 'asc' ? comparison : -comparison;
+          });
         }
+        
+        getColumnValue(order: any, column: string) {
+          switch(column) {
+            case 'client':
+              return `${order?.customer?.firstname} ${order?.customer?.lastname}`;
+            case 'contact':
+              return `${order?.contact?.firstname} ${order?.contact?.lastname}`;
+            case 'external_contributor':
+              return `${order?.external_contributor?.firstname} ${order?.external_contributor?.lastname}`;
+            default:
+              return order[column]; // Pour les autres colonnes non composées.
+          }
+        }
+
+        
         
         /**
         * Ajoute un tag à la recherche et met à jour la liste des entreprises filtrées

@@ -97,8 +97,8 @@
                     
                     <tr *ngFor="let order of filteredOrders" (click)="selectOrder(order)">
                         <td>{{ order?.internal_number }}</td>
-                        <td>{{ order?.customer?.firstname }} {{ order?.customer?.laststname }}</td> 
-                        <td>{{ order?.contact?.firstname }} {{ order?.contact?.lasstname }}</td> 
+                        <td>{{ order?.customer?.firstname }} {{ order?.customer?.lastname }}</td> 
+                        <td>{{ order?.contact?.firstname }} {{ order?.contact?.lastname }}</td> 
                         <td>{{ order?.external_contributor?.firstname }} {{ order?.external_contributor?.lastname }}</td> 
                         <td>{{ order?.benefit }}</td>
                         <td>{{ order?.date_cde | date:'shortDate' }}</td>
