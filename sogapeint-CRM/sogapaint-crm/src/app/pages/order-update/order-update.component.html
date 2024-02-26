@@ -23,7 +23,8 @@
                             [typeahead]="userInput$"
                             [virtualScroll]="true" 
                             [addTag]="false" 
-                            (focus)="onUserInputFocus()"
+                            (focus)="onUserInputFocus()" 
+                            [compareWith]="compareWithFn" 
                             (blur)="onUserInputBlur($event)">
                             <ng-template ng-label-tmp let-item="item">
                                 {{ item.firstname }} {{ item.lastname }}
@@ -89,7 +90,8 @@
                     [typeahead]="userInput$"
                     [virtualScroll]="true" 
                     [addTag]="false" 
-                    (focus)="onUserInputFocus()"
+                    (focus)="onUserInputFocus()" 
+                    [compareWith]="compareWithFn" 
                     (blur)="onUserInputBlur($event)">
                     <ng-template ng-label-tmp let-item="item">
                         {{ item.firstname }} {{ item.lastname }}
@@ -110,7 +112,8 @@
                 [typeahead]="userInput$"
                 [virtualScroll]="true" 
                 [addTag]="false" 
-                (focus)="onUserInputFocus()"
+                (focus)="onUserInputFocus()" 
+                [compareWith]="compareWithFn" 
                 (blur)="onUserInputBlur($event)">
                 <ng-template ng-label-tmp let-item="item">
                     {{ item.firstname }} {{ item.lastname }}
@@ -131,7 +134,8 @@
             [typeahead]="userInput$"
             [virtualScroll]="true" 
             [addTag]="false" 
-            (focus)="onUserInputFocus()"
+            (focus)="onUserInputFocus()" 
+            [compareWith]="compareWithFn" 
             (blur)="onUserInputBlur($event)">
             <ng-template ng-label-tmp let-item="item">
                 {{ item.firstname }} {{ item.lastname }}

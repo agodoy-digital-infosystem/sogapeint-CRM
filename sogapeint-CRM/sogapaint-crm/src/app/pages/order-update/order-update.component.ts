@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ContractService } from '../../core/services/contract.service';
 import { UserProfileService } from '../../core/services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, debounceTime, distinctUntilChanged, of, switchMap, takeUntil } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, forkJoin, of, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-order-update',
@@ -93,6 +93,10 @@ export class OrderUpdateComponent implements OnInit {
       ged: new FormControl(''),
     });
   }
+
+  compareWithFn = (o1, o2) => {
+    return o1 && o2 ? o1._id === o2._id : o1 === o2;
+  };
   
 
   private loadContractData() {
@@ -100,13 +104,54 @@ export class OrderUpdateComponent implements OnInit {
     if (this.contractId) {
       console.log('Loading contract with id:', this.contractId);
       this.contractService.getContractById(this.contractId).subscribe(contract => {
-        this.orderUpdateForm.patchValue(contract);
+        contract.start_date_works = contract.start_date_works ? contract.start_date_works.split('T')[0] : '';
+        contract.end_date_works = contract.end_date_works ? contract.end_date_works.split('T')[0] : '';
+        contract.end_date_customer = contract.end_date_customer ? contract.end_date_customer.split('T')[0] : '';
+
+        const patchValues = { 
+          ...contract,
+          start_date_works: contract.start_date_works,
+          end_date_works: contract.end_date_works,
+          end_date_customer: contract.end_date_customer,
+          date_cde: this.convertToISODate(contract.date_cde),
+        };
+
+        // Load user data and patch the form
+        this.loadUserDataAndPatchForm(contract, patchValues);
         console.log('Contract data loaded:', JSON.stringify(contract));
       });
     }
     else {
       console.log('No contract id provided');
     }
+  }
+
+  /**
+   * convertis les dates en format ISO au format 'yyyy-MM-dd'
+   * @param dateString: string
+   * @returns string
+   */
+  private convertToISODate(dateString: string): string {
+    return dateString ? dateString.split('T')[0] : '';
+  }
+
+  private loadUserDataAndPatchForm(contract: any, patchValues: any) {
+    const userRequests = [];
+    
+    if (contract.customer) userRequests.push(this.userProfileService.getOne(contract.customer));
+    if (contract.contact) userRequests.push(this.userProfileService.getOne(contract.contact));
+    if (contract.external_contributor) userRequests.push(this.userProfileService.getOne(contract.external_contributor));
+    if (contract.subcontractor) userRequests.push(this.userProfileService.getOne(contract.subcontractor));
+    
+    forkJoin(userRequests).subscribe(userResponses => {
+      if (contract.customer) patchValues.customer = userResponses.find(u => u._id === contract.customer);
+      if (contract.contact) patchValues.contact = userResponses.find(u => u._id === contract.contact);
+      if (contract.external_contributor) patchValues.external_contributor = userResponses.find(u => u._id === contract.external_contributor);
+      if (contract.subcontractor) patchValues.subcontractor = userResponses.find(u => u._id === contract.subcontractor);
+      
+      // After all asynchronous operations have completed, patch the form
+      this.orderUpdateForm.patchValue(patchValues);
+    });
   }
 
   private setupUserSearch() {
