@@ -33,6 +33,12 @@ export class ManageOrdersComponent implements OnInit {
     ngOnInit(): void {
       this.breadCrumbItems = [{ label: 'Sogapeint' }, { label: 'Gestion des commandes', active: true }];
       this.availableTags = this.tags;
+      
+      // Activer le tag 'En cours' par défaut
+      this.activeTags.push('En cours');
+      // Retirer 'En cours' des tags disponibles
+      this.availableTags = this.availableTags.filter(tag => tag !== 'En cours');
+
       this.loadContracts();
     }
     
@@ -43,7 +49,8 @@ export class ManageOrdersComponent implements OnInit {
         next: (data) => {
           this.orders = data; // Stocker tous les contrats
           this.filteredOrders = [...this.orders]; // Copier pour l'affichage initial
-          this.availableTags = this.tags;
+          // this.availableTags = this.tags;
+          this.availableTags = this.tags.filter(tag => tag !== 'En cours');
           this.isLoading = false;
           // console.log('Commandes chargées:', this.filteredOrders);
         },
