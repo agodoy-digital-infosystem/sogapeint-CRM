@@ -143,14 +143,17 @@
                             <div class="mb-3">
                                 <label for="company" class="form-label">Entreprise</label>
                                 <ng-select id="company" 
-                                           formControlName="company" 
+                                           formControlName="company"  
+                                           [ngClass]="{'is-invalid': userForm.controls.company.invalid && userForm.controls.company.touched}"
                                            [items]="companies" 
-                                           bindLabel="name" 
-                                           bindValue="id" 
+                                           bindLabel="normalized_name" 
+                                           bindValue="normalized_name" 
                                            placeholder="Sélectionner une entreprise"
                                            [typeahead]="companyInput$"
                                            [virtualScroll]="true" 
-                                           [addTag]="true"
+                                           [addTag]="true" 
+                                           addTagText="Ajouter l'entreprise" 
+                                           typeToSearchText="Tapez pour rechercher"
                                            (blur)="onCompanyInputBlur($event)">
                                 </ng-select>
                             </div>

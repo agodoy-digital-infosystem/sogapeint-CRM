@@ -90,4 +90,7 @@ router.post('/contract', isAdminOrSuperAdmin, authController.addContract);
 // Route pour modifier un contrat (protégée par le middleware isAdminOrSuperAdmin)
 router.put('/contract/:contractId', isAdminOrSuperAdmin, authController.updateContract);
 
+// route pour récupérer tous les contrats sous la forme d'un stream
+// router.get('/contracts-stream', isAdminOrSuperAdmin, authController.getContractsAsStream);
+
 module.exports = router;

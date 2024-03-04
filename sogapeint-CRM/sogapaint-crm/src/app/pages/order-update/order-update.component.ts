@@ -113,7 +113,7 @@ export class OrderUpdateComponent implements OnInit {
           start_date_works: contract.start_date_works,
           end_date_works: contract.end_date_works,
           end_date_customer: contract.end_date_customer,
-          date_cde: this.convertToISODate(contract.date_cde),
+          date_cde: contract.date_cde,
         };
 
         // Load user data and patch the form
@@ -131,9 +131,21 @@ export class OrderUpdateComponent implements OnInit {
    * @param dateString: string
    * @returns string
    */
-  private convertToISODate(dateString: string): string {
-    return dateString ? dateString.split('T')[0] : '';
-  }
+  // private convertToISODate(dateString: string): string {
+  //   // Vérifiez d'abord si la date est `null`
+  //   if (!dateString) return '';
+
+  //   // Si la date est déjà au format ISO, renvoyez-la directement
+  //   if (dateString.endsWith('Z')) {
+  //     return dateString.split('T')[0];
+  //   }
+
+  //   // Si la date est dans l'ancien format (comme l'exemple que vous avez fourni), vous devez la convertir
+  //   // Par exemple, si l'ancien format est '2011-08-12T20:17:46.384Z', vous pouvez le renvoyer directement
+  //   // car c'est déjà au format ISO que vous pouvez utiliser dans un champ de type 'date'
+  //   return dateString;
+  // }
+
 
   private loadUserDataAndPatchForm(contract: any, patchValues: any) {
     const userRequests = [];

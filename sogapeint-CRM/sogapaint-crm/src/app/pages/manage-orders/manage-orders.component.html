@@ -95,16 +95,39 @@
                 
                 <tbody class="tbody-scrollable">
                     
-                    <tr *ngFor="let order of filteredOrders" (click)="selectOrder(order)">
-                        <td>{{ order?.internal_number }}</td>
+                    <tr *ngFor="let order of filteredOrders; trackBy: trackByFn" (click)="selectOrder(order)">
+                        <!-- <td>{{ order?.internal_number }}</td>
                         <td>{{ order?.customer?.firstname }} {{ order?.customer?.lastname }}</td> 
                         <td>{{ order?.contact?.firstname }} {{ order?.contact?.lastname }}</td> 
                         <td>{{ order?.external_contributor?.firstname }} {{ order?.external_contributor?.lastname }}</td> 
                         <td>{{ order?.benefit }}</td>
-                        <td>{{ order?.date_cde | date:'shortDate' }}</td>
+                        <td>{{ order?.date_cde | date: 'shortDate' }}</td>
                         <td>{{ order?.amount_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr'  }}</td>
                         <td>{{ order?.start_date_works | date:'shortDate' }}</td>
-                        <td>{{ order?.end_date_works | date:'shortDate' }}</td>
+                        <td>{{ order?.end_date_works | date:'shortDate' }}</td> -->
+                        <td ngbTooltip="{{ order?.internal_number }}">{{ order?.internal_number }}</td>
+                        <td ngbTooltip="{{ order?.customer?.firstname }} {{ order?.customer?.lastname }}">
+                          {{ order?.customer?.firstname }} {{ order?.customer?.lastname }}
+                        </td>
+                        <td ngbTooltip="{{ order?.contact?.firstname }} {{ order?.contact?.lastname }}">
+                          {{ order?.contact?.firstname }} {{ order?.contact?.lastname }}
+                        </td>
+                        <td ngbTooltip="{{ order?.external_contributor?.firstname }} {{ order?.external_contributor?.lastname }}">
+                          {{ order?.external_contributor?.firstname }} {{ order?.external_contributor?.lastname }}
+                        </td>
+                        <td ngbTooltip="{{ order?.benefit }}">{{ order?.benefit }}</td>
+                        <td ngbTooltip="{{ order?.date_cde }}">
+                          {{ order?.date_cde | date: 'shortDate' }}
+                        </td>
+                        <td ngbTooltip="{{ order?.amount_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}">
+                          {{ order?.amount_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}
+                        </td>
+                        <td ngbTooltip="{{ order?.start_date_works }}">
+                          {{ order?.start_date_works | date:'shortDate' }}
+                        </td>
+                        <td ngbTooltip="{{ order?.end_date_works }}">
+                          {{ order?.end_date_works | date:'shortDate' }}
+                        </td>
                     </tr>
                 </tbody>
             </table>

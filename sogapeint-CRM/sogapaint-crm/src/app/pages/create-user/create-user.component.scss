@@ -3,3 +3,11 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+.is-invalid .ng-select-container {
+  border-color: #dc3545;
+}
+
+.is-invalid .ng-select-container:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}

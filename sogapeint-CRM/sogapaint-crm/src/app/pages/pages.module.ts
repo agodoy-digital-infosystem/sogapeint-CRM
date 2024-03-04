@@ -43,6 +43,8 @@ import { OrderUpdateComponent } from './order-update/order-update.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from './dashboard-fake/filter.pipe'; // TODO pipe à modifier
 
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
 
 
 @NgModule({
@@ -83,7 +85,8 @@ import { FilterPipe } from './dashboard-fake/filter.pipe'; // TODO pipe à modif
     DashboardModule,
     WidgetModule,
     NgScrollbarModule,
-    LeafletModule
+    LeafletModule,
+    ScrollingModule
   ],
   providers: [
     

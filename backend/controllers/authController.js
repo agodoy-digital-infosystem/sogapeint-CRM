@@ -657,4 +657,17 @@ exports.updateContract = async (req, res) => {
     console.error('Erreur lors de la modification du contrat:', error);
     res.status(500).json({ error: error.message });
   }
+
+  // envoie la totalité des commandes sous la forme d'un flux
+  // exports.getContractsAsStream = async (req, res) => {
+  //   try {
+  //     // console.log('Récupération de tous les contrats');
+  //     const contracts = await ContractModel.find().stream();
+  //     // console.log(`Found ${contracts.length} contracts`);
+  //     res.json(contracts);
+  //   } catch (error) {
+  //     res.status(500).send({ message: "Erreur lors de la récupération des contrats", error });
+  //     console.error('Erreur lors de la récupération des contrats:', error);
+  //   }
+  // };
 };

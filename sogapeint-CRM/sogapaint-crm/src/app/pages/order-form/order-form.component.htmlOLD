@@ -103,42 +103,6 @@
             </div>
         </div>
         
-        
-        <!-- Bloc Intervenants et Temps Exécution -->
-        <!-- <div class="row mb-3">
-            <div class="col">
-                <div class="border p-3">
-                    <div class="mb-3">
-                        <label for="sogapeint" class="form-label">Sogapeint</label>
-                        <input type="text" class="form-control" id="sogapeint" ngModel name="sogapeint">
-                    </div>
-                    <div class="mb-3">
-                        <label for="co-traitant" class="form-label">Co-traitant</label>
-                        <input type="text" class="form-control" id="co-traitant" ngModel name="co-traitant">
-                    </div>
-                    <div class="mb-3">
-                        <label for="sous-traitant" class="form-label">Sous-traitant</label>
-                        <input type="text" class="form-control" id="sous-traitant" ngModel name="sous-traitant">
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="border p-3">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Heure donnée" ngModel name="heureDonnee">
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Jour donné" ngModel name="jourDonne">
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Heure écart" ngModel name="heureEcart">
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Jour écart" ngModel name="jourEcart">
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <!-- Troisième ligne de cartes -->
         <div class="row mb-3">
             <!-- Carte Intervenants -->

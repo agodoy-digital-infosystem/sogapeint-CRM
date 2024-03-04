@@ -49,6 +49,13 @@ export class ManageOrdersComponent implements OnInit {
         next: (data) => {
           this.orders = data; // Stocker tous les contrats
           this.filteredOrders = [...this.orders]; // Copier pour l'affichage initial
+          // convertit les strings de date avec le format 'dd/mm/yyyy' en 'dd/mm/yy'
+          // grâce à la méthode convertDateFormat, pour date_cde, start_date_work et end_date_work
+          this.filteredOrders.forEach(order => {
+            order.date_cde = this.convertDateFormat(order.date_cde);
+            order.start_date_work = this.convertDateFormat(order.start_date_work);
+            order.end_date_work = this.convertDateFormat(order.end_date_work);
+          });
           // this.availableTags = this.tags;
           this.availableTags = this.tags.filter(tag => tag !== 'En cours');
           this.isLoading = false;
@@ -231,4 +238,21 @@ export class ManageOrdersComponent implements OnInit {
           
           return tagStatusMapping[tag] || null; // Returns null if the tag is not found in the mapping
         }
+
+        trackByFn(index, item) {
+          return item._id; // ou tout autre identifiant unique
+        }
+
+        convertDateFormat(dateStr: string): string {
+          // Vérifie que la chaîne de la date correspond au format attendu
+          if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+            // Sépare la chaîne de la date en ses composants
+            const parts = dateStr.split('/');
+            // Renvoye la chaîne reformattée avec seulement les deux derniers chiffres de l'année
+            return `${parts[0]}/${parts[1]}/${parts[2].slice(-2)}`;
+          }
+          // Si le format ne correspond pas, renvoyez la chaîne originale ou gestion d'erreur
+          return dateStr;
+        }
+        
       }

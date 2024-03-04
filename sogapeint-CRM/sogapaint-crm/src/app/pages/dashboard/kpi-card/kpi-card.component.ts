@@ -274,7 +274,10 @@ export class KpiCardComponent implements OnInit {
   
   
   getCurrentPeriod(period: string): { startDate: string, endDate: string } {
-    // Implémentez la logique pour déterminer les dates de début et de fin en fonction de la période sélectionnée.
+    // obtient les dates de début et de fin pour la période actuelle
+
+    // TODO
+    
     return { startDate: '', endDate: '' }; // Exemple de valeur de retour, à remplir avec la logique appropriée.
   }
 }
