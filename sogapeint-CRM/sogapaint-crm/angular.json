@@ -44,7 +44,8 @@
               "leaflet",
               "@ckeditor/ckeditor5-build-classic",
               "bs-custom-file-input"
-            ]
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
@@ -107,7 +108,8 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           }
         }
       }

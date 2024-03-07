@@ -90,6 +90,21 @@ router.post('/contract', isAdminOrSuperAdmin, authController.addContract);
 // Route pour modifier un contrat (protégée par le middleware isAdminOrSuperAdmin)
 router.put('/contract/:contractId', isAdminOrSuperAdmin, authController.updateContract);
 
+// Route pour getOngoingContracts (protégée par le middleware isAdminOrSuperAdmin, obtient les contrats en cours)
+router.get('/ongoingContracts', isAdminOrSuperAdmin, authController.getOngoingContracts);
+
+// Route pour getNotOngoingContracts (protégée par le middleware isAdminOrSuperAdmin, obtient les contrats non en cours)
+router.get('/notOngoingContracts', isAdminOrSuperAdmin, authController.getNotOngoingContracts);
+
+// Route pour streamOnGoingContracts (obtient les contrats en cours)
+router.get('/streamOnGoingContracts', authController.streamOnGoingContracts);
+
+// Route pour streamNotOngoingContracts (obtient les contrats non en cours)
+router.get('/streamNotOngoingContracts', authController.streamNotOnGoingContracts);
+
+// Route pour streamOrdersByTag (obtient les contrats par tags)
+router.get('/streamOrdersByTags', authController.streamOrdersByTag);
+
 // route pour récupérer tous les contrats sous la forme d'un stream
 // router.get('/contracts-stream', isAdminOrSuperAdmin, authController.getContractsAsStream);
 

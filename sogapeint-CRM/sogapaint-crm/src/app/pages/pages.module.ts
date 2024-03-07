@@ -44,6 +44,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from './dashboard-fake/filter.pipe'; // TODO pipe à modifier
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 
@@ -86,7 +87,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     WidgetModule,
     NgScrollbarModule,
     LeafletModule,
-    ScrollingModule
+    ScrollingModule,
+    InfiniteScrollModule
   ],
   providers: [
     

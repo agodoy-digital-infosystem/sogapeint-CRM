@@ -42,6 +42,7 @@
     "ng-click-outside2": "^13.0.0",
     "ng2-charts": "^5.0.4",
     "ngx-cookie-service": "^17.0.1",
+    "ngx-infinite-scroll": "^17.0.0",
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-scrollbar": "^13.0.3",
     "ngx-slider-v2": "^17.0.0",
