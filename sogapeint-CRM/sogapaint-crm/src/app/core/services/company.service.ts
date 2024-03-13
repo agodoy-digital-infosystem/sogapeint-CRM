@@ -84,4 +84,14 @@ export class CompanyService {
   createCompany(companyData: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/auth/company`, companyData);
   }
+
+  /**
+   * Récupère la liste des abbreviations des entreprises.
+   * 
+   * Envoie une requête GET pour obtenir une liste de toutes les abréviations d'entreprises.
+   * @returns Un Observable contenant un tableau d'abréviations d'entreprises.
+   */
+  getCompaniesAbbreviations(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/api/auth/companiesAbbreviations`);
+  }
 }

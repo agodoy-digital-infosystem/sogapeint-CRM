@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from './auth.service';
@@ -143,5 +143,47 @@ export class ContractService {
             if (eventSource) {
                 eventSource.close();
             }
+        }
+        
+        /**
+        * Méthode pour '/internalNumbers' : Récupère les numéros internes des contrats
+        * 
+        * Envoie une requête GET pour obtenir une liste de tous les numéros internes des contrats.
+        * @returns Un Observable contenant un tableau de numéros internes des contrats.
+        */
+        getInternalNumbers(): Observable<any[]> {
+            return this.http.get<any[]>(`${environment.apiUrl}/api/auth/internalNumbers`);
+        }
+        
+        /**
+        * Téléverse des fichiers pour un contrat donné.
+        * 
+        * Utilise FormData pour construire une requête multipart/form-data qui est la 
+        * requête standard pour envoyer des fichiers via HTTP. Chaque fichier est ajouté 
+        * à cette requête avec la clé 'files'.
+        * 
+        * @param contractId L'identifiant unique du contrat auquel les fichiers sont associés.
+        * @param files Les fichiers à téléverser.
+        * @returns Un Observable de l'événement Http qui inclut la réponse du serveur ou des erreurs.
+        */
+        uploadFiles(contractId: string, files: File[]): Observable<HttpEvent<any>> {
+            const formData: FormData = new FormData();
+            
+            // Ajoute tous les fichiers à l'objet FormData
+            files.forEach(file => {
+                formData.append('files', file, file.name);
+            });
+            
+            // Ajoute l'ID du contrat à l'objet FormData
+            formData.append('contractId', contractId);
+            
+            // Crée une requête HttpRequest pour le téléversement
+            const req = new HttpRequest('POST', `${environment.apiUrl}/api/auth/upload`, formData, {
+                reportProgress: true, // Activez cela si vous voulez suivre la progression
+                responseType: 'json'
+            });
+            
+            // Envoie la requête et retournez l'Observable pour la gestion des événements de la requête
+            return this.http.request(req);
         }
     }

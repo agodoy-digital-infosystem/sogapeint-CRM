@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
+
 // Importation des routes
 const authRoutes = require('./routes/authRoutes');
 const scraperRoutes = require('./routes/scraperRoutes');

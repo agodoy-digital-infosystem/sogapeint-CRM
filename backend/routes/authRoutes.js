@@ -105,7 +105,17 @@ router.get('/streamNotOngoingContracts', authController.streamNotOnGoingContract
 // Route pour streamOrdersByTag (obtient les contrats par tags)
 router.get('/streamOrdersByTags', authController.streamOrdersByTag);
 
+// Route pour obtenir la liste des internal_numbers des contrats
+router.get('/internalNumbers', isConnected, authController.getContractsInternalNumbers);
+
+// Route pour obtenir la liste des abbréviations des entreprises
+router.get('/companiesAbbreviations', isConnected, authController.getCompaniesAbbreviations);
+
 // route pour récupérer tous les contrats sous la forme d'un stream
 // router.get('/contracts-stream', isAdminOrSuperAdmin, authController.getContractsAsStream);
+
+// Route pour recevoir des fichiers (protégée par le middleware isAdminOrSuperAdmin)
+router.post('/upload', isAdminOrSuperAdmin, authController.uploadFiles);
+
 
 module.exports = router;

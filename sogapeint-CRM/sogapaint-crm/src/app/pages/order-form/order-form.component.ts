@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ContractService } from '../../core/services/contract.service';
+import { CompanyService } from '../../core/services/company.service';
 import { UserProfileService } from '../../core/services/user.service';
 import { Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, of, switchMap, takeUntil } from 'rxjs';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-order-form',
@@ -14,9 +16,11 @@ export class OrderFormComponent implements OnInit {
   breadCrumbItems: Array<{}> = [];
   orderForm: FormGroup;
   contractData: any = {
-    internalNumber: '',
+    internalNumberAbbrPart: '', // Nouveau champ ajouté
+    internalNumberNumericPart: '',
     customer: '',
     contact: '',
+    internalContributor: '',
     externalContributor: '',
     subcontractor: '', // Nouveau champ ajouté
     address: '',
@@ -26,10 +30,11 @@ export class OrderFormComponent implements OnInit {
     invoiceNumber: '',
     amountHt: null,
     benefitHt: null,
-    previsionDataHour: null, // Nouveau champ ajouté
-    previsionDataDay: null,  // Nouveau champ ajouté
-    executionDataDay: null,
-    executionDataHour: null,
+    previsionDataHour: 0, // Nouveau champ ajouté
+    previsionDataDay: 0,  // Nouveau champ ajouté
+    executionDataDay: 0,
+    executionDataHour: 0,
+    difference: 0,
     benefit: null,
     status: null,
     occupied: false,
@@ -38,7 +43,7 @@ export class OrderFormComponent implements OnInit {
     endDateCustomer: null,
     trash: false,
     dateCde: null,
-    ged: '', // Nouveau champ ajouté
+    // ged: '', // Nouveau champ ajouté
   };
   
   users: any[] = [];
@@ -66,21 +71,40 @@ export class OrderFormComponent implements OnInit {
     { name: 'Placo', value: '5f58fefdbfdad857fcfbba51' },
     { name: 'Carrelage', value: '5f58ff06bfdad857fcfbba52' }
   ];
+
+  internalNumberList: any[] = [];
+  abbreviationList: string[] = [];
+
+  // utilisé à des fins de test uniquement
+  internalNumberTest: string[] = [
+    'ABC-123', 'XYZ-001', 'INV-ALD', 'JKL-900', 'NOP-007',
+    'INVALID01', '123-456', 'QRS-123', 'TUV-300', 'WXYZ-543',
+    'GHI-250', 'VWX-875', 'DEF-654', 'ABC-899', 'PQR-500',
+    '123ABC', 'BCD-123', 'EFG-111', 'HIJ-222', 'KLM-333',
+    'STU-444', 'VWX-555', 'YZA-666', 'BCD-789', 'CDE-888',
+    'FGH-777', 'GHI-666', 'HIJ-555', 'IJK-444', 'JKL-333', "isdiu", '9qdsc6'
+  ];
   
   invalidKeyStrokes = 0;
   isEmojiVisible = false;
+  abbreviationInput$ = new Subject<string>();
+
+  files: File[] = [];
   
   constructor(
     private contractService: ContractService, 
     private userProfileService: UserProfileService,
+    private companyService: CompanyService,
     private router: Router
     ) {}
     
     ngOnInit(): void {
       // Initialize the form group with controls corresponding to contractData structure
       this.orderForm = new FormGroup({
-        internalNumber: new FormControl(this.contractData.internalNumber),
+        internalNumberAbbrPart: new FormControl(this.contractData.internalNumberAbbrPart, [Validators.pattern(/^[BCDFGHJKLMNPQRSTVWXYZ]{1,5}$/)]), // Only 3-4 uppercase letters, consonnants only
+        internalNumberNumericPart: new FormControl(this.contractData.internalNumberNumericPart, [Validators.pattern(/^\d{3}$/)]), // Only 3 digits
         customer: new FormControl(this.contractData.customer, Validators.required), // Assuming it's required
+        internalContributor: new FormControl(this.contractData.internalContributor),
         contact: new FormControl(this.contractData.contact),
         externalContributor: new FormControl(this.contractData.externalContributor),
         subcontractor: new FormControl(this.contractData.subcontractor),
@@ -95,6 +119,7 @@ export class OrderFormComponent implements OnInit {
         previsionDataDay: new FormControl(this.contractData.previsionDataDay, [Validators.pattern(/^\d+$/)]), // Only whole numbers
         executionDataDay: new FormControl(this.contractData.executionDataDay, [Validators.pattern(/^\d+$/)]), // Only whole numbers
         executionDataHour: new FormControl(this.contractData.executionDataHour, [Validators.pattern(/^\d+$/)]), // Only whole numbers
+        difference: new FormControl(this.contractData.difference),
         benefit: new FormControl(this.contractData.benefit),
         status: new FormControl(this.contractData.status),
         occupied: new FormControl(this.contractData.occupied),
@@ -103,7 +128,7 @@ export class OrderFormComponent implements OnInit {
         endDateCustomer: new FormControl(this.contractData.endDateCustomer),
         trash: new FormControl(this.contractData.trash),
         dateCde: new FormControl(this.contractData.dateCde),
-        ged: new FormControl(this.contractData.ged),
+        // ged: new FormControl(this.contractData.ged),
       });
 
       this.orderForm.valueChanges.subscribe(val => {
@@ -130,6 +155,107 @@ export class OrderFormComponent implements OnInit {
         ).subscribe(users => {
           this.users = users;
         });
+
+        // Récupérer les numéros internes depuis le service
+        this.getInternalNumbers();
+
+
+        // Récupérer les abréviations depuis le service
+        this.getAbbreviationList();
+
+        // Setup for abbreviation search and typeahead functionality
+        this.abbreviationInput$.pipe(
+          debounceTime(300),
+          distinctUntilChanged(),
+          switchMap(term => term ? this.companyService.searchCompanies(term.toLowerCase()) : of([])),
+          takeUntil(this.unsubscribe$)
+          ).subscribe(abbreviations => {
+            this.abbreviationList = abbreviations;
+          });
+        
+        // Calculer la différence entre les heures de prévision et d'exécution en temps réel
+        this.orderForm.valueChanges.subscribe(val => {
+          // Vous devez utiliser `.value` pour obtenir la valeur actuelle des FormControl
+          const totalPrevisionHours = (Number(this.orderForm.get("previsionDataDay").value) * 8) + Number(this.orderForm.get("previsionDataHour").value);
+          const totalExecutionHours = (Number(this.orderForm.get("executionDataDay").value) * 8) + Number(this.orderForm.get("executionDataHour").value);
+          const difference = totalExecutionHours - totalPrevisionHours;
+        
+          // Mise à jour du formulaire sans déclencher un nouvel événement valueChanges
+          this.orderForm.patchValue({difference: difference}, {emitEvent: false});
+        });
+      }
+
+      // récupère et process la liste des numéros internes
+      getInternalNumbers() {
+        this.contractService.getInternalNumbers().subscribe({
+          next: (internalNumbers) => {
+            this.internalNumberList = internalNumbers;
+            this.initializeInternalNumber();
+          },
+          // quand tous les numéros internes sont récupérés, affichez-les dans la console
+          complete: () => {
+            console.log('Numéros internes récupérés:', this.internalNumberList);
+            this.initializeInternalNumber();
+          },
+          error: (error) => {
+            console.error('Erreur lors de la récupération des numéros internes', error);
+          }
+        });
+      }
+
+      getNextInternalNumber(): string {
+        // Utilisé à des fins de test uniquement
+        // this.internalNumberList = this.internalNumberTest;
+
+        const validNumbers: number[] = this.internalNumberList
+          .map(item => {
+            // const match = item.match(/^([A-Z]{3,4}-)(\d{3})$/i);
+            const match = item.match(/([A-Z]+)-(\d+)/);
+            return match ? parseInt(match[2], 10) : null;
+          })
+          .filter(number => number !== null);
+    
+        if (validNumbers.length === 0) {
+          console.log('Aucun numéro interne valide trouvé');
+          return '001';
+        }
+    
+        const maxNumber = Math.max(...validNumbers);
+        const nextNumber = maxNumber + 1;
+        const nextNumberString = nextNumber.toString().padStart(3, '0');
+        console.log('Prochain numéro interne:', nextNumberString);
+        return String(nextNumberString);
+      }
+
+      initializeInternalNumber(): void {
+        console.log('Initialisation du numéro interne');
+        const nextNumber = this.getNextInternalNumber();
+        this.orderForm.patchValue({
+          internalNumberNumericPart: nextNumber
+        });
+      }
+
+      // Vérifie si la partie numérique numéro interne existe déjà dans la liste
+      isInternalNumberNumericPartValid(): boolean {
+        return this.internalNumberList.some(item => {
+          const match = item.match(/^([A-Z]{3,4}-)(\d{3})$/i); // Modifier selon le format exact de vos numéros
+          return match && match[2] === this.contractData.internalNumberNumericPart;
+        });
+      }
+
+      getAbbreviationList(): void {
+        this.companyService.getCompaniesAbbreviations().subscribe({
+          next: (abbreviations) => {
+            this.abbreviationList = abbreviations;
+          },
+          error: (error) => {
+            console.error('Erreur lors de la récupération des abréviations', error);
+          }
+        });
+      }
+
+      assembleInternalNumber(): string {
+        return `${this.contractData.internalNumberAbbrPart.toUpperCase()}-${this.contractData.internalNumberNumericPart}`;
       }
       
       onAlphaInput(event: KeyboardEvent): void {
@@ -204,7 +330,12 @@ export class OrderFormComponent implements OnInit {
         this.contractService.addContract(this.contractData).subscribe({
           next: (response) => {
             console.log('Contrat créé avec succès', response);
-            this.router.navigate(['/oder-detail', response.contractId]);
+            // upload des fichiers
+            if (this.files.length > 0) {
+              console.log("il y a des fichiers à uploader");
+              this.onFileUpload(this.files, response.contractId);
+            }
+            // this.router.navigate(['/oder-detail', response.contractId]);
           },
           error: (error) => {
             console.error('Erreur lors de la création du contrat', error);
@@ -230,6 +361,13 @@ export class OrderFormComponent implements OnInit {
         dataForSubmission['execution_data_hour'] = this.convertToNumber(dataForSubmission['execution_data_hour']);
         dataForSubmission['prevision_data_hour'] = this.convertToNumber(dataForSubmission['prevision_data_hour']);
         dataForSubmission['prevision_data_day'] = this.convertToNumber(dataForSubmission['prevision_data_day']);
+
+        // assemble internal number
+        dataForSubmission['internal_number'] = this.assembleInternalNumber();
+
+        // adds dateUppd and dateAdd (ISO 8601)
+        dataForSubmission['dateAdd'] = new Date().toISOString();
+        dataForSubmission['dateUppd'] = new Date().toISOString();
       
         // Log the data to check if it's correctly formatted for submission.
         console.log('Data prepared for submission', dataForSubmission);
@@ -251,5 +389,36 @@ export class OrderFormComponent implements OnInit {
       onUserInputBlur(event: any): void {
         // console.log("onUserInputBlur");
 
+      }
+
+      // GED
+      onFileUpload(files: File[], contractId: string) {
+        // const fileArray: File[] = Array.from(files);
+        console.log("Fichiers à uploader:", files);
+        
+        this.contractService.uploadFiles(contractId, files).subscribe(
+          event => {
+            // Traite les événements de la réponse
+            if (event.type === HttpEventType.UploadProgress) {
+              // suivi de la progression
+              const percentDone = Math.round(100 * event.loaded / event.total);
+              console.log(`Progression de l'upload: ${percentDone}%`);
+            } else if (event instanceof HttpResponse) {
+              console.log('Fichiers complètement uploadés!', event.body);
+            }
+          },
+          error => {
+            console.error("Erreur lors de l'upload des fichiers", error);
+          }
+        );
+      }
+
+      onSelect(event) {
+        console.log(event);
+        this.files.push(...event.addedFiles);
+      }
+    
+      removeFile(index: number) {
+        this.files.splice(index, 1);
       }
     }

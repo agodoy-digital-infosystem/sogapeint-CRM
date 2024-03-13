@@ -7,6 +7,11 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const { sendEmail } = require('../services/emailService');
 const crypto = require('crypto');
+const upload = require('../middlewares/uploadMiddleware');
+const multer = require('multer');
+
+// Le middleware multer pour gérer le téléversement
+const uploadMiddleware = upload.array('files'); // 'files' est le nom du champ dans le formulaire
 
 // // console.log('Importation du authController');
 
@@ -771,10 +776,10 @@ exports.resetPasswordFromAdmin = async (req, res) => {
       }
     });
   };
-
+  
   exports.streamOrdersByTag = (req, res) => {
     const { status, incident = false } = req.query;
-  
+    
     let query = {};
     if (status) {
       query.status = status;
@@ -782,36 +787,36 @@ exports.resetPasswordFromAdmin = async (req, res) => {
     if (incident) {
       query.incident = { $exists: true, $not: {$size: 0} };
     }
-  
+    
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
     });
-  
+    
     const sortOrder = status === 'in_progress' ? 'asc' : 'desc';
-  
+    
     Contract.find(query)
-      .sort({ 'internal_number': 1, 'dateAdd': sortOrder })
-      .populate('customer contact external_contributor subcontractor')
-      .then(contracts => {
-        // Grouper les contrats par internal_number en mémoire. Note: ceci est une simplification.
-        const groupedContracts = groupByInternalNumber(contracts);
-        for (const group of groupedContracts) {
-          // Assurez-vous d'implémenter sanitizeContract pour nettoyer chaque contrat
-          // Ici, group pourrait être un tableau de contrats ayant le même internal_number
-          group.forEach(contract => sanitizeContract(contract));
-          // Envoyer chaque groupe de contrats au client
-          res.write(`data: ${JSON.stringify(group)}\n\n`);
-        }
-        res.end(); // Fin du flux de données
-      })
-      .catch(err => {
-        console.error('Erreur lors du streaming des contrats:', err);
-        res.status(500).end();
-      });
+    .sort({ 'internal_number': 1, 'dateAdd': sortOrder })
+    .populate('customer contact external_contributor subcontractor')
+    .then(contracts => {
+      // Grouper les contrats par internal_number en mémoire. Note: ceci est une simplification.
+      const groupedContracts = groupByInternalNumber(contracts);
+      for (const group of groupedContracts) {
+        // Assurez-vous d'implémenter sanitizeContract pour nettoyer chaque contrat
+        // Ici, group pourrait être un tableau de contrats ayant le même internal_number
+        group.forEach(contract => sanitizeContract(contract));
+        // Envoyer chaque groupe de contrats au client
+        res.write(`data: ${JSON.stringify(group)}\n\n`);
+      }
+      res.end(); // Fin du flux de données
+    })
+    .catch(err => {
+      console.error('Erreur lors du streaming des contrats:', err);
+      res.status(500).end();
+    });
   };
-
+  
   function groupByInternalNumber(contracts) {
     const groupedContracts = [];
     let currentInternalNumber = null;
@@ -842,11 +847,11 @@ exports.resetPasswordFromAdmin = async (req, res) => {
         status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
       } = req.body;
       // console.log('internal_number:', internal_number);
-      // Vérification de l'existence préalable du contrat via le numéro interne
-      let contract = await ContractModel.findOne({ internal_number });
-      if (contract) {
-        return res.status(400).json({ message: 'Un contrat avec ce numéro interne existe déjà.'+JSON.stringify(contract) });
-      }
+      // Vérification de l'existence préalable du contrat via le numéro interne => désactivé car le numéro interne n'est pas unique
+      // let contract = await ContractModel.findOne({ internal_number });
+      // if (contract) {
+      //   return res.status(400).json({ message: 'Un contrat avec ce numéro interne existe déjà.'+JSON.stringify(contract) });
+      // }
       
       // Création d'un nouveau contrat avec les champs adaptés
       const newContract = new ContractModel({
@@ -910,3 +915,101 @@ exports.resetPasswordFromAdmin = async (req, res) => {
       //   }
       // };
     };
+    
+    // Fonction pour renvoyer la liste des internal_number des contrats dont date_cde concernae l'année en cours
+    exports.getContractsInternalNumbers = async (req, res) => {
+      try {
+        console.log('Récupération des numéros internes des contrats pour l\'année ', new Date().getFullYear());
+        const contracts = await ContractModel.find({ date_cde: { $gte: new Date(new Date().getFullYear(), 0, 1), $lt: new Date(new Date().getFullYear() + 1, 0, 1) } });
+        console.log(`Found ${contracts.length} contracts`);
+        // const contracts = await ContractModel.find().select('internal_number');
+        // extrait seulement les numéros internes des contrats et en fait une liste
+        const internalNumbers = contracts.map(contract => contract.internal_number);
+        // console.log(`Found ${contracts.length} contracts`);
+        // res.status(200).json(contracts);
+        res.status(200).json(internalNumbers);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des numéros internes des contrats:', error);
+        res.status(500).json({ error: error.message });
+      }
+    };
+    
+    // Fonction pour renvoyer la liste des abbréviations des entreprises
+    exports.getCompaniesAbbreviations = async (req, res) => {
+      try {
+        console.log('Récupération des abbréviations des entreprises');
+        const companies = await CompanyModel.find().select('abbreviation');
+        const abbreviations = companies.map(company => company.abbreviation);
+        console.log(`Found ${companies.length} companies`);
+        res.status(200).json(abbreviations);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des abbréviations des entreprises:', error);
+        res.status(500).json({ error: error.message });
+      }
+    };
+    
+    // Fonction pour recevoir des fichiers dans le dossier uploads
+    // exports.uploadFiles = async (req, res) => {
+    //   uploadMiddleware(req, res, function (err) {
+    //     if (err instanceof multer.MulterError) {
+    //       return res.status(500).json(err);
+    //     } else if (err) {
+    //       return res.status(500).json(err);
+    //     }
+        
+    //     // Si aucun fichier n'est téléversé
+    //     if (!req.files) {
+    //       return res.status(400).send('Aucun fichier n\'a été téléversé.');
+    //     }
+        
+    //     // Si des fichiers ont été téléversés, mettre à jour le contrat correspondant
+    //     const contractId = req.body.contractId; // Il faut que l'ID du contrat soit envoyé avec le formulaire
+    //     const filesPaths = req.files.map(file => ({ path: file.path, name: file.originalname }));
+        
+    //     ContractModel.findByIdAndUpdate(
+    //       contractId,
+    //       { $push: { file: { $each: filesPaths } } }, // Utilise $each pour ajouter chaque fichier individuellement
+    //       { new: true, useFindAndModify: false }, // Options pour renvoyer le nouveau document et utiliser le nouveau système de mongoose
+    //       (error, contract) => {
+    //         if (error) {
+    //           return res.status(500).send(error);
+    //         }
+    //         res.status(200).send({ message: 'Fichiers téléversés et enregistrés avec succès.', contract: contract });
+    //       }
+    //       );
+    //     });
+    //   };
+    exports.uploadFiles = async (req, res) => {
+      try {
+        uploadMiddleware(req, res, async function (err) {
+          if (err instanceof multer.MulterError) {
+            return res.status(500).json(err);
+          } else if (err) {
+            return res.status(500).json(err);
+          }
+    
+          if (!req.files) {
+            return res.status(400).send('Aucun fichier n\'a été téléversé.');
+          }
+    
+          const contractId = req.body.contractId;
+          const filesPaths = req.files.map(file => ({ path: file.path, name: file.originalname }));
+    
+          const contract = await ContractModel.findByIdAndUpdate(
+            contractId,
+            { $push: { files: { $each: filesPaths } } },
+            { new: true, useFindAndModify: false }
+          );
+    
+          if (!contract) {
+            return res.status(404).send('Contrat non trouvé.');
+          }
+    
+          return res.status(200).send({ message: 'Fichiers téléversés et enregistrés avec succès.', contract: contract });
+        });
+      } catch (error) {
+        return res.status(500).send(error);
+      }
+    };
+    
+      

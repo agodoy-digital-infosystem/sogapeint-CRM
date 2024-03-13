@@ -1,6 +1,7 @@
 export class Contract {
     _id: string;
-    file: any[]; // Remplacer par un type plus spécifique si nécessaire
+    // file: any[]; // Remplacer par un type plus spécifique si nécessaire
+    files: [{ path: String, name: String }]; // Un tableau d'objets contenant des informations de fichier
     trash: boolean;
     date_cde: Date | null;
     customer: string;

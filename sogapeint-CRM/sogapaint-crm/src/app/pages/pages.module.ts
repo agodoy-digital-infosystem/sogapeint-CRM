@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { NgxDropzoneModule } from 'ngx-dropzone';
+
 import { UIModule } from './ui/ui.module';
 import { UiModule } from '../shared/ui/ui.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -46,6 +48,7 @@ import { FilterPipe } from './dashboard-fake/filter.pipe'; // TODO pipe à modif
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
+import { FileSizePipe } from './dashboard/pipes/file-size.pipe';
 
 
 @NgModule({
@@ -63,6 +66,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     OrderDetailComponent,
     ManageOrdersComponent,
     OrderUpdateComponent,
+    FileSizePipe
     // DashboardComponent
     // LandingPageComponent
   ],
@@ -88,7 +92,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     NgScrollbarModule,
     LeafletModule,
     ScrollingModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    NgxDropzoneModule
   ],
   providers: [
     

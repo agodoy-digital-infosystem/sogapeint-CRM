@@ -15,6 +15,7 @@ const companySchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  abbreviation: String,
   address: String,
   employees: [{ 
     type: Schema.Types.ObjectId, 

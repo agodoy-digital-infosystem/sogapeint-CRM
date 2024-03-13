@@ -787,3 +787,126 @@
         bottom: 25px;
     }
 }
+
+
+// SVG Cloud Animation
+svg {
+    transform: scale(1);
+}
+
+svg:hover {
+    transform: scale(1.25);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgb(37,43,59, 1);
+    }
+    
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgb(37,43,59, 0);
+    }
+    
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgb(37,43,59, 1);
+    }
+}
+
+// .files-list .list-group-item {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     align-items: center;
+    // }
+    
+    // .file-info .file-name {
+        //     font-weight: bold;
+        //     margin-right: 8px; /* Ajuste l'espace entre le nom du fichier et sa taille */
+        // }
+        
+        // .file-info .file-size {
+            //     color: #6c757d; /* coulur pour indiquer une info secondaire */
+            // }
+            
+            // .btn-delete {
+                //     color: #dc3545; /* Couleur: Bootstrap danger */
+                //     background-color: transparent;
+                //     border: none;
+                // }
+                
+                // .btn-delete:hover {
+                    //     background-color: #dc3545;
+                    //     color: white;
+                    // }
+                    
+.file-item {
+    transition: transform 0.1s ease-in-out;
+}
+
+.file-item:hover {
+    transform: scale(1.02);
+    background-color: #f8f9fa; /* or any light shade for highlighting */
+}
+
+.file-description {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-name {
+    font-weight: bold;
+    margin-right: 8px; /* Adjust the space between the icon and the file name */
+}
+
+.file-size {
+    margin-left: auto; /* Pushes the file size to align at the end */
+    white-space: nowrap; /* Keeps the file size from wrapping */
+}
+
+.btn-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; /* Fixed width for the delete button */
+    height: 30px;
+    border-radius: 15px; /* Circle shape */
+    margin-left: 12px;
+    background-color: transparent;
+    color: #dc3545; /* Bootstrap danger color */
+    border: 1px solid #dc3545; /* Bootstrap danger color */
+}
+
+.btn-delete:hover {
+    background-color: #dc3545;
+    color: white;
+    border-color: transparent;
+}
+
+.btn-delete i {
+    pointer-events: none; /* Prevents the icon from blocking the click event on the button */
+}
+
+.card-header {
+    background-color: #e9ecef; /* Light grey header */
+    font-weight: bold;
+}
+
+.list-group-item {
+    cursor: pointer; /* Indicates the item is clickable */
+}
+
+/* Additional responsiveness if needed */
+@media (max-width: 576px) {
+    .file-description {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .file-size {
+        margin-top: 0.5rem;
+        margin-left: 0;
+    }
+}
