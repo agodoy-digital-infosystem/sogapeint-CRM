@@ -61,3 +61,7 @@ aio/content/examples/.DS_Store
 # Backend
 backend/node_modules/
 backend/.env
+backend/uploads/
+
+# contenu du dossier uploads dans le backend
+backend/uploads/*

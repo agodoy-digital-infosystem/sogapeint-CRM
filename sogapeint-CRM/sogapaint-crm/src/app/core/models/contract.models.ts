@@ -1,7 +1,7 @@
 export class Contract {
     _id: string;
     // file: any[]; // Remplacer par un type plus spécifique si nécessaire
-    files: [{ path: String, name: String }]; // Un tableau d'objets contenant des informations de fichier
+    files: [{ path: String, name: String, size: String }]; // Un tableau d'objets contenant des informations de fichier
     trash: boolean;
     date_cde: Date | null;
     customer: string;
@@ -25,7 +25,7 @@ export class Contract {
     execution_data_day: number | null;
     execution_data_hour: number | null;
     external_contributor_invoice_date: Date | null;
-    internal_contributor: string;
+    internal_contributor: string | null;
     external_contributor_amount: number;
     subcontractor: string;
     start_date_works: Date | null;

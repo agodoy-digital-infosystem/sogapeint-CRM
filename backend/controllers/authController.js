@@ -842,7 +842,7 @@ exports.resetPasswordFromAdmin = async (req, res) => {
     try {
       // Extraction des champs nécessaires du corps de la requête
       const {
-        internal_number, customer, contact, external_contributor, address, appartment_number, quote_number,
+        internal_number, customer, contact, internal_contributor, external_contributor, subcontractor, address, appartment_number, quote_number,
         mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
         status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
       } = req.body;
@@ -855,7 +855,7 @@ exports.resetPasswordFromAdmin = async (req, res) => {
       
       // Création d'un nouveau contrat avec les champs adaptés
       const newContract = new ContractModel({
-        internal_number, customer, contact, external_contributor, address, appartment_number, quote_number,
+        internal_number, customer, contact, internal_contributor, external_contributor, subcontractor, address, appartment_number, quote_number,
         mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
         status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
       });
@@ -902,18 +902,6 @@ exports.resetPasswordFromAdmin = async (req, res) => {
         res.status(500).json({ error: error.message });
       }
       
-      // envoie la totalité des commandes sous la forme d'un flux
-      // exports.getContractsAsStream = async (req, res) => {
-      //   try {
-      //     // console.log('Récupération de tous les contrats');
-      //     const contracts = await ContractModel.find().stream();
-      //     // console.log(`Found ${contracts.length} contracts`);
-      //     res.json(contracts);
-      //   } catch (error) {
-      //     res.status(500).send({ message: "Erreur lors de la récupération des contrats", error });
-      //     console.error('Erreur lors de la récupération des contrats:', error);
-      //   }
-      // };
     };
     
     // Fonction pour renvoyer la liste des internal_number des contrats dont date_cde concernae l'année en cours
@@ -948,37 +936,6 @@ exports.resetPasswordFromAdmin = async (req, res) => {
       }
     };
     
-    // Fonction pour recevoir des fichiers dans le dossier uploads
-    // exports.uploadFiles = async (req, res) => {
-    //   uploadMiddleware(req, res, function (err) {
-    //     if (err instanceof multer.MulterError) {
-    //       return res.status(500).json(err);
-    //     } else if (err) {
-    //       return res.status(500).json(err);
-    //     }
-        
-    //     // Si aucun fichier n'est téléversé
-    //     if (!req.files) {
-    //       return res.status(400).send('Aucun fichier n\'a été téléversé.');
-    //     }
-        
-    //     // Si des fichiers ont été téléversés, mettre à jour le contrat correspondant
-    //     const contractId = req.body.contractId; // Il faut que l'ID du contrat soit envoyé avec le formulaire
-    //     const filesPaths = req.files.map(file => ({ path: file.path, name: file.originalname }));
-        
-    //     ContractModel.findByIdAndUpdate(
-    //       contractId,
-    //       { $push: { file: { $each: filesPaths } } }, // Utilise $each pour ajouter chaque fichier individuellement
-    //       { new: true, useFindAndModify: false }, // Options pour renvoyer le nouveau document et utiliser le nouveau système de mongoose
-    //       (error, contract) => {
-    //         if (error) {
-    //           return res.status(500).send(error);
-    //         }
-    //         res.status(200).send({ message: 'Fichiers téléversés et enregistrés avec succès.', contract: contract });
-    //       }
-    //       );
-    //     });
-    //   };
     exports.uploadFiles = async (req, res) => {
       try {
         uploadMiddleware(req, res, async function (err) {
@@ -993,7 +950,7 @@ exports.resetPasswordFromAdmin = async (req, res) => {
           }
     
           const contractId = req.body.contractId;
-          const filesPaths = req.files.map(file => ({ path: file.path, name: file.originalname }));
+          const filesPaths = req.files.map(file => ({ path: file.path, name: file.originalname, size: file.size}));
     
           const contract = await ContractModel.findByIdAndUpdate(
             contractId,

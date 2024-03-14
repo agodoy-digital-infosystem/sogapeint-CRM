@@ -191,7 +191,7 @@
                                 </div>
                             </td>
                             <td class="cell-centered"><i class="fas fa-comment active-icon" aria-hidden="true"></i> <span class="badge bg-info">{{ order?.observation?.length || 0 }}</span></td>
-                            <td class="cell-centered"><i class="fas fa-file active-icon" aria-hidden="true"></i> <span class="badge bg-info">{{ order?.file?.length || 0 }}</span></td>
+                            <td class="cell-centered"><i class="fas fa-file active-icon" aria-hidden="true"></i> <span class="badge bg-info">{{ order?.file?.length || order?.files?.length || 0 }}</span></td>
                             <td class="cell-centered">
                                 <span 
                                 [ngSwitch]="order?.status"

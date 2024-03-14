@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ContractService } from '../../core/services/contract.service';
 import { UserProfileService } from '../../core/services/user.service';
+import { CompanyService } from '../../core/services/company.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, forkJoin, of, switchMap, takeUntil } from 'rxjs';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-order-update',
@@ -19,7 +21,7 @@ export class OrderUpdateComponent implements OnInit {
   users: any[] = [];
   userInput$ = new Subject<string>();
   private unsubscribe$ = new Subject<void>();
-
+  
   statuses = [
     { name: 'À réaliser', value: null }, 
     { name: 'Réalisé', value: 'achieve' },
@@ -27,7 +29,7 @@ export class OrderUpdateComponent implements OnInit {
     { name: 'Facturé', value: 'invoiced' },
     { name: 'En cours', value: 'in_progress' }
   ];
-
+  
   benefits = [
     { name: 'Peinture', value: '5e4ba27006d62fd4a4e49916' },
     { name: 'Sol', value: '5e4ba27606d62fd4a4e49917' },
@@ -41,198 +43,315 @@ export class OrderUpdateComponent implements OnInit {
     { name: 'Placo', value: '5f58fefdbfdad857fcfbba51' },
     { name: 'Carrelage', value: '5f58ff06bfdad857fcfbba52' }
   ];
-
+  
+  internalNumberList: any[] = [];
+  abbreviationList: string[] = [];
+  abbreviationInput$ = new Subject<string>();
+  
   contractId: string;
   invalidKeyStrokes = 0;
   isEmojiVisible = false;
 
+  files: File[] = [];
+  newFiles: File[] = [];
+  deletedFiles: string[] = [];
+  
   constructor(
     private contractService: ContractService, 
     private userProfileService: UserProfileService,
+    private companyService: CompanyService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
-
-  ngOnInit(): void {
-    this.contractId = this.route.snapshot.params['orderId'];
-    this.initializeForm();
-    this.loadContractData();
-    this.setupUserSearch();
-    this.breadCrumbItems = [
-      { label: 'Accueil', path: '/' },
-      { label: 'Mise à jour d’une commande', active: true }
-    ];
-  }
-
-  private initializeForm() {
-    this.orderUpdateForm = new FormGroup({
-      internal_number: new FormControl('', Validators.required),
-      customer: new FormControl('', Validators.required),
-      contact: new FormControl(''),
-      external_contributor: new FormControl(''),
-      subcontractor: new FormControl(''),
-      address: new FormControl(''),
-      appartment_number: new FormControl(''),
-      quote_number: new FormControl(''),
-      mail_sended: new FormControl(''),
-      invoice_number: new FormControl(''),
-      amount_ht: new FormControl('', [Validators.pattern(/^\d+\.?\d*$/)]),
-      benefit_ht: new FormControl('', [Validators.pattern(/^\d+\.?\d*$/)]),
-      prevision_data_hour: new FormControl('', [Validators.pattern(/^\d+$/)]),
-      prevision_data_day: new FormControl('', [Validators.pattern(/^\d+$/)]),
-      execution_data_day: new FormControl('', [Validators.pattern(/^\d+$/)]),
-      execution_data_hour: new FormControl('', [Validators.pattern(/^\d+$/)]),
-      benefit: new FormControl(''),
-      status: new FormControl(''),
-      occupied: new FormControl(''),
-      start_date_works: new FormControl(''),
-      end_date_works: new FormControl(''),
-      end_date_customer: new FormControl(''),
-      trash: new FormControl(''),
-      date_cde: new FormControl(''),
-      ged: new FormControl(''),
-    });
-  }
-
-  compareWithFn = (o1, o2) => {
-    return o1 && o2 ? o1._id === o2._id : o1 === o2;
-  };
-  
-
-  private loadContractData() {
-    console.log('Loading contract data');
-    if (this.contractId) {
-      console.log('Loading contract with id:', this.contractId);
-      this.contractService.getContractById(this.contractId).subscribe(contract => {
-        contract.start_date_works = contract.start_date_works ? contract.start_date_works.split('T')[0] : '';
-        contract.end_date_works = contract.end_date_works ? contract.end_date_works.split('T')[0] : '';
-        contract.end_date_customer = contract.end_date_customer ? contract.end_date_customer.split('T')[0] : '';
-
-        const patchValues = { 
-          ...contract,
-          start_date_works: contract.start_date_works,
-          end_date_works: contract.end_date_works,
-          end_date_customer: contract.end_date_customer,
-          date_cde: contract.date_cde,
-        };
-
-        // Load user data and patch the form
-        this.loadUserDataAndPatchForm(contract, patchValues);
-        console.log('Contract data loaded:', JSON.stringify(contract));
-      });
-    }
-    else {
-      console.log('No contract id provided');
-    }
-  }
-
-  /**
-   * convertis les dates en format ISO au format 'yyyy-MM-dd'
-   * @param dateString: string
-   * @returns string
-   */
-  // private convertToISODate(dateString: string): string {
-  //   // Vérifiez d'abord si la date est `null`
-  //   if (!dateString) return '';
-
-  //   // Si la date est déjà au format ISO, renvoyez-la directement
-  //   if (dateString.endsWith('Z')) {
-  //     return dateString.split('T')[0];
-  //   }
-
-  //   // Si la date est dans l'ancien format (comme l'exemple que vous avez fourni), vous devez la convertir
-  //   // Par exemple, si l'ancien format est '2011-08-12T20:17:46.384Z', vous pouvez le renvoyer directement
-  //   // car c'est déjà au format ISO que vous pouvez utiliser dans un champ de type 'date'
-  //   return dateString;
-  // }
-
-
-  private loadUserDataAndPatchForm(contract: any, patchValues: any) {
-    const userRequests = [];
+    ) {}
     
-    if (contract.customer) userRequests.push(this.userProfileService.getOne(contract.customer));
-    if (contract.contact) userRequests.push(this.userProfileService.getOne(contract.contact));
-    if (contract.external_contributor) userRequests.push(this.userProfileService.getOne(contract.external_contributor));
-    if (contract.subcontractor) userRequests.push(this.userProfileService.getOne(contract.subcontractor));
-    
-    forkJoin(userRequests).subscribe(userResponses => {
-      if (contract.customer) patchValues.customer = userResponses.find(u => u._id === contract.customer);
-      if (contract.contact) patchValues.contact = userResponses.find(u => u._id === contract.contact);
-      if (contract.external_contributor) patchValues.external_contributor = userResponses.find(u => u._id === contract.external_contributor);
-      if (contract.subcontractor) patchValues.subcontractor = userResponses.find(u => u._id === contract.subcontractor);
+    ngOnInit(): void {
+      this.contractId = this.route.snapshot.params['orderId'];
+      this.initializeForm();
+      this.loadContractData();
+      this.setupUserSearch();
+      this.breadCrumbItems = [
+        { label: 'Accueil', path: '/' },
+        { label: 'Mise à jour d’une commande', active: true }
+      ];
       
-      // After all asynchronous operations have completed, patch the form
-      this.orderUpdateForm.patchValue(patchValues);
-    });
-  }
-
-  private setupUserSearch() {
-    this.userInput$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term => term ? this.userProfileService.searchUsers(term.toLowerCase()) : of([])),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(users => {
-      this.users = users;
-    });
-  }
-
-  onSubmitUpdate(): void {
-    if (this.orderUpdateForm.valid) {
-      this.contractService.updateContract(this.contractId, this.orderUpdateForm.value).subscribe({
-        next: () => {
-          this.router.navigate(['/order-detail', this.contractId]);
-        },
-        error: (error) => {
-          console.error('Error updating contract:', error);
-        }
-      });
-    }
-  }
-
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
-  onUserInputFocus(): void {
-    this.userInput$.next('');
-  }
-
-  onUserInputBlur(event: any): void {
-    // console.log("onUserInputBlur");
-  }
-
-  onAlphaInput(event: KeyboardEvent): void {
+      // Récupérer les numéros internes depuis le service
+      // this.getInternalNumbers();
+      
+      
+      // Récupérer les abréviations depuis le service
+      this.getAbbreviationList();
+      
+      // Setup for abbreviation search and typeahead functionality
+      this.abbreviationInput$.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(term => term ? this.companyService.searchCompanies(term.toLowerCase()) : of([])),
+        takeUntil(this.unsubscribe$)
+        ).subscribe(abbreviations => {
+          this.abbreviationList = abbreviations;
+        });
         
-    if (!/[0-9]/.test(event.key) &&
-    !['Backspace','ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete', 'Enter'].includes(event.key) &&
-    !(event.key === 'e' || event.key === '.' || event.key === '-' || event.key === '+')) {
-      event.preventDefault(); 
-      const inputElement = event.target as HTMLInputElement;
-      
-      this.invalidKeyStrokes++;
-      inputElement.classList.add('input-error');
-      
-      
-      setTimeout(() => {
-        inputElement.classList.remove('input-error');
-      }, 820); 
-      
-      // If three invalid characters have been entered, show the emoji
-      if (this.invalidKeyStrokes >= 3) {
-        this.showEmoji();
+        // Calculer la différence entre les heures de prévision et d'exécution en temps réel
+        this.orderUpdateForm.valueChanges.subscribe(val => {
+          // Utiliser `.value` pour obtenir la valeur actuelle des FormControl
+          const totalPrevisionHours = (Number(this.orderUpdateForm.get("prevision_data_day").value) * 8) + Number(this.orderUpdateForm.get("prevision_data_hour").value);
+          const totalExecutionHours = (Number(this.orderUpdateForm.get("execution_data_day").value) * 8) + Number(this.orderUpdateForm.get("execution_data_hour").value);
+          const difference = totalExecutionHours - totalPrevisionHours;
+          
+          // Mise à jour du formulaire sans déclencher un nouvel événement valueChanges
+          this.orderUpdateForm.patchValue({difference: difference}, {emitEvent: false});
+        });
       }
-    }
-  }
+      
+      private initializeForm() {
+        this.orderUpdateForm = new FormGroup({
+          // internal_number: new FormControl('', Validators.required),
+          internalNumberNumericPart: new FormControl('', [Validators.required, Validators.pattern(/^\d{3}$/)]),
+          internalNumberAbbrPart: new FormControl('', Validators.required),
+          customer: new FormControl('', Validators.required),
+          contact: new FormControl(''),
+          internal_contributor: new FormControl(''),
+          external_contributor: new FormControl(''),
+          subcontractor: new FormControl(''),
+          address: new FormControl(''),
+          appartment_number: new FormControl(''),
+          quote_number: new FormControl(''),
+          mail_sended: new FormControl(''),
+          invoice_number: new FormControl(''),
+          amount_ht: new FormControl('', [Validators.pattern(/^\d+\.?\d*$/)]),
+          benefit_ht: new FormControl('', [Validators.pattern(/^\d+\.?\d*$/)]),
+          prevision_data_hour: new FormControl('', [Validators.pattern(/^\d+$/)]),
+          prevision_data_day: new FormControl('', [Validators.pattern(/^\d+$/)]),
+          execution_data_day: new FormControl('', [Validators.pattern(/^\d+$/)]),
+          execution_data_hour: new FormControl('', [Validators.pattern(/^\d+$/)]),
+          benefit: new FormControl(''),
+          status: new FormControl(''),
+          occupied: new FormControl(''),
+          start_date_works: new FormControl(''),
+          end_date_works: new FormControl(''),
+          end_date_customer: new FormControl(''),
+          trash: new FormControl(''),
+          date_cde: new FormControl(''),
+          // ged: new FormControl(''),
+        });
+      }
+      
+      compareWithFn = (o1, o2) => {
+        return o1 && o2 ? o1._id === o2._id : o1 === o2;
+      };
+      
+      
+      private loadContractData() {
+        console.log('Loading contract data');
+        if (this.contractId) {
+          console.log('Loading contract with id:', this.contractId);
+          this.contractService.getContractById(this.contractId).subscribe(contract => {
+            contract.start_date_works = contract.start_date_works ? contract.start_date_works.split('T')[0] : '';
+            contract.end_date_works = contract.end_date_works ? contract.end_date_works.split('T')[0] : '';
+            contract.end_date_customer = contract.end_date_customer ? contract.end_date_customer.split('T')[0] : '';
 
-  showEmoji(): void {
-    console.log('showEmoji');
-    this.isEmojiVisible = true;
-    this.invalidKeyStrokes = 0; // Reset the counter
-    
-    setTimeout(() => {
-      this.isEmojiVisible = false; // Cache l'emoji après un certain temps
-    }, 3000); // Durée d'affichage de l'emoji
-  }
+            // Split the internal_number into abbreviation and numeric part
+            const internalNumberParts = contract.internal_number ? contract.internal_number.split('-') : ['', ''];
+            const abbreviation = internalNumberParts[0];
+            const numericPart = internalNumberParts[1];
+
+            // si prevision_data_hour et prevision_data_day ne sont pas remplis, les remplir avec les valeurs de execution_data_hour et execution_data_day
+            if (!contract.prevision_data_hour && !contract.prevision_data_day) {
+              contract.prevision_data_hour = contract.execution_data_hour;
+              contract.prevision_data_day = contract.execution_data_day;
+            }
+
+            // conversion de date_cde
+            contract.date_cde = contract.date_cde ? contract.date_cde.split('T')[0] : '';
+
+            
+            const patchValues = { 
+              ...contract,
+              start_date_works: contract.start_date_works,
+              end_date_works: contract.end_date_works,
+              end_date_customer: contract.end_date_customer,
+              date_cde: contract.date_cde,
+              internalNumberAbbrPart: abbreviation, // Abbreviation part
+              internalNumberNumericPart: numericPart, // Numeric part
+              benefit: contract.benefit,
+            };
+            // alert(JSON.stringify(patchValues));
+            this.files = contract.files;
+            
+            // Load user data and patch the form
+            this.loadUserDataAndPatchForm(contract, patchValues);
+            console.log('Contract data loaded:', JSON.stringify(contract));
+          });
+        }
+        else {
+          console.log('No contract id provided');
+        }
+      }
+      
+      
+      private loadUserDataAndPatchForm(contract: any, patchValues: any) {
+        const userRequests = [];
+        
+        if (contract.customer) userRequests.push(this.userProfileService.getOne(contract.customer));
+        if (contract.contact) userRequests.push(this.userProfileService.getOne(contract.contact));
+        if (contract.internal_contributor) userRequests.push(this.userProfileService.getOne(contract.internal_contributor));
+        if (contract.external_contributor) userRequests.push(this.userProfileService.getOne(contract.external_contributor));
+        if (contract.subcontractor) userRequests.push(this.userProfileService.getOne(contract.subcontractor));
+        
+        forkJoin(userRequests).subscribe(userResponses => {
+          if (contract.customer) patchValues.customer = userResponses.find(u => u._id === contract.customer);
+          if (contract.contact) patchValues.contact = userResponses.find(u => u._id === contract.contact);
+          if (contract.external_contributor) patchValues.external_contributor = userResponses.find(u => u._id === contract.external_contributor);
+          if (contract.subcontractor) patchValues.subcontractor = userResponses.find(u => u._id === contract.subcontractor);
+          
+          // After all asynchronous operations have completed, patch the form
+          // this.orderUpdateForm.patchValue(patchValues);
+          if (this.orderUpdateForm && patchValues) {
+            this.orderUpdateForm.patchValue(patchValues);
+          }
+        });
+      }
+      
+      private setupUserSearch() {
+        this.userInput$.pipe(
+          debounceTime(300),
+          distinctUntilChanged(),
+          switchMap(term => term ? this.userProfileService.searchUsers(term.toLowerCase()) : of([])),
+          takeUntil(this.unsubscribe$)
+          ).subscribe(users => {
+            this.users = users;
+          });
+        }
+        
+        onSubmitUpdate(): void {
+          if (this.orderUpdateForm.valid) {
+            this.contractService.updateContract(this.contractId, this.orderUpdateForm.value).subscribe({
+              next: () => {
+                this.onFileUpload(this.newFiles, this.contractId);
+              },
+              // next: () => {
+              //   this.router.navigate(['/order-detail', this.contractId]);
+              // },
+              error: (error) => {
+                console.error('Error updating contract:', error);
+              }
+            }).add(() => {
+              this.router.navigate(['/order-detail', this.contractId]);
+            });
+          }
+        }
+
+        // convertit les dates de n'importe quel format vers "yyyy-MM-dd"
+        convertDate(date: any): string {
+          if (date) {
+            const dateObj = new Date(date);
+            const year = dateObj.getFullYear();
+            const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+            const day = dateObj.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+          }
+          return '';
+        }
+        
+        ngOnDestroy() {
+          this.unsubscribe$.next();
+          this.unsubscribe$.complete();
+        }
+        
+        onUserInputFocus(): void {
+          this.userInput$.next('');
+        }
+        
+        onUserInputBlur(event: any): void {
+          // console.log("onUserInputBlur");
+        }
+        
+        onAlphaInput(event: KeyboardEvent): void {
+          
+          if (!/[0-9]/.test(event.key) &&
+          !['Backspace','ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete', 'Enter'].includes(event.key) &&
+          !(event.key === 'e' || event.key === '.' || event.key === '-' || event.key === '+')) {
+            event.preventDefault(); 
+            const inputElement = event.target as HTMLInputElement;
+            
+            this.invalidKeyStrokes++;
+            inputElement.classList.add('input-error');
+            
+            
+            setTimeout(() => {
+              inputElement.classList.remove('input-error');
+            }, 820); 
+            
+            // If three invalid characters have been entered, show the emoji
+            if (this.invalidKeyStrokes >= 3) {
+              this.showEmoji();
+            }
+          }
+        }
+        
+        showEmoji(): void {
+          console.log('showEmoji');
+          this.isEmojiVisible = true;
+          this.invalidKeyStrokes = 0; // Reset the counter
+          
+          setTimeout(() => {
+            this.isEmojiVisible = false; // Cache l'emoji après un certain temps
+          }, 3000); // Durée d'affichage de l'emoji
+        }
+        
+        // Vérifie si la partie numérique numéro interne existe déjà dans la liste
+        isInternalNumberNumericPartValid(): boolean {
+          return this.internalNumberList.some(item => {
+            const match = item.match(/^([A-Z]{3,4}-)(\d{3})$/i); // Modifier selon le format exact de vos numéros
+            return match && match[2] === this.orderUpdateForm.get("internalNumberNumericPart").value;
+          });
+        }
+        
+        getAbbreviationList(): void {
+          this.companyService.getCompaniesAbbreviations().subscribe({
+            next: (abbreviations) => {
+              this.abbreviationList = abbreviations;
+            },
+            error: (error) => {
+              console.error('Erreur lors de la récupération des abréviations', error);
+            }
+          });
+        }
+        
+        assembleInternalNumber(): string {
+          return `${this.orderUpdateForm.get("internalNumberAbbrPart").value.toUpperCase()}-${this.orderUpdateForm.get("internalNumberNumericPart").value}`;
+        }
+
+        onSelect(event) {
+          console.log(event);
+          this.files.push(...event.addedFiles);
+          this.newFiles.push(...event.addedFiles);
+        }
+      
+        removeFile(index: number) {
+          this.files.splice(index, 1);
+          this.deletedFiles.push(this.files[index].name);
+        }
+
+        // GED
+      onFileUpload(files: File[], contractId: string) {
+        // const fileArray: File[] = Array.from(files);
+        console.log("Fichiers à uploader:", files);
+        
+        this.contractService.uploadFiles(contractId, files).subscribe(
+          event => {
+            // Traite les événements de la réponse
+            if (event.type === HttpEventType.UploadProgress) {
+              // suivi de la progression
+              const percentDone = Math.round(100 * event.loaded / event.total);
+              console.log(`Progression de l'upload: ${percentDone}%`);
+            } else if (event instanceof HttpResponse) {
+              console.log('Fichiers complètement uploadés!', event.body);
+            }
+          },
+          error => {
+            console.error("Erreur lors de l'upload des fichiers", error);
+          }
+        );
+      }
 }
