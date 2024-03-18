@@ -936,6 +936,7 @@ exports.resetPasswordFromAdmin = async (req, res) => {
       }
     };
     
+    // Fonction pour uploader des fichiers
     exports.uploadFiles = async (req, res) => {
       try {
         uploadMiddleware(req, res, async function (err) {
@@ -969,4 +970,31 @@ exports.resetPasswordFromAdmin = async (req, res) => {
       }
     };
     
-      
+    // Fonction pour envoyer un fichier au client
+    exports.downloadFile = async (req, res) => {
+      try {
+        console.log(req.query);
+        const { contractId, fileId } = req.query;
+        console.log('contractId:', contractId);
+        console.log('fileId:', fileId);
+        const contract = await ContractModel
+        .findById(contractId)
+        .select('files');
+
+        if (!contract) {
+          return res.status(404).send('Contrat non trouvé.');
+        }
+
+        const file = contract.files.id(fileId);
+        if (!file) {
+          return res.status(404).send('Fichier non trouvé.');
+        }
+
+        // Envoi du fichier au client
+        return res.download(file.path, file.name); // à tester
+        // res.download(file.path, file.name);
+      }
+      catch (error) {
+        return res.status(500).send(error);
+      }
+    }

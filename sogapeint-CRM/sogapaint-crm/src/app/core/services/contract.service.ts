@@ -186,4 +186,15 @@ export class ContractService {
             // Envoie la requête et retournez l'Observable pour la gestion des événements de la requête
             return this.http.request(req);
         }
+
+        /** 
+         * Permet de récupérer un fichier par son id. La route est ${environment.apiUrl}/api/auth/download
+         * et les paramètres sont le contractId et le fileId
+         * @param fileId, l'id du fichier
+         * @param contractId, l'id du contrat
+         * @returns un Observable contenant le fichier
+         **/
+        getFile(fileId: string, contractId: string): Observable<any> {
+            return this.http.get<any>(`${environment.apiUrl}/api/auth/download`, { params: { fileId: fileId, contractId: contractId }, responseType: 'blob' as 'json' });
+        }
     }

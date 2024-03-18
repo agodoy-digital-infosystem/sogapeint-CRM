@@ -23,7 +23,7 @@
         </div>
     </div>
 </div>
-<!-- GNAGNAGNAGNAGNA -->
+
 <div class="container-fluid">
     <app-pagetitle title="Détails de la Commande" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
     
@@ -187,6 +187,38 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troisième ligne de cartes -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Documents</div>
+                    <div class="card-body">
+                        
+                        <div class="mb-3">
+                            
+                            <div *ngIf="files && files.length > 0" class="mt-2">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Fichiers:
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item file-item" *ngFor="let file of files; let i = index">
+                                            <div class="file-description d-flex align-items-center">
+                                                <i class="fas fa-file-alt me-2"></i>
+                                                <span class="file-name flex-grow-1">{{ file.name }}</span>
+                                                <span class="file-size me-2">{{ file.size | fileSize }}</span>
+                                                <button type="button" class="btn btn-download ms-auto" (click)="onFileDownload(file)" [ngbTooltip]="'Télécharger '+ file.name">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

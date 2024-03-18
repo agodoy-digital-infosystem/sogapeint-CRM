@@ -2,6 +2,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const router = express.Router();
+const upload = require('../middlewares/uploadMiddleware');
 const authController = require('../controllers/authController');
 const { isAdminOrSuperAdmin, isConnected } = require('../middlewares/authMiddleware');
 
@@ -115,7 +116,11 @@ router.get('/companiesAbbreviations', isConnected, authController.getCompaniesAb
 // router.get('/contracts-stream', isAdminOrSuperAdmin, authController.getContractsAsStream);
 
 // Route pour recevoir des fichiers (protégée par le middleware isAdminOrSuperAdmin)
-router.post('/upload', isAdminOrSuperAdmin, authController.uploadFiles);
+router.post('/upload', upload.array('files'), isAdminOrSuperAdmin, authController.uploadFiles);
+
+// Route pour envoyer un fichier (protégée par le middleware isAdminOrSuperAdmin)
+router.get('/download', isAdminOrSuperAdmin, authController.downloadFile);
+
 
 
 module.exports = router;

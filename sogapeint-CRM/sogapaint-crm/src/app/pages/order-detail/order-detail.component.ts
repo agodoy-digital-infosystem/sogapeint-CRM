@@ -26,6 +26,7 @@ export class OrderDetailComponent implements OnInit {
   sogapeintContact: any;
   subcontractor: any;
   currentUser: User;
+  files: File[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +57,10 @@ export class OrderDetailComponent implements OnInit {
         }
       },
       error: (error) => console.error('Erreur lors du chargement des détails de la commande', error)
+    }).add(() => {
+      // Récupération de la liste des fichiers associés à la commande
+      this.files = this.contract.files;
+      console.log('Fichiers associés à la commande', this.files);
     });
   }
 
@@ -120,7 +125,7 @@ export class OrderDetailComponent implements OnInit {
 
   isAdminOrSuperAdmin(): boolean {
     const result = this.currentUser && (this.currentUser.role === 'admin' || this.currentUser.role === 'superAdmin');
-    console.log('isAdminOrSuperAdmin:', result);
+    // console.log('isAdminOrSuperAdmin:', result);
     return result;
   }
 
@@ -128,5 +133,19 @@ export class OrderDetailComponent implements OnInit {
     // Rediriger vers la page de mise à jour de la commande
     // 'order-update/:orderId'
     this.router.navigate([`/order-update/${this.contract._id}`]);
+  }
+
+
+
+  onFileDownload(file: any) { // TODO à tester
+    console.log('Téléchargement du fichier', file);
+    this.contractService.getFile(file._id, this.contract._id).subscribe({
+      next: (data) => {
+        console.log('Fichier téléchargé', data);
+        const url = window.URL.createObjectURL(data);
+        window.open(url);
+      },
+      error: (error) => console.error('Erreur lors du téléchargement du fichier', error)
+    });
   }
 }
