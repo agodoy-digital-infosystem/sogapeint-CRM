@@ -246,7 +246,7 @@
             transform:translateY(0);
         }
     }
-
+    
     
     
 }
@@ -297,4 +297,29 @@
 
 .btn-download i {
     pointer-events: none; /* Empêche l'icône de bloquer l'événement de clic sur le bouton */
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.25rem 0.75rem;
+}
+
+.cell-centered {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+.badge{
+    font-size: medium;
+
+
 }

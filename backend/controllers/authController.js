@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const benefit = require('../models/benefit');
 const CompanyModel = require('../models/Company');
 const ContractModel = require('../models/Contract');
 const mongoose = require('mongoose');
@@ -998,3 +999,22 @@ exports.resetPasswordFromAdmin = async (req, res) => {
         return res.status(500).send(error);
       }
     }
+
+    // Fonction pour avoir le nom d'une prestation par son _id
+    exports.getBenefitNameById = async (req, res) => {
+      try {
+        // console.log('Fetching service name by id');
+        // console.log('Request :', req);
+        const { benefitId } = req.params;
+        // console.log('Service id:', benefitId);
+        const service = await benefit.findById(benefitId);
+        if (!service) {
+          return res.status(404).json({ message: 'Service non trouvé.' });
+        }
+        console.log('Found service:', service);
+        res.status(200).json(service.name);
+      } catch (error) {
+        console.error('Error retrieving service name:', error);
+        res.status(500).json({ error: error.message });
+      }
+    };

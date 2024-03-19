@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -17,6 +17,12 @@ import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { AuthenticationService } from './core/services/auth.service';
 
 import { ProtectedDocumentationComponent } from "./protected-documentation/protected-documentation.component";
+
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+// the second parameter 'fr' is optional
+registerLocaleData(localeFr, 'fr');
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -43,6 +49,7 @@ export function createTranslateLoader(http: HttpClient): any {
     }),
   ],
   providers: [
+    {provide: LOCALE_ID, useValue: 'fr' },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     AuthenticationService

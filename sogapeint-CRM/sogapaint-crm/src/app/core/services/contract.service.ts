@@ -197,4 +197,13 @@ export class ContractService {
         getFile(fileId: string, contractId: string): Observable<any> {
             return this.http.get<any>(`${environment.apiUrl}/api/auth/download`, { params: { fileId: fileId, contractId: contractId }, responseType: 'blob' as 'json' });
         }
+
+        /**
+         * Permet d'obtenir le nom d'une prestation (benefit) par son id
+         * @param benefitId, l'id de la prestation
+         * @returns Un observable contenant le nom de la prestation
+         */
+        getBenefitById(benefitId: string): Observable<any>{
+            return this.http.get<any>(`${environment.apiUrl}/api/auth/benefit/${benefitId}`);
+        }
     }

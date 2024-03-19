@@ -18,6 +18,8 @@ export class OrderDetailComponent implements OnInit {
     { label: 'Détail Commande', active: true }
   ];
   contract: any; // Contiendra les détails de la commande
+  difference_hours: number = 0;
+  status: string = '';
   showSecretDiv: boolean = false;
   private konamiCode: string[] = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   private currentInput: string[] = [];
@@ -25,8 +27,11 @@ export class OrderDetailComponent implements OnInit {
   coContractor: any;
   sogapeintContact: any;
   subcontractor: any;
+  contact: any;
   currentUser: User;
   files: File[] = [];
+  benefit_name: string = '';
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +48,13 @@ export class OrderDetailComponent implements OnInit {
         this.loadContractDetails(contractId);
       }
       
+    }).add(() => {
+      const totalPrevisionHours = (Number(this.contract.get("previsionDataDay").value) * 8) + Number(this.contract.get("previsionDataHour").value);
+      const totalExecutionHours = (Number(this.contract.get("executionDataDay").value) * 8) + Number(this.contract.get("executionDataHour").value);
+      this.difference_hours = totalExecutionHours - totalPrevisionHours;
+      // this.benefit_name = this.getBenefitName(this.contract.get("benefit").value);
+      // this.status = this.getStatus(this.contract.get("status").value);
+      // console.log("status", this.contract.get("status").value);
     });
   }
 
@@ -83,8 +95,8 @@ export class OrderDetailComponent implements OnInit {
           });
         }
           
-        if (this.contract.contact) {
-          this.userProfileService.getOne(this.contract.contact).subscribe({
+        if (this.contract.internal_contributor) {
+          this.userProfileService.getOne(this.contract.internal_contributor).subscribe({
             next: (data) => {
               this.sogapeintContact = data;
               console.log('Détails du contact Sogapeint chargés', data);
@@ -102,8 +114,67 @@ export class OrderDetailComponent implements OnInit {
             error: (error) => console.error('Erreur lors du chargement des détails du sous-traitant', error)
           });
         }
+
+        if (this.contract.contact) {
+          this.userProfileService.getOne(this.contract.contact).subscribe({
+            next: (data) => {
+              this.contact = data;
+              console.log('Détails du contact chargés', data);
+            },
+            error: (error) => console.error('Erreur lors du chargement des détails du contact', error)
+          });
+        }
         
   }
+
+  // getBenefitName(benefitId: string): string {
+  //   let benefitName = '';
+  //   this.contractService.getBenefitById(benefitId).subscribe({
+  //     next: (data) => {
+  //       benefitName = data.name;
+  //       console.log('Nom de la prestation chargé', benefitName);
+  //     },
+  //     error: (error) => console.error('Erreur lors du chargement du nom de la prestation', error)
+  //   });
+  //   return benefitName;
+  // }
+  getBenefitName(benefitId: string): string {
+    // Mapping des identifiants aux noms des bénéfices
+    const benefitsMap: { [key: string]: string } = {
+      '5e4ba27006d62fd4a4e49916': 'Peinture',
+      '5e4ba27606d62fd4a4e49917': 'Sol',
+      '5e52cb8148f8b27b3d077a84': 'Électricité',
+      '5e52cb8148f8b27b3d077a85': 'Plomberie',
+      '5e52cb8148f8b27b3d077a86': 'Maçonnerie',
+      '5e52cb8148f8b27b3d077a87': 'Menuiserie',
+      '5e52cb8148f8b27b3d077a88': 'Vitrification',
+      '5e52cb8148f8b27b3d077a89': 'Nettoyage',
+      '5f58fef3bfdad857fcfbba50': 'Faïence',
+      '5f58fefdbfdad857fcfbba51': 'Placo',
+      '5f58ff06bfdad857fcfbba52': 'Carrelage'
+    };
+  
+    // Retourne le nom du bénéfice correspondant à l'identifiant, ou une chaîne vide si non trouvé
+    return benefitsMap[benefitId] || 'Identifiant non reconnu';
+  }
+
+  getStatus(value: string | null): string {
+    // Dictionnaire de statuts
+    const statusDict: { [key: string]: string } = {
+      'null': 'À réaliser', // Utiliser 'null' comme chaîne pour représenter la valeur null
+      'achieve': 'Réalisé',
+      'canceled': 'Annulé',
+      'invoiced': 'Facturé',
+      'in_progress': 'En cours'
+    };
+  
+    // Convertir la valeur null en chaîne 'null' pour la recherche dans le dictionnaire
+    const keyValue = value === null ? 'null' : value;
+  
+    // Retourner le nom du statut correspondant ou 'Statut inconnu' si non trouvé
+    return statusDict[keyValue] || 'Statut inconnu';
+  }
+  
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
