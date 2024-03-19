@@ -12,7 +12,7 @@ export interface Company {
   websites?: string[];
   phone?: string[];
   email?: string[];
-  additionalFields?: {[key: string]: any};
+  additionalFields?: { key: string, value: string }[];
   documents?: Document[]; // Peut-être remplacé par des identifiants de type string si vous ne chargez pas les objets Document complets
   contractsAsCustomer?: Contract[]; 
   contractsAsContact?: Contract[]; 

@@ -18,9 +18,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="abbreviation" class="form-label">Abbréviation</label>
-                            <input type="text" class="form-control" id="abbreviation" formControlName="abbreviation"
+                            <!-- <input type="text" class="form-control" id="abbreviation" formControlName="abbreviation"
                             placeholder="Abbréviation" [ngModel]="companyForm.get('abbreviation').value | uppercase"
-                            (ngModelChange)="companyForm.get('abbreviation').setValue($event.toUpperCase())">
+                            (ngModelChange)="companyForm.get('abbreviation').setValue($event.toUpperCase())"> -->
+                            <input type="text" class="form-control" id="abbreviation" formControlName="abbreviation"
+                            placeholder="Abbréviation">
                         </div>
                         <div class="mb-3">
                             <label for="industry" class="form-label">Secteur d'activité</label>

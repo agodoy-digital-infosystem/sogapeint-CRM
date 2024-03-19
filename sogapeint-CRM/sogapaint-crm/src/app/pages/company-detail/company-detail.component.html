@@ -66,10 +66,11 @@
                     </div>
                     
                     <!-- Champs supplémentaires -->
-                    <div class="col-md-6" *ngIf="company?.additionalFields">
+                    <div class="col-md-6" *ngIf="company?.additionalFields?.length">
                         <h6><i class="fas fa-plus-square"></i> Champs supplémentaires</h6>
                         <ul>
-                            <li *ngFor="let field of company?.additionalFields | keyvalue">{{ field.key }}: {{ field.value }}</li>
+                            <!-- <li *ngFor="let field of company?.additionalFields | keyvalue">{{ field.key }}: {{ field.value }}</li> -->
+                            <li *ngFor="let field of company?.additionalFields">{{ field.key }}: {{ field.value }}</li>
                         </ul>
                     </div>
                 </div>
@@ -249,7 +250,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
     <div class="card-footer text-end">
         <button class="btn btn-outline-secondary" (click)="editCompany()">Modifier</button>

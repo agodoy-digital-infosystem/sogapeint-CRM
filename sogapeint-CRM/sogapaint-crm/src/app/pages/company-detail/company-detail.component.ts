@@ -59,7 +59,8 @@ export class CompanyDetailComponent implements OnInit {
       websites: [''],
       phone: [''],
       email: [''],
-      additionalFields: ['']
+      // additionalFields: ['']
+      additionalFields: this.fb.array([])
     });
 
   }
