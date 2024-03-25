@@ -89,10 +89,16 @@ function filterByRegion(results, regionName) {
 
 // Cette fonction est appelée par la première route pour obtenir une liste d'entreprises
 async function getCompanyList(req, res) {
-  const { companyName, region } = req.params;
+  // const { companyName, region } = req.params;
+  // vérifie si la région est présente dans la requête, sinon la région est Occitanie par défaut
+  const companyName = req.params.companyName;
+  const region = req.query.region || 'Occitanie';
+  console.log("companyName", companyName, "region", region);
   try {
     const results = await scrapeData(companyName);
     const filteredResults = filterByRegion(results, region);
+    // const filteredResults = results;
+    console.log("filteredResults", filteredResults);
     res.json(filteredResults);
   } catch (error) {
     res.status(500).json({ message: "Erreur lors de la récupération des entreprises." });
@@ -102,14 +108,21 @@ async function getCompanyList(req, res) {
 // Cette fonction est appelée par la deuxième route après que l'utilisateur ait sélectionné une entreprise
 async function getCompanyDetailsFromApi(name, postalCode) {
     const query = encodeURIComponent(name);
+    console.log("name", name, "postalCode", postalCode);
+    if (!name || !postalCode) {
+      console.error("Nom de l'entreprise ou code postal manquant pour la requête API");
+      return null;
+    }
     const url = `https://recherche-entreprises.api.gouv.fr/search?q=${query}&categorie_entreprise=PME,ETI&code_postal=${postalCode}&minimal=true&include=siege,complements&page=1&per_page=10`;
-    
+    console.log(`Fetching company details from API: ${url}`);
+
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+        console.log(data) // log pour le débogage
         return data.results;
     } catch (error) {
         console.error(error);
@@ -118,18 +131,66 @@ async function getCompanyDetailsFromApi(name, postalCode) {
 }
 
 // Fonction pour enrichir les données d'une entreprise spécifique
-async function getEnrichedCompanyData(name, postalCode) {
+// async function getEnrichedCompanyData(name, postalCode) {
+//   console.log("Enriching company data for:", name, postalCode);
+//     try {
+//       const apiResults = await getCompanyDetailsFromApi(name, postalCode);
+//       if (apiResults && apiResults.length > 0) {
+//         return apiResults[0];
+//       } 
+//       // else {
+        
+//       //   // throw new Error('Aucune donnée enrichie trouvée pour cette entreprise.');
+//       //   return null;
+//       // }
+//     } catch (error) {
+//       // throw error;
+//       console.error(`Erreur lors de l'appel à l'API externe: ${error.message}`);
+//       return null;
+//     }
+//   }
+async function getEnrichedCompanyData(req, res) {
+  const { companyName, postalCode } = req.params;
+  console.log("Enriching company data for:", companyName, postalCode);
     try {
-      const apiResults = await getCompanyDetailsFromApi(name, postalCode);
+      const apiResults = await getCompanyDetailsFromApi(companyName, postalCode);
       if (apiResults && apiResults.length > 0) {
-        return apiResults[0];
+        // Essayer de récupérer le CA de l'entreprise
+        const ca = await getCA(companyName, apiResults[0].siren);
+        if (ca && ca.length > 0) {
+          apiResults[0].ca = ca;
+        }
+        res.json(apiResults[0]); // Envoie le premier résultat enrichi
       } else {
-        throw new Error('Aucune donnée enrichie trouvée pour cette entreprise.');
+        res.status(404).json({ message: "Aucune donnée enrichie trouvée pour cette entreprise." });
       }
     } catch (error) {
-      throw error;
+      console.error(`Erreur lors de l'appel à l'API externe: ${error.message}`);
+      res.status(500).json({ message: `Erreur lors de l'appel à l'API externe: ${error.message}` });
     }
+}
+
+async function getCA(company, siren) {
+  let url = "https://www.verif.com/societe/";
+  companyName = String(company).replace(/ /g, "-").toUpperCase();
+  url += companyName + "-" + siren + "/";
+  // scraping de la page pour récupérer le CA (élément contenant les classes css MuiTypography-root MuiTypography-bodyDefaultMedium css-1yf1lih et dont le texte se termine par "€")
+  try {
+    const browser = await puppeteer.launch({ headless: "new" });
+    const page = await browser.newPage();
+    await page.goto(url, { waitUntil: 'networkidle2' });
+    const data = await page.content();
+    const $ = cheerio.load(data);
+    let ca = $(".MuiTypography-root.MuiTypography-bodyDefaultMedium.css-1yf1lih").filter(function() {
+      return $(this).text().trim().endsWith("€");
+    }).text().trim();
+    await browser.close();
+    return ca;
+  } catch (error) {
+    console.error("Erreur lors de la récupération du CA:", error);
+    return null;
   }
+}
 
 
 module.exports = {

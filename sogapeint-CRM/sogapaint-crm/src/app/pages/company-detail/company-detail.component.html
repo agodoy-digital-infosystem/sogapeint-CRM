@@ -56,6 +56,11 @@
                 </div>
                 
                 <div class="row">
+                    <!-- Adresse -->
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-map-marker-alt"></i> Adresse</h6>
+                        <p>{{ company?.address || 'Non renseigné' }}</p>
+                    </div>
                     <!-- Documents -->
                     <div class="col-md-6">
                         <h6><i class="fas fa-file-alt"></i> Documents</h6>
@@ -66,14 +71,35 @@
                     </div>
                     
                     <!-- Champs supplémentaires -->
-                    <div class="col-md-6" *ngIf="company?.additionalFields?.length">
+                    <!-- <div class="col-md-6" *ngIf="company?.additionalFields?.length">
                         <h6><i class="fas fa-plus-square"></i> Champs supplémentaires</h6>
                         <ul>
-                            <!-- <li *ngFor="let field of company?.additionalFields | keyvalue">{{ field.key }}: {{ field.value }}</li> -->
                             <li *ngFor="let field of company?.additionalFields">{{ field.key }}: {{ field.value }}</li>
                         </ul>
-                    </div>
+                    </div> -->
+                    
+                    
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" *ngIf="company?.additionalFields?.length">
+                <h6><i class="fas fa-plus-square"></i> Champs supplémentaires</h6>
+                <table class="table table-striped">
+                    <!-- <thead>
+                        <tr>
+                            <th>Clé</th>
+                            <th>Valeur</th>
+                        </tr>
+                    </thead> -->
+                    <tbody>
+                        <tr *ngFor="let field of company?.additionalFields">
+                            <td><b>{{ field.key }}</b></td>
+                            <td>{{ field.value }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         
@@ -252,9 +278,9 @@
         </div>
 
     </div>
-    <div class="card-footer text-end">
+    <!-- <div class="card-footer text-end">
         <button class="btn btn-outline-secondary" (click)="editCompany()">Modifier</button>
-    </div>
+    </div> -->
 </div>
 
 

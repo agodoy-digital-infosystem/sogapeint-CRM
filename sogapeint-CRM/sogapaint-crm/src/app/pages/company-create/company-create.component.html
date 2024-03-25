@@ -10,7 +10,15 @@
                     <form [formGroup]="companyForm" (ngSubmit)="onSubmit()" class="scrollable-form">
                         <div class="mb-3">
                             <label for="names" class="form-label">Nom de l'entreprise</label>
-                            <input type="text" class="form-control" id="names" formControlName="names" placeholder="Nom de l'entreprise" required (input)="checkCompanyName()">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="names" 
+                            formControlName="names" 
+                            placeholder="Nom de l'entreprise" 
+                            required 
+                            (input)="checkCompanyName()"
+                            >
                         </div>
                         <div class="mb-3">
                             <label for="normalized-name" class="form-label">Nom Normalisé</label>
@@ -18,9 +26,6 @@
                         </div>
                         <div class="mb-3">
                             <label for="abbreviation" class="form-label">Abbréviation</label>
-                            <!-- <input type="text" class="form-control" id="abbreviation" formControlName="abbreviation"
-                            placeholder="Abbréviation" [ngModel]="companyForm.get('abbreviation').value | uppercase"
-                            (ngModelChange)="companyForm.get('abbreviation').setValue($event.toUpperCase())"> -->
                             <input type="text" class="form-control" id="abbreviation" formControlName="abbreviation"
                             placeholder="Abbréviation">
                         </div>
@@ -73,6 +78,27 @@
                                 <i class="fas fa-plus-circle"></i>
                             </button>
                         </div>
+
+                        <!-- carousel des entreprises scrapées -->
+                        <div *ngIf="scrapedCompanies.length > 0" class="companies-carousel">
+                            <ngb-carousel *ngIf="scrapedCompanies.length > 0" [showNavigationArrows]="true" [showNavigationIndicators]="true" data-interval="false" >
+                                <ng-template ngbSlide *ngFor="let company of scrapedCompanies; let idx = index">
+                                    <div class="text-dark text-center">
+                                        <h4>{{company.title}}</h4>
+                                        <p>{{company.addresses.join(', ')}}</p>
+                                        <p>{{company.activity}}</p>
+                                        <button type="button" class="btn btn-primary" (click)="fillFormWithScrapedData(company)">Utiliser ces données</button>
+                                    </div>
+                                </ng-template>
+                            </ngb-carousel>
+                        </div>
+                        
+                        
+                        
+                        <!-- Bouton de scraping -->
+                        <button type="button" class="btn btn-info mb-3" (click)="scrapeCompanyList()" *ngIf="areNameAndAddressFilled()">
+                            <i class="fas fa-search"  [class.rotate-animation]="isLoading"></i> Scrape
+                        </button>
                         
                         
                         <div class="d-flex justify-content-end">

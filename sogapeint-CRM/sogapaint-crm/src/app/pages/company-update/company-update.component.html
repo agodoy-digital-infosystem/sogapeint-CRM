@@ -1,160 +1,3 @@
-<!-- <div class="container-fluid">
-    <app-pagetitle title="Mettre à jour l'entreprise" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
-    <div class="row mt-4">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Informations de l'entreprise</h4>
-                    <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
-                    <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = ''">{{ errorMessage }}</ngb-alert>
-                    <form [formGroup]="companyForm" (ngSubmit)="onSubmit()" class="scrollable-form">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nom de l'entreprise</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="name" formControlName="name" placeholder="Nom de l'entreprise" required [ngClass]="{'ng-dirty': companyForm.controls['name'].dirty, 'ng-dirty.ng-invalid': companyForm.controls['name'].dirty && companyForm.controls['name'].invalid}">
-                                <div class="input-group-append" *ngIf="companyForm.controls['name'].dirty">
-                                    <span class="input-group-text" style="cursor: pointer;" (click)="resetField('name')">
-                                        <i class="fas fa-undo" title="Réinitialiser le nom de l'entreprise"></i>
-                                    </span>
-                                </div>
-                            </div>
-                                
-                        </div>
-                        <div class="mb-3">
-                            <label for="industry" class="form-label">Secteur d'activité</label>
-                            <input type="text" class="form-control" id="industry" formControlName="industry" placeholder="Secteur d'activité" [ngClass]="{'ng-dirty': companyForm.controls['industry'].dirty, 'ng-dirty.ng-invalid': companyForm.controls['industry'].dirty && companyForm.controls['industry'].invalid}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email" [ngClass]="{'ng-dirty': companyForm.controls['email'].dirty, 'ng-dirty.ng-invalid': companyForm.controls['email'].dirty && companyForm.controls['email'].invalid}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Adresse</label>
-                            <input type="text" class="form-control" id="address" formControlName="address" placeholder="Adresse" [ngClass]="{'ng-dirty': companyForm.controls['address'].dirty, 'ng-dirty.ng-invalid': companyForm.controls['address'].dirty && companyForm.controls['address'].invalid}">
-                        </div>
-                        
-                        
-                        <div formArrayName="websites" class="mb-3">
-                            <label class="form-label">Sites web</label>
-                            <div *ngFor="let website of getFormArray('websites').controls; let i=index" class="mb-2">
-                                <div class="input-group">
-                                    <input type="text" [formControlName]="i" class="form-control" id="website{{i}}" placeholder="URL du site web" [ngClass]="{'ng-dirty': companyForm.controls['website' + i].dirty, 'ng-dirty.ng-invalid': companyForm.controls['website' + i].dirty && companyForm.controls['website' + i].invalid}">
-                                    <button class="btn btn-danger" type="button" (click)="removeFormArrayItem('websites', i)">-</button>
-                                </div>
-                            </div>
-                            <button class="btn icon-button" type="button" (click)="addWebsite()" ngbTooltip="Ajouter un site web" container="body">
-                                <i class="fas fa-plus-circle"></i>
-                            </button>
-                        </div>
-                        
-                        
-                        <div formArrayName="phone" class="mb-3">
-                            <label class="form-label">Téléphone</label>
-                            <div *ngFor="let phone of getFormArray('phone').controls; let i=index" class="mb-2">
-                                <div class="input-group">
-                                    
-                                    <input type="text" [formControlName]="i" id="phone{{i}}" class="form-control" placeholder="Numéro de téléphone" [ngClass]="{'ng-dirty': companyForm.controls['phonei' + i].dirty, 'ng-dirty.ng-invalid': companyForm.controls['phonei' + i].dirty && companyForm.controls['phonei' + i].invalid}">
-                                    <button class="btn btn-danger" type="button" (click)="removeFormArrayItem('phone', i)">-</button>
-                                </div>
-                            </div>
-                            <button class="btn icon-button" type="button" (click)="addPhone()" ngbTooltip="Ajouter un numéro de téléphone" container="body">
-                                <i class="fas fa-plus-circle"></i>
-                            </button>
-                        </div>
-                        
-                        
-                        <div formGroupName="additionalFields" class="mb-3">
-                            <label class="form-label">Champs supplémentaires</label>
-                            <div *ngFor="let controlName of additionalFieldsKeys(); let i=index" class="mb-2">
-                                <div class="input-group">
-                                    <input type="text" [formControlName]="controlName" class="form-control me-2" placeholder="Clé">
-                                    <input type="text" class="form-control" [formControlName]="controlName" placeholder="Valeur">
-                                    <button class="btn btn-danger" type="button" (click)="removeAdditionalField(controlName)">-</button>
-                                </div>
-                            </div>
-                            
-                            <button class="btn icon-button" type="button" (click)="addAdditionalField()" ngbTooltip="Ajouter un champ supplémentaire, ainsi que sa clé" container="body">
-                                <i class="fas fa-plus-circle"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="d-flex justify-content-end">
-                            
-                            <button type="button" class="btn btn-secondary me-2" (click)="cancelUpdate()">Annuler</button>
-                            
-                            <button type="submit" class="btn btn-primary">Mettre à jour</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<ng-template #confirmationModal let-modal>
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmation de la mise à jour</h5>
-                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Veuillez confirmer les modifications apportées :</p>
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                            <tr [ngClass]="{'modified-field': companyForm.controls['name'].dirty}">
-                                <th scope="row">Nom de l'entreprise</th>
-                                <td>{{ companyForm.value.name }}</td>
-                            </tr>
-                            <tr [ngClass]="{'modified-field': companyForm.controls['industry'].dirty}">
-                                <th scope="row">Secteur d'activité</th>
-                                <td>{{ companyForm.value.industry }}</td>
-                            </tr>
-                            <tr [ngClass]="{'modified-field': companyForm.controls['email'].dirty}">
-                                <th scope="row">Email</th>
-                                <td>{{ companyForm.value.email }}</td>
-                            </tr>
-                            <tr [ngClass]="{'modified-field': companyForm.controls['address'].dirty}">
-                                <th scope="row">Adresse</th>
-                                <td>{{ companyForm.value.address }}</td>
-                            </tr>
-                            
-                            <tr *ngFor="let website of getFormArray('websites').controls; let i = index" [ngClass]="{'modified-field': website.dirty}">
-                                <th scope="row">Site web {{i + 1}}</th>
-                                <td>{{ website.value }}</td>
-                            </tr>
-                            
-                            <tr *ngFor="let phone of getFormArray('phone').controls; let i = index" [ngClass]="{'modified-field': phone.dirty}">
-                                <th scope="row">Téléphone {{i + 1}}</th>
-                                <td>{{ phone.value }}</td>
-                            </tr>
-                            
-                            <ng-container *ngFor="let key of additionalFieldsKeys()">
-                                <tr [ngClass]="{'modified-field': companyForm.get('additionalFields').get(key).dirty}">
-                                    <th scope="row">{{ key }}</th>
-                                    <td>{{ companyForm.get('additionalFields').get(key).value }}</td>
-                                </tr>
-                            </ng-container>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Annuler</button>
-                <button type="button" class="btn btn-primary" (click)="confirmUpdate(); modal.close()">Confirmer</button>
-            </div>
-        </div>
-    </div>
-</ng-template> -->
-
-
-
-
 <div class="container-fluid">
     <app-pagetitle title="Mettre à jour l'entreprise" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
     <div class="row mt-4">
@@ -165,9 +8,9 @@
                     <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
                     <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = ''">{{ errorMessage }}</ngb-alert>
                     <form [formGroup]="companyForm" (ngSubmit)="onSubmit()" class="scrollable-form">
-                        <!-- Nom de l'entreprise déjà avec bouton de réinitialisation -->
+                        
 
-                        <!-- Secteur d'activité avec bouton de réinitialisation -->
+                        
                         <div class="mb-3">
                             <label for="industry" class="form-label">Secteur d'activité</label>
                             <div class="input-group">
@@ -180,7 +23,7 @@
                             </div>
                         </div>
 
-                        <!-- Email avec bouton de réinitialisation -->
+                        
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <div class="input-group">
@@ -193,7 +36,7 @@
                             </div>
                         </div>
 
-                        <!-- Adresse avec bouton de réinitialisation -->
+                        
                         <div class="mb-3">
                             <label for="address" class="form-label">Adresse</label>
                             <div class="input-group">
@@ -206,7 +49,7 @@
                             </div>
                         </div>
 
-                        <!-- Sites web avec bouton de réinitialisation pour chaque site -->
+                        
                         <div formArrayName="websites" class="mb-3">
                             <label class="form-label">Sites web</label>
                             <div *ngFor="let website of getFormArray('websites').controls; let i=index" class="mb-2">
@@ -221,7 +64,7 @@
                         </div>
                         
 
-                        <!-- Numéros de téléphone avec bouton de réinitialisation pour chaque numéro -->
+                        
                         <div formArrayName="phone" class="mb-3">
                             <label class="form-label">Téléphone</label>
                             <div *ngFor="let phone of getFormArray('phone').controls; let i=index" class="mb-2">
@@ -236,20 +79,23 @@
                         </div>
                         
 
-                        <!-- Champs supplémentaires avec bouton de réinitialisation pour chaque champ -->
-                        <div formGroupName="additionalFields" class="mb-3">
+                        
+                        
+                        <div formArrayName="additionalFields" class="mb-3">
                             <label class="form-label">Champs supplémentaires</label>
-                            <div *ngFor="let controlName of additionalFieldsKeys(); let i=index" class="mb-2">
-                                <div class="input-group">
-                                    <input type="text" [formControlName]="controlName" class="form-control me-2" placeholder="Clé">
-                                    <input type="text" class="form-control" [formControlName]="controlName" placeholder="Valeur">
-                                    <button class="btn btn-danger" type="button" (click)="removeAdditionalField(controlName)">-</button>
-                                </div>
+                            <div *ngFor="let fieldGroup of getFormArray('additionalFields').controls; let i=index" class="mb-2">
+                              <div [formGroupName]="i" class="input-group">
+                                <input type="text" class="form-control me-2" placeholder="Clé" formControlName="key">
+                                <input type="text" class="form-control" placeholder="Valeur" formControlName="value">
+                                <button class="btn btn-danger" type="button" (click)="removeAdditionalField(i)">-</button>
+                              </div>
                             </div>
                             <button class="btn icon-button" type="button" (click)="addAdditionalField()" ngbTooltip="Ajouter un champ supplémentaire, ainsi que sa clé" container="body">
-                                <i class="fas fa-plus-circle"></i>
+                              <i class="fas fa-plus-circle"></i>
                             </button>
-                        </div>
+                          </div>
+                          
+                          
                         
 
                         <div class="d-flex justify-content-end">
@@ -304,12 +150,8 @@
                                 <td>{{ phone.value }}</td>
                             </tr>
                             
-                            <ng-container *ngFor="let key of additionalFieldsKeys()">
-                                <tr [ngClass]="{'modified-field': companyForm.get('additionalFields').get(key).dirty}">
-                                    <th scope="row">{{ key }}</th>
-                                    <td>{{ companyForm.get('additionalFields').get(key).value }}</td>
-                                </tr>
-                            </ng-container>
+                            
+                            
                         </tbody>
                     </table>
                 </div>

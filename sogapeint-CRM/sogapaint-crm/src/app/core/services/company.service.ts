@@ -94,4 +94,25 @@ export class CompanyService {
   getCompaniesAbbreviations(): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiUrl}/api/auth/companiesAbbreviations`);
   }
+
+  /**
+   * Utilise la route backend de scraping des entreprises pour récupérer les données des entreprises.
+   * la route backend du scraping est: ${environment.apiUrl}/api/scrape/enriched-company/:companyName/:postalCode
+   * 
+   * @param companyName Le nom de l'entreprise à enrichir.
+   * @param postalCode Le code postal de l'entreprise à enrichir.
+   */
+  scrapeCompanyData(companyName: string, postalCode: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/api/scrape/enriched-company/${companyName}/${postalCode}`);
+  }
+
+  /**
+   * Scraping de la liste des entreprises sur l'endpoint ${environment.apiUrl}/api/scrape/company-list/:companyName
+   * 
+   * @param companyName Le nom de l'entreprise à rechercher.
+   * @returns Un Observable contenant la liste des entreprises trouvées.
+   */
+  scrapeCompanyList(companyName: string): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/api/scrape/company-list/${companyName}`);
+  }
 }

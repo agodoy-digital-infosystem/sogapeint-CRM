@@ -59,7 +59,6 @@ export class CompanyDetailComponent implements OnInit {
       websites: [''],
       phone: [''],
       email: [''],
-      // additionalFields: ['']
       additionalFields: this.fb.array([])
     });
 
@@ -84,24 +83,9 @@ export class CompanyDetailComponent implements OnInit {
   }
 
   isAdminOrSuperAdmin(): boolean {
-    console.log('Current user role:', this.currentUser.role);
+    // console.log('Current user role:', this.currentUser.role);
     return this.currentUser && (this.currentUser.role === 'admin' || this.currentUser.role === 'superAdmin');
   }
-
-  // saveCompanyDetails() {
-  //   // TODO: Implement the saveCompanyDetails method
-  // }
-
-  // // Méthode pour activer le mode édition
-  // activateEditMode() {
-  //   this.editMode = true;
-  // }
-
-  // // Méthode pour annuler le mode édition
-  // cancelEditMode() {
-  //   this.editMode = false;
-  // }
-
 
 
   // Méthode pour obtenir le détail des employé
@@ -138,48 +122,48 @@ export class CompanyDetailComponent implements OnInit {
     });
   }
   
-    // Méthode pour obtenir tous les contrats
-    getContractsDetails() {
-      const contractCategories = [
-        "contractsAsCustomer",
-        "contractsAsContact",
-        "contractsAsExternalContributor"
-      ];
-    
-      contractCategories.forEach(contractCategory => {
-        // Vérifie si la catégorie de contrat a des éléments à traiter
-        if (this.company[contractCategory].length) {
-          const contractDetailsRequests = this.company[contractCategory].map(contractId =>
-            this.contractService.getContractById(contractId)
-          );
-    
-          // Utilise forkJoin pour exécuter toutes les requêtes de détails de contrats simultanément
-          forkJoin(contractDetailsRequests).subscribe(contractsDetails => {
-            // Met à jour la catégorie de contrats avec les détails récupérés
-            this.company[contractCategory] = contractsDetails;
-          }, error => {
-            console.error(`Erreur pendant la récupération des détails des contrats pour ${contractCategory}:`, error);
-          });
-        }
-      });
-    }
+  // Méthode pour obtenir tous les contrats
+  getContractsDetails() {
+    const contractCategories = [
+      "contractsAsCustomer",
+      "contractsAsContact",
+      "contractsAsExternalContributor"
+    ];
+  
+    contractCategories.forEach(contractCategory => {
+      // Vérifie si la catégorie de contrat a des éléments à traiter
+      if (this.company[contractCategory].length) {
+        const contractDetailsRequests = this.company[contractCategory].map(contractId =>
+          this.contractService.getContractById(contractId)
+        );
+  
+        // Utilise forkJoin pour exécuter toutes les requêtes de détails de contrats simultanément
+        forkJoin(contractDetailsRequests).subscribe(contractsDetails => {
+          // Met à jour la catégorie de contrats avec les détails récupérés
+          this.company[contractCategory] = contractsDetails;
+        }, error => {
+          console.error(`Erreur pendant la récupération des détails des contrats pour ${contractCategory}:`, error);
+        });
+      }
+    });
+  }
     
 
-    editCompany() {
-      this.router.navigate(['/company-update', this.id]);
-    }
+  editCompany() {
+    this.router.navigate(['/company-update', this.id]);
+  }
 
-    getRoleClass(role: string): string {
-      const roleClassMap = {
-        'superAdmin': 'badge-superadmin',
-        'cocontractor': 'badge-cocontractor',
-        'subcontractor': 'badge-subcontractor',
-        'customer': 'badge-customer',
-        'comanager': 'badge-comanager',
-        'supermanager': 'badge-supermanager'
-      };
-      return roleClassMap[role] || 'badge-default';
-    }
+  getRoleClass(role: string): string {
+    const roleClassMap = {
+      'superAdmin': 'badge-superadmin',
+      'cocontractor': 'badge-cocontractor',
+      'subcontractor': 'badge-subcontractor',
+      'customer': 'badge-customer',
+      'comanager': 'badge-comanager',
+      'supermanager': 'badge-supermanager'
+    };
+    return roleClassMap[role] || 'badge-default';
+  }
 
     /**
    * Gère la sélection d'un utilisateur.
@@ -189,7 +173,7 @@ export class CompanyDetailComponent implements OnInit {
     console.log('Utilisateur sélectionné:', user);
     this.router.navigate(['/user-detail', user._id]);
   }
-    
-  }
+
+}
 
 
