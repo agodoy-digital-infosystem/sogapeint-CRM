@@ -451,11 +451,11 @@ exports.resetPasswordFromAdmin = async (req, res) => {
     try {
       // // console.log('Modification de l’entreprise');
       const { companyId } = req.params;
-      const { names, normalized_name, industry, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor, additionalFields } = req.body;
+      const { names, normalized_name, abbreviation, industry, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor, additionalFields } = req.body;
       // // console.log('Company id:', companyId);
       // Mise à jour de l'entreprise
       const updatedCompany = await CompanyModel.findByIdAndUpdate(new mongoose.Types.ObjectId(companyId), {
-        names, normalized_name, industry, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor, additionalFields
+        names, normalized_name, abbreviation, industry, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor, additionalFields
       }, { new: true });
       
       if (!updatedCompany) {
@@ -494,13 +494,13 @@ exports.resetPasswordFromAdmin = async (req, res) => {
   exports.addCompany = async (req, res) => {
     try {
       // // console.log('Ajout d’une nouvelle entreprise');
-      const { names, normalized_name, industry, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor, additionalFields } = req.body;
+      const { names, normalized_name, abbreviation, industry, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor, additionalFields } = req.body;
       let company = await CompanyModel.findOne({ normalized_name });
       if (company) {
         return res.status(400).json({ message: 'Une entreprise avec ce nom existe déjà.' });
       }
       const newCompany = new CompanyModel({
-        names, normalized_name, industry, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor, additionalFields
+        names, normalized_name, abbreviation, industry, address, city, postalCode, country, phone, email, website, employees, documents, contractsAsCustomer, contractsAsContact, contractsAsExternalContributor, additionalFields
       });
       await newCompany.save();
       // // console.log('Nouvelle entreprise ajoutée');

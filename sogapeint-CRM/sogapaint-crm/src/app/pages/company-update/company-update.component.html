@@ -9,7 +9,28 @@
                     <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = ''">{{ errorMessage }}</ngb-alert>
                     <form [formGroup]="companyForm" (ngSubmit)="onSubmit()" class="scrollable-form">
                         
-
+                        <div class="mb-3">
+                            <label for="names" class="form-label">Nom de l'entreprise</label>
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="names" 
+                            formControlName="names" 
+                            placeholder="Nom de l'entreprise" 
+                            required 
+                            (input)="checkCompanyName()"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="normalized-name" class="form-label">Nom Normalisé</label>
+                            <input type="text" class="form-control" id="normalized-name" formControlName="normalized_name" placeholder="Nom normalisé" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="abbreviation" class="form-label">Abbréviation</label>
+                            <input type="text" class="form-control" id="abbreviation" formControlName="abbreviation"
+                            placeholder="Abbréviation">
+                        </div>
+                        
                         
                         <div class="mb-3">
                             <label for="industry" class="form-label">Secteur d'activité</label>
@@ -22,7 +43,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
@@ -35,7 +56,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         
                         <div class="mb-3">
                             <label for="address" class="form-label">Adresse</label>
@@ -48,7 +69,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         
                         <div formArrayName="websites" class="mb-3">
                             <label class="form-label">Sites web</label>
@@ -63,7 +84,7 @@
                             </button>
                         </div>
                         
-
+                        
                         
                         <div formArrayName="phone" class="mb-3">
                             <label class="form-label">Téléphone</label>
@@ -78,29 +99,47 @@
                             </button>
                         </div>
                         
-
+                        
                         
                         
                         <div formArrayName="additionalFields" class="mb-3">
                             <label class="form-label">Champs supplémentaires</label>
                             <div *ngFor="let fieldGroup of getFormArray('additionalFields').controls; let i=index" class="mb-2">
-                              <div [formGroupName]="i" class="input-group">
-                                <input type="text" class="form-control me-2" placeholder="Clé" formControlName="key">
-                                <input type="text" class="form-control" placeholder="Valeur" formControlName="value">
-                                <button class="btn btn-danger" type="button" (click)="removeAdditionalField(i)">-</button>
-                              </div>
+                                <div [formGroupName]="i" class="input-group">
+                                    <input type="text" class="form-control me-2" placeholder="Clé" formControlName="key">
+                                    <input type="text" class="form-control" placeholder="Valeur" formControlName="value">
+                                    <button class="btn btn-danger" type="button" (click)="removeAdditionalField(i)">-</button>
+                                </div>
                             </div>
                             <button class="btn icon-button" type="button" (click)="addAdditionalField()" ngbTooltip="Ajouter un champ supplémentaire, ainsi que sa clé" container="body">
-                              <i class="fas fa-plus-circle"></i>
+                                <i class="fas fa-plus-circle"></i>
                             </button>
-                          </div>
-                          
-                          
+                        </div>
                         
-
+                        <!-- carousel des entreprises scrapées -->
+                        <div *ngIf="scrapedCompanies.length > 0" class="companies-carousel">
+                            <ngb-carousel *ngIf="scrapedCompanies.length > 0" [showNavigationArrows]="true" [showNavigationIndicators]="true" data-interval="false" >
+                                <ng-template ngbSlide *ngFor="let company of scrapedCompanies; let idx = index">
+                                    <div class="text-dark text-center">
+                                        <h4>{{company.title}}</h4>
+                                        <p>{{company.addresses.join(', ')}}</p>
+                                        <p>{{company.activity}}</p>
+                                        <button type="button" class="btn btn-primary" (click)="fillFormWithScrapedData(company)">Utiliser ces données</button>
+                                    </div>
+                                </ng-template>
+                            </ngb-carousel>
+                        </div>
+                        
+                        <!-- Bouton de scraping -->
+                        <button type="button" class="btn btn-info mb-3" (click)="scrapeCompanyList()" *ngIf="scrape_button_visible">
+                            <i class="fas fa-search"  [class.rotate-animation]="isLoading"></i> Scrape
+                        </button>
+                        
+                        
+                        
                         <div class="d-flex justify-content-end">
                             <button type="button" class="btn btn-secondary me-2" (click)="cancelUpdate()">Annuler</button>
-                            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                            <button type="submit" class="btn btn-primary" (click)="onSubmit()">Mettre à jour</button>
                         </div>
                     </form>
                 </div>
@@ -123,10 +162,13 @@
                 <div class="table-responsive">
                     <table class="table">
                         <tbody>
-                            <tr [ngClass]="{'modified-field': companyForm.controls['name'].dirty}">
+                            <tr [ngClass]="{'modified-field': companyForm.controls['names'].dirty}">
                                 <th scope="row">Nom de l'entreprise</th>
                                 <td>{{ companyForm.value.name }}</td>
                             </tr>
+                            <tr [ngClass]="{'modified-field': companyForm.controls['abbreviation'].dirty}">
+                                <th scope="row">Abbréviation</th>
+                                <td>{{ companyForm.value.abbreviation }}</td>
                             <tr [ngClass]="{'modified-field': companyForm.controls['industry'].dirty}">
                                 <th scope="row">Secteur d'activité</th>
                                 <td>{{ companyForm.value.industry }}</td>
@@ -150,12 +192,17 @@
                                 <td>{{ phone.value }}</td>
                             </tr>
                             
+                            <tr *ngFor="let fieldGroup of getFormArray('additionalFields').controls; let i = index" [ngClass]="{'modified-field': fieldGroup.dirty}">
+                                <th scope="row">{{ fieldGroup.value.key }}</th>
+                                <td>{{ fieldGroup.value.value }}</td>
+                            </tr>
                             
                             
                         </tbody>
                     </table>
                 </div>
             </div>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Annuler</button>
                 <button type="button" class="btn btn-primary" (click)="confirmUpdate(); modal.close()">Confirmer</button>
