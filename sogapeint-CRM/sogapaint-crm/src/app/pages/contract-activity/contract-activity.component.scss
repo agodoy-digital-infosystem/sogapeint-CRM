@@ -1,0 +1,124 @@
+  
+  .contract-activity-component {
+    .list-group {
+        height: 300px;
+        max-height: 300px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        
+        .list-group-item {
+            display: block;
+            background: #f7f7f7;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 18px;
+            border: none;
+            transition: background-color 0.3s;
+            
+            &:hover {
+                background-color: #eaeaea;
+            }
+            
+            h5 {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #5a5a5a;
+            }
+            
+            small {
+                display: block;
+                text-align: right;
+                color: #666666;
+            }
+            
+            p {
+                font-size: 0.9rem;
+                margin: 0;
+                color: #333333;
+            }
+            
+            .btn {
+                float: right;
+                padding: 5px;
+                margin: -5px -5px -5px 10px;
+                font-size: 0.8rem;
+                
+                i {
+                    margin: auto;
+                }
+            }
+        }
+        
+        .list-group-item-action {
+            &.Observation {
+                background-color: #e3f2fd;
+            }
+            
+            &.Incident {
+                background-color: #ffebee;
+            }
+        }
+    }
+    
+    .add-activity-form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        
+        input, select {
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            flex-grow: 1;
+        }
+
+        select.form-control {
+            flex-grow: 0; // Prevent the select from growing
+            width: auto; // Allow the select to size according to its content
+            &.Observation { background-color: #e3f2fd; }
+            &.Incident { background-color: #ffebee; }
+        }
+
+        input.form-control {
+            flex-grow: 2; // Give more room to the input
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            cursor: pointer;
+            
+            &:hover {
+                background-color: darken(#007bff, 5%);
+            }
+            
+            i {
+                margin:auto;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+        }
+    }
+    
+    .alert {
+        border-radius: 15px;
+    }
+}
+
+ng-select.form-control {
+    width: 150px !important; // Adjust as needed
+  }

@@ -22,6 +22,7 @@ export class CompanyCreateComponent implements OnInit {
   pageTitle: string = 'Ajouter une entreprise';
   scrapedCompanies: any[] = [];
   isLoading = false;
+  subscriptions: any[] = [];
   
   constructor(
     private fb: FormBuilder, 
@@ -44,16 +45,18 @@ export class CompanyCreateComponent implements OnInit {
       
       this.getCompaniesNames();
       
-      this.companyForm.get('abbreviation').valueChanges
+      this.subscriptions.push(this.companyForm.get('abbreviation').valueChanges
       .subscribe(value => {
         this.companyForm.get('abbreviation').setValue(value.toUpperCase(), { emitEvent: false });
-      });
+      }));
 
       // Écoute pour les événements blur sur le champ 'names'
-  const namesField = this.companyForm.get('names');
-  const addressField = this.companyForm.get('address');
+      const namesField = this.companyForm.get('names');
+      const addressField = this.companyForm.get('address');
+    }
 
-
+    ngOnDestroy(): void {
+      this.subscriptions.forEach(sub => sub.unsubscribe());
     }
     
     // Validateur personnalisé pour le champ abbréviation
@@ -79,7 +82,7 @@ export class CompanyCreateComponent implements OnInit {
     }
     
     getCompaniesNames(): void {
-      this.companyService.getCompaniesNames().subscribe({
+      this.subscriptions.push(this.companyService.getCompaniesNames().subscribe({
         next: (names) => {
           this.existingCompanyNames = names;
           this.setupNameAutocomplete();
@@ -87,7 +90,7 @@ export class CompanyCreateComponent implements OnInit {
         error: (error) => {
           console.error('Error fetching company names', error);
         }
-      });
+      }));
     }
     
     setupNameAutocomplete() {
@@ -149,7 +152,7 @@ export class CompanyCreateComponent implements OnInit {
 
           
           console.log('Champs supplémentaires:', additionalFields);
-          this.companyService.createCompany(formValue).subscribe({
+          this.subscriptions.push(this.companyService.createCompany(formValue).subscribe({
             next: (response) => {
               this.successMessage = 'Entreprise créée avec succès.';
               this.companyForm.reset();
@@ -163,7 +166,7 @@ export class CompanyCreateComponent implements OnInit {
               console.error('Error creating company', error);
               this.errorMessage = 'Erreur lors de la création de l’entreprise.';
             }
-          });
+          }));
         }
       }
       
@@ -268,13 +271,13 @@ export class CompanyCreateComponent implements OnInit {
       scrapeCompanyData(): void {
         if (this.areNameAndAddressFilled()) {
           const zipCode = this.extractZipCode(this.companyForm.get('address').value);
-          this.companyService.scrapeCompanyData(this.companyForm.get('names').value, zipCode).subscribe({
+          this.subscriptions.push(this.companyService.scrapeCompanyData(this.companyForm.get('names').value, zipCode).subscribe({
             next: (data) => {
               this.scrapedCompanies = data;
               console.log('Scraped data:', data);
             },
             error: (error) => console.error('Error scraping company data:', error)
-          });
+          }));
         }
       }
 
@@ -283,7 +286,7 @@ export class CompanyCreateComponent implements OnInit {
         const companyName = this.companyForm.get('names').value;
         // const region = 'Occitanie';
     
-        this.companyService.scrapeCompanyList(companyName)
+        this.subscriptions.push(this.companyService.scrapeCompanyList(companyName)
           .pipe(catchError(error => {
             console.error('Erreur lors de la récupération de la liste des entreprises', error);
             this.isLoading = false;
@@ -299,7 +302,7 @@ export class CompanyCreateComponent implements OnInit {
               console.log('Entreprise correspondant exactement trouvée:', matchingCompany);
             }
             this.isLoading = false;
-          });
+          }));
       }
 
       // vérifie si une entreprise de la liste correspond exactement aux données du formulaire (normalized_name et code postal dans l'adresse)
@@ -322,7 +325,7 @@ export class CompanyCreateComponent implements OnInit {
         });
       
         // Appel au service pour récupérer des données supplémentaires
-        this.companyService.scrapeCompanyData(company.title, postalCode)
+        this.subscriptions.push(this.companyService.scrapeCompanyData(company.title, postalCode)
           .subscribe({
             next: (data) => {
               console.log('Données enrichies de l’entreprise :', data);
@@ -354,7 +357,7 @@ export class CompanyCreateComponent implements OnInit {
               console.error('Erreur lors de la récupération des données enrichies de l’entreprise:', error);
               this.isLoading = false; // Arrêter l'animation de chargement
             }
-          });
+          }));
       }
       
       

@@ -206,4 +206,68 @@ export class ContractService {
         getBenefitById(benefitId: string): Observable<any>{
             return this.http.get<any>(`${environment.apiUrl}/api/auth/benefit/${benefitId}`);
         }
+
+        /**
+         * Permet d'ajouter une observation à un contrat
+         * 
+         * @param contractId, l'id du contrat
+         * @param observation, l'observation à ajouter
+         * @returns Un observable contenant la réponse du serveur
+         */
+        addObservation(contractId: string, observation: string, dateAdd: string, user: string): Observable<any>{
+            return this.http.post<any>(`${environment.apiUrl}/api/auth/observation`, { comment: observation, contractId: contractId, dateAdd: dateAdd, user: user});
+        }
+
+        /**
+         * Permet de supprimer une observation d'un contrat
+         * 
+         * @param contractId, l'id du contrat
+         * @param observationId, l'id de l'observation
+         * @returns Un observable contenant la réponse du serveur
+         */
+        deleteObservation(contractId: string, observationId: string): Observable<any>{
+            return this.http.delete<any>(`${environment.apiUrl}/api/auth/observation/${observationId}`);
+        }
+
+        /**
+         * Permet de récupérer les observations d'un contrat
+         * 
+         * @param contractId, l'id du contrat
+         * @returns Un observable contenant les observations du contrat
+         */
+        getObservations(contractId: string): Observable<any[]>{
+            return this.http.get<any[]>(`${environment.apiUrl}/api/auth/observations/${contractId}`);
+        }
+
+        /**
+         * Permet d'ajouter un incident à un contrat
+         * 
+         * @param contractId, l'id du contrat
+         * @param incident, l'incident à ajouter
+         * @returns Un observable contenant la réponse du serveur
+         */
+        addIncident(contractId: string, incident: string, dateAdd: string, userId: string): Observable<any>{
+            return this.http.post<any>(`${environment.apiUrl}/api/auth/incident`, { comment: incident, contractId: contractId, dateAdd: dateAdd, user: userId});
+        }
+
+        /**
+         * Permet de supprimer un incident d'un contrat
+         * 
+         * @param contractId, l'id du contrat
+         * @param incidentId, l'id de l'incident
+         * @returns Un observable contenant la réponse du serveur
+         */
+        deleteIncident(contractId: string, incidentId: string): Observable<any>{
+            return this.http.delete<any>(`${environment.apiUrl}/api/auth/incident/${incidentId}`);
+        }
+
+        /**
+         * Permet de récupérer les incidents d'un contrat
+         * 
+         * @param contractId, l'id du contrat
+         * @returns Un observable contenant les incidents du contrat
+         */
+        getIncidents(contractId: string): Observable<any[]>{
+            return this.http.get<any[]>(`${environment.apiUrl}/api/auth/incidents/${contractId}`);
+        }
     }

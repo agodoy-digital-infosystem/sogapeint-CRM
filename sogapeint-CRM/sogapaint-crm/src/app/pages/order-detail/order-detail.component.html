@@ -62,7 +62,7 @@
                                     <th scope="row">Nom du Co-Traitant</th>
                                     <td>{{ coContractor?.firstname }} {{ coContractor?.lastname }}</td>
                                 </tr>
-                                <tr *ngIf="contract.subcontractor">
+                                <tr *ngIf="contract?.subcontractor">
                                     <th scope="row">Nom du Sous-Traitant</th>
                                     <td>{{ subcontractor?.firstname }} {{ subcontractor?.lastname }}</td>
                                 </tr>
@@ -244,9 +244,18 @@
         </div>
         
         <!-- Troisième ligne de cartes -->
-        <!-- <div class="col-md-6">
+        <div class="row">
+            <!-- Première carte (Observations) -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <div class="card">
+                        <app-contract-activity [contractId]="contractId" [userId]="currentUser['userId']"></app-contract-activity>
+                    </div>
+                </div>
+            </div>
+        </div>
             
-        </div> -->
+         
     </div>
 </div>
 </div>

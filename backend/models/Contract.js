@@ -16,7 +16,9 @@ const contractSchema = new mongoose.Schema({
     // external_contributor: mongoose.Schema.Types.ObjectId,
     external_contributor: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     observation: [mongoose.Schema.Types.Mixed], // Assuming mixed types in the array
+    // observation: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Observation' }],
     incident: [mongoose.Schema.Types.Mixed], // Assuming mixed types in the array
+    // incident: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Incident' }],
     dateUpd: Date,
     dateAdd: Date,
     __v: Number,

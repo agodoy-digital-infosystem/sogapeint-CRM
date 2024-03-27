@@ -18,6 +18,7 @@ export class OrderDetailComponent implements OnInit {
     { label: 'Détail Commande', active: true }
   ];
   contract: any; // Contiendra les détails de la commande
+  contractId: string = '';
   difference_hours: number = 0;
   status: string = '';
   showSecretDiv: boolean = false;
@@ -42,6 +43,9 @@ export class OrderDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.userProfileService.getCurrentUser();
+    console.log('currentUser', this.currentUser);
+    // extrait l'identifiant de la commande de l'URL
+    this.contractId = this.route.snapshot.params['orderId'];
     this.route.params.subscribe(params => {
       const contractId = params['orderId']; // Vérifier que 'id' correspond au nom de paramètre défini dans votre route
       if (contractId) {

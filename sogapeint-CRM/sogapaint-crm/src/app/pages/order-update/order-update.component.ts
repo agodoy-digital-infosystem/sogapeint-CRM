@@ -21,6 +21,7 @@ export class OrderUpdateComponent implements OnInit {
   users: any[] = [];
   userInput$ = new Subject<string>();
   private unsubscribe$ = new Subject<void>();
+  currentUser: any;
   
   statuses = [
     { name: 'À réaliser', value: null }, 
@@ -65,6 +66,8 @@ export class OrderUpdateComponent implements OnInit {
     ) {}
     
     ngOnInit(): void {
+      this.currentUser = this.userProfileService.getCurrentUser();
+      console.log('Current user:', this.currentUser);
       this.contractId = this.route.snapshot.params['orderId'];
       this.initializeForm();
       this.loadContractData();

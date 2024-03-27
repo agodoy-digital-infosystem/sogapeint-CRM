@@ -124,4 +124,22 @@ router.get('/download', isAdminOrSuperAdmin, authController.downloadFile);
 // Route pour obtenir le nom d'une prestation par son id
 router.get('/benefit/:benefitId', isConnected, authController.getBenefitNameById);
 
+// Route pour ajouter une observation à un contrat
+router.post('/observation', isAdminOrSuperAdmin, authController.addObservation);
+
+// Route pour supprimer une observation d'un contrat
+router.delete('/observation/:observationId', isAdminOrSuperAdmin, authController.deleteObservation);
+
+// Route pour obtenir les observations d'un contrat
+router.get('/observations/:contractId', isConnected, authController.getObservations);
+
+// Route pour ajouter un incident à un contrat
+router.post('/incident', isAdminOrSuperAdmin, authController.addIncident);
+
+// Route pour supprimer un incident d'un contrat
+router.delete('/incident/:incidentId', isAdminOrSuperAdmin, authController.deleteIncident);
+
+// Route pour obtenir les incidents d'un contrat
+router.get('/incidents/:contractId', isConnected, authController.getIncidents);
+
 module.exports = router;
