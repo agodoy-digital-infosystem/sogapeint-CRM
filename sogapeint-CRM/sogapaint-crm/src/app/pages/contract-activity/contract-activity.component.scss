@@ -20,7 +20,7 @@
             }
             
             h5 {
-                font-size: 1rem;
+                font-size: 0.75rem;
                 font-weight: 600;
                 color: #5a5a5a;
             }
@@ -67,7 +67,7 @@
         gap: 10px;
         
         input, select {
-            border-radius: 15px;
+            border-radius: 5px;
             border: 1px solid #ccc;
             padding: 10px;
             flex-grow: 1;
@@ -81,27 +81,26 @@
         }
 
         input.form-control {
-            flex-grow: 2; // Give more room to the input
-            border-radius: 15px;
+            flex-grow: 3; // Give more room to the input
+            border-radius: 5px;
             border: 1px solid #ccc;
             padding: 10px;
         }
 
         
         button {
-            background-color: #007bff;
+            background-color: #5664D2;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 15px;
+            padding: 14px;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
             cursor: pointer;
             
             &:hover {
-                background-color: darken(#007bff, 5%);
+                background-color: darken(#5664D2, 5%);
             }
             
             i {
@@ -119,6 +118,7 @@
     }
 }
 
-ng-select.form-control {
-    width: 150px !important; // Adjust as needed
-  }
+// ng-select.form-control {
+//     width: 150px !important;
+//   }
+
