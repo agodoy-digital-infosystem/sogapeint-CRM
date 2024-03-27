@@ -74,16 +74,18 @@ export class OrderFormComponent implements OnInit {
 
   internalNumberList: any[] = [];
   abbreviationList: string[] = [];
+  fullAbbreviationList: string[] = []; // Liste complète des abréviations chargée initialement
+  filteredAbbreviationList: string[] = []; // Liste pour le filtrage et l'affichage
 
   // utilisé à des fins de test uniquement
-  internalNumberTest: string[] = [
-    'ABC-123', 'XYZ-001', 'INV-ALD', 'JKL-900', 'NOP-007',
-    'INVALID01', '123-456', 'QRS-123', 'TUV-300', 'WXYZ-543',
-    'GHI-250', 'VWX-875', 'DEF-654', 'ABC-899', 'PQR-500',
-    '123ABC', 'BCD-123', 'EFG-111', 'HIJ-222', 'KLM-333',
-    'STU-444', 'VWX-555', 'YZA-666', 'BCD-789', 'CDE-888',
-    'FGH-777', 'GHI-666', 'HIJ-555', 'IJK-444', 'JKL-333', "isdiu", '9qdsc6'
-  ];
+  // internalNumberTest: string[] = [
+  //   'ABC-123', 'XYZ-001', 'INV-ALD', 'JKL-900', 'NOP-007',
+  //   'INVALID01', '123-456', 'QRS-123', 'TUV-300', 'WXYZ-543',
+  //   'GHI-250', 'VWX-875', 'DEF-654', 'ABC-899', 'PQR-500',
+  //   '123ABC', 'BCD-123', 'EFG-111', 'HIJ-222', 'KLM-333',
+  //   'STU-444', 'VWX-555', 'YZA-666', 'BCD-789', 'CDE-888',
+  //   'FGH-777', 'GHI-666', 'HIJ-555', 'IJK-444', 'JKL-333', "isdiu", '9qdsc6'
+  // ];
   
   invalidKeyStrokes = 0;
   isEmojiVisible = false;
@@ -163,19 +165,39 @@ export class OrderFormComponent implements OnInit {
         // Récupérer les abréviations depuis le service
         this.getAbbreviationList();
 
-        // Setup for abbreviation search and typeahead functionality
+        // Filtrer les abréviations en temps réel
+        // this.abbreviationInput$.pipe(
+        //   debounceTime(300),
+        //   distinctUntilChanged(),
+        //   switchMap(term => {
+        //     const lowerCaseTerm = term.toLowerCase();
+        //     return lowerCaseTerm ? of(this.abbreviationList.filter(abbr => abbr.toLowerCase().includes(lowerCaseTerm))) : of(this.abbreviationList);
+        //   }),
+        //   takeUntil(this.unsubscribe$)
+        // ).subscribe(abbreviations => {
+        //   this.abbreviationList = abbreviations;
+        // });
         this.abbreviationInput$.pipe(
           debounceTime(300),
           distinctUntilChanged(),
-          switchMap(term => term ? this.companyService.searchCompanies(term.toLowerCase()) : of([])),
+          switchMap(term => {
+            if (term) {
+              const lowerCaseTerm = term.toLowerCase();
+              return of(this.fullAbbreviationList.filter(abbr => abbr.toLowerCase().includes(lowerCaseTerm)));
+            } else {
+              // Si la saisie de l'utilisateur est vide, retournez la liste complète
+              return of(this.fullAbbreviationList);
+            }
+          }),
           takeUntil(this.unsubscribe$)
-          ).subscribe(abbreviations => {
-            this.abbreviationList = abbreviations;
-          });
+        ).subscribe(filteredAbbreviations => {
+          this.filteredAbbreviationList = filteredAbbreviations;
+        });
+        
         
         // Calculer la différence entre les heures de prévision et d'exécution en temps réel
         this.orderForm.valueChanges.subscribe(val => {
-          // Vous devez utiliser `.value` pour obtenir la valeur actuelle des FormControl
+          // Utiliser `.value` pour obtenir la valeur actuelle des FormControl
           const totalPrevisionHours = (Number(this.orderForm.get("previsionDataDay").value) * 8) + Number(this.orderForm.get("previsionDataHour").value);
           const totalExecutionHours = (Number(this.orderForm.get("executionDataDay").value) * 8) + Number(this.orderForm.get("executionDataHour").value);
           const difference = totalExecutionHours - totalPrevisionHours;
@@ -194,7 +216,7 @@ export class OrderFormComponent implements OnInit {
           },
           // quand tous les numéros internes sont récupérés, affichez-les dans la console
           complete: () => {
-            console.log('Numéros internes récupérés:', this.internalNumberList);
+            // console.log('Numéros internes récupérés:', this.internalNumberList);
             this.initializeInternalNumber();
           },
           error: (error) => {
@@ -216,14 +238,14 @@ export class OrderFormComponent implements OnInit {
           .filter(number => number !== null);
     
         if (validNumbers.length === 0) {
-          console.log('Aucun numéro interne valide trouvé');
+          // console.log('Aucun numéro interne valide trouvé');
           return '001';
         }
     
         const maxNumber = Math.max(...validNumbers);
         const nextNumber = maxNumber + 1;
         const nextNumberString = nextNumber.toString().padStart(3, '0');
-        console.log('Prochain numéro interne:', nextNumberString);
+        // console.log('Prochain numéro interne:', nextNumberString);
         return String(nextNumberString);
       }
 
@@ -246,7 +268,11 @@ export class OrderFormComponent implements OnInit {
       getAbbreviationList(): void {
         this.companyService.getCompaniesAbbreviations().subscribe({
           next: (abbreviations) => {
-            this.abbreviationList = abbreviations;
+            this.fullAbbreviationList = abbreviations.filter(abbr => abbr !== null);
+            // classe les abréviations par ordre alphabétique
+            this.fullAbbreviationList.sort();
+            this.filteredAbbreviationList = this.fullAbbreviationList;
+            console.log('Abbreviations récupérées:', this.fullAbbreviationList);
           },
           error: (error) => {
             console.error('Erreur lors de la récupération des abréviations', error);
