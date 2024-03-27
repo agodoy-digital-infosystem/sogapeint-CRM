@@ -55,7 +55,8 @@ export class OrderFormComponent implements OnInit {
     { name: 'Réalisé', value: 'achieve' },
     { name: 'Annulé', value: 'canceled' },
     { name: 'Facturé', value: 'invoiced' },
-    { name: 'En cours', value: 'in_progress' }
+    { name: 'En cours', value: 'in_progress' },
+    { name: 'Anomalie', value: 'anomaly' }
   ];
   
   benefits = [
@@ -77,15 +78,6 @@ export class OrderFormComponent implements OnInit {
   fullAbbreviationList: string[] = []; // Liste complète des abréviations chargée initialement
   filteredAbbreviationList: string[] = []; // Liste pour le filtrage et l'affichage
 
-  // utilisé à des fins de test uniquement
-  // internalNumberTest: string[] = [
-  //   'ABC-123', 'XYZ-001', 'INV-ALD', 'JKL-900', 'NOP-007',
-  //   'INVALID01', '123-456', 'QRS-123', 'TUV-300', 'WXYZ-543',
-  //   'GHI-250', 'VWX-875', 'DEF-654', 'ABC-899', 'PQR-500',
-  //   '123ABC', 'BCD-123', 'EFG-111', 'HIJ-222', 'KLM-333',
-  //   'STU-444', 'VWX-555', 'YZA-666', 'BCD-789', 'CDE-888',
-  //   'FGH-777', 'GHI-666', 'HIJ-555', 'IJK-444', 'JKL-333', "isdiu", '9qdsc6'
-  // ];
   
   invalidKeyStrokes = 0;
   isEmojiVisible = false;

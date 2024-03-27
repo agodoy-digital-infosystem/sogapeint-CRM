@@ -28,7 +28,8 @@ export class OrderUpdateComponent implements OnInit {
     { name: 'Réalisé', value: 'achieve' },
     { name: 'Annulé', value: 'canceled' },
     { name: 'Facturé', value: 'invoiced' },
-    { name: 'En cours', value: 'in_progress' }
+    { name: 'En cours', value: 'in_progress' },
+    { name: 'Anomalie', value: 'anomaly' }
   ];
   
   benefits = [

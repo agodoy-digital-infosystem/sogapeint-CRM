@@ -169,7 +169,8 @@ export class OrderDetailComponent implements OnInit {
       'achieve': 'Réalisé',
       'canceled': 'Annulé',
       'invoiced': 'Facturé',
-      'in_progress': 'En cours'
+      'in_progress': 'En cours',
+      'anomaly': 'Anomalie'
     };
   
     // Convertir la valeur null en chaîne 'null' pour la recherche dans le dictionnaire
