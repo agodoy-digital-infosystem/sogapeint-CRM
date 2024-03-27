@@ -166,17 +166,6 @@ export class OrderFormComponent implements OnInit {
         this.getAbbreviationList();
 
         // Filtrer les abréviations en temps réel
-        // this.abbreviationInput$.pipe(
-        //   debounceTime(300),
-        //   distinctUntilChanged(),
-        //   switchMap(term => {
-        //     const lowerCaseTerm = term.toLowerCase();
-        //     return lowerCaseTerm ? of(this.abbreviationList.filter(abbr => abbr.toLowerCase().includes(lowerCaseTerm))) : of(this.abbreviationList);
-        //   }),
-        //   takeUntil(this.unsubscribe$)
-        // ).subscribe(abbreviations => {
-        //   this.abbreviationList = abbreviations;
-        // });
         this.abbreviationInput$.pipe(
           debounceTime(300),
           distinctUntilChanged(),

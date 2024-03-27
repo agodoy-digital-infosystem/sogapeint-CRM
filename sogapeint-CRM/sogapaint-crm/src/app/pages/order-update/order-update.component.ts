@@ -47,6 +47,8 @@ export class OrderUpdateComponent implements OnInit {
   
   internalNumberList: any[] = [];
   abbreviationList: string[] = [];
+  fullAbbreviationList: string[] = []; // Liste complète des abréviations chargée initialement
+  filteredAbbreviationList: string[] = []; // Liste pour le filtrage et l'affichage
   abbreviationInput$ = new Subject<string>();
   
   contractId: string;
@@ -88,11 +90,19 @@ export class OrderUpdateComponent implements OnInit {
       this.abbreviationInput$.pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap(term => term ? this.companyService.searchCompanies(term.toLowerCase()) : of([])),
+        switchMap(term => {
+          if (term) {
+            const lowerCaseTerm = term.toLowerCase();
+            return of(this.fullAbbreviationList.filter(abbr => abbr.toLowerCase().includes(lowerCaseTerm)));
+          } else {
+            // Si la saisie de l'utilisateur est vide, retournez la liste complète
+            return of(this.fullAbbreviationList);
+          }
+        }),
         takeUntil(this.unsubscribe$)
-        ).subscribe(abbreviations => {
-          this.abbreviationList = abbreviations;
-        });
+      ).subscribe(filteredAbbreviations => {
+        this.filteredAbbreviationList = filteredAbbreviations;
+      });
         
         // Calculer la différence entre les heures de prévision et d'exécution en temps réel
         this.orderUpdateForm.valueChanges.subscribe(val => {
@@ -204,6 +214,7 @@ export class OrderUpdateComponent implements OnInit {
         forkJoin(userRequests).subscribe(userResponses => {
           if (contract.customer) patchValues.customer = userResponses.find(u => u._id === contract.customer);
           if (contract.contact) patchValues.contact = userResponses.find(u => u._id === contract.contact);
+          if (contract.internal_contributor) patchValues.internal_contributor = userResponses.find(u => u._id === contract.internal_contributor);
           if (contract.external_contributor) patchValues.external_contributor = userResponses.find(u => u._id === contract.external_contributor);
           if (contract.subcontractor) patchValues.subcontractor = userResponses.find(u => u._id === contract.subcontractor);
           
@@ -313,7 +324,9 @@ export class OrderUpdateComponent implements OnInit {
         getAbbreviationList(): void {
           this.companyService.getCompaniesAbbreviations().subscribe({
             next: (abbreviations) => {
-              this.abbreviationList = abbreviations;
+              this.fullAbbreviationList = abbreviations.filter(abbr => abbr !== null);
+              this.fullAbbreviationList.sort();
+              this.filteredAbbreviationList = this.fullAbbreviationList;
             },
             error: (error) => {
               console.error('Erreur lors de la récupération des abréviations', error);

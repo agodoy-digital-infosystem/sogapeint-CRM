@@ -19,15 +19,14 @@
                                 <ng-select 
                                 id="internalNumberAbbrPart" 
                                 formControlName="internalNumberAbbrPart" 
-                                [items]="abbreviationList" 
+                                [items]="filteredAbbreviationList" 
                                 placeholder="Sélectionnez l'abréviation" 
                                 class="form-control"
                                 [addTag]="true" 
                                 addTagText="Ajouter l'abbréviation" 
                                 [typeahead]="abbreviationInput$"
                                 [virtualScroll]="true"
-                                bindLabel="internalNumberAbbrPart"
-                                bindValue="internalNumberAbbrPart"
+                                
                                 ></ng-select>
                             </div>
                             <div class="col-auto align-self-center">
