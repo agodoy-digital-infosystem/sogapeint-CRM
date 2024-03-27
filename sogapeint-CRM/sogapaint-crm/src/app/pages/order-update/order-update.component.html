@@ -114,13 +114,13 @@
             <div class="card-body">
                 <!-- contributeur interne -->
                 <div class="mb-3">
-                    <label for="internal_contributor" class="form-label">Contributeur Sogapeint</label>
+                    <label for="internal_contributor" class="form-label">Intervenant Sogapeint</label>
                     <ng-select id="internal_contributor" 
                     formControlName="internal_contributor" 
                     [items]="users" 
                     bindLabel="name" 
                     bindValue="_id" 
-                    placeholder="Sélectionner un client"
+                    placeholder="Sélectionner un intervenant Sogapeint"
                     [typeahead]="userInput$"
                     [virtualScroll]="true" 
                     [addTag]="false" 
