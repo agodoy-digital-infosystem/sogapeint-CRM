@@ -37,6 +37,7 @@ const contractSchema = new mongoose.Schema({
     // subcontractor: String,
     subcontractor: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     external_contributor_amount: Number,
+    subcontractor_amount: Number,
     start_date_works: Date,
     end_date_works: Date,
     end_date_customer: Date,

@@ -24,11 +24,11 @@ export class OrderUpdateComponent implements OnInit {
   currentUser: any;
   
   statuses = [
+    { name: 'En cours', value: 'in_progress' },
     { name: 'À réaliser', value: null }, 
     { name: 'Réalisé', value: 'achieve' },
     { name: 'Annulé', value: 'canceled' },
     { name: 'Facturé', value: 'invoiced' },
-    { name: 'En cours', value: 'in_progress' },
     { name: 'Anomalie', value: 'anomaly' }
   ];
   
@@ -115,6 +115,16 @@ export class OrderUpdateComponent implements OnInit {
           // Mise à jour du formulaire sans déclencher un nouvel événement valueChanges
           this.orderUpdateForm.patchValue({difference: difference}, {emitEvent: false});
         });
+
+        // calculer le bénéfice en temps réel (montant HT - montant contributeur externe - montant sous-traitant)
+        this.orderUpdateForm.valueChanges.subscribe(val => {
+          const amountHt = Number(this.orderUpdateForm.get("amount_ht").value);
+          const benefitHt = Number(this.orderUpdateForm.get("benefit_ht").value);
+          const external_contributor_amount = Number(this.orderUpdateForm.get("external_contributor_amount").value);
+          const subcontractor_amount = Number(this.orderUpdateForm.get("subcontractor_amount").value);
+          const benefitHT = amountHt - external_contributor_amount - subcontractor_amount;
+          this.orderUpdateForm.patchValue({benefit: benefitHT}, {emitEvent: false});
+        });
       }
       
       private initializeForm() {
@@ -133,6 +143,8 @@ export class OrderUpdateComponent implements OnInit {
           mail_sended: new FormControl(''),
           invoice_number: new FormControl(''),
           amount_ht: new FormControl('', [Validators.pattern(/^\d+\.?\d*$/)]),
+          external_contributor_amount: new FormControl('', [Validators.pattern(/^\d+\.?\d*$/)]),
+          subcontractor_amount: new FormControl('', [Validators.pattern(/^\d+\.?\d*$/)]),
           benefit_ht: new FormControl('', [Validators.pattern(/^\d+\.?\d*$/)]),
           prevision_data_hour: new FormControl('', [Validators.pattern(/^\d+$/)]),
           prevision_data_day: new FormControl('', [Validators.pattern(/^\d+$/)]),
@@ -244,9 +256,6 @@ export class OrderUpdateComponent implements OnInit {
               next: () => {
                 this.onFileUpload(this.newFiles, this.contractId);
               },
-              // next: () => {
-              //   this.router.navigate(['/order-detail', this.contractId]);
-              // },
               error: (error) => {
                 console.error('Error updating contract:', error);
               }
@@ -352,7 +361,6 @@ export class OrderUpdateComponent implements OnInit {
 
         // GED
       onFileUpload(files: File[], contractId: string) {
-        // const fileArray: File[] = Array.from(files);
         console.log("Fichiers à uploader:", files);
         
         this.contractService.uploadFiles(contractId, files).subscribe(

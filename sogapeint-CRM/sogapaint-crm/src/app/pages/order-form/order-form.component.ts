@@ -29,6 +29,8 @@ export class OrderFormComponent implements OnInit {
     mailSended: false,
     invoiceNumber: '',
     amountHt: null,
+    externalContributorAmount: 0,
+    subcontractorAmount: 0,
     benefitHt: null,
     previsionDataHour: 0, // Nouveau champ ajouté
     previsionDataDay: 0,  // Nouveau champ ajouté
@@ -51,11 +53,11 @@ export class OrderFormComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
   
   statuses = [
+    { name: 'En cours', value: 'in_progress' },
     { name: 'À réaliser', value: null }, // ou une chaîne vide si nécessaire
     { name: 'Réalisé', value: 'achieve' },
     { name: 'Annulé', value: 'canceled' },
     { name: 'Facturé', value: 'invoiced' },
-    { name: 'En cours', value: 'in_progress' },
     { name: 'Anomalie', value: 'anomaly' }
   ];
   
@@ -109,6 +111,8 @@ export class OrderFormComponent implements OnInit {
         invoiceNumber: new FormControl(this.contractData.invoiceNumber),
         amountHt: new FormControl(this.contractData.amountHt, [Validators.pattern(/^\d+\.?\d*$/)]), // Only numbers with optional decimal
         benefitHt: new FormControl(this.contractData.benefitHt, [Validators.pattern(/^\d+\.?\d*$/)]), // Only numbers with optional decimal
+        externalContributorAmount: new FormControl(this.contractData.externalContributorAmount, [Validators.pattern(/^\d+\.?\d*$/)]), // Only numbers with optional decimal
+        subcontractorAmount: new FormControl(this.contractData.subcontractorAmount, [Validators.pattern(/^\d+\.?\d*$/)]), // Only numbers with optional decimal
         previsionDataHour: new FormControl(this.contractData.previsionDataHour, [Validators.pattern(/^\d+$/)]), // Only whole numbers
         previsionDataDay: new FormControl(this.contractData.previsionDataDay, [Validators.pattern(/^\d+$/)]), // Only whole numbers
         executionDataDay: new FormControl(this.contractData.executionDataDay, [Validators.pattern(/^\d+$/)]), // Only whole numbers
@@ -185,6 +189,15 @@ export class OrderFormComponent implements OnInit {
         
           // Mise à jour du formulaire sans déclencher un nouvel événement valueChanges
           this.orderForm.patchValue({difference: difference}, {emitEvent: false});
+        });
+
+        // Calcul du bénéfice en temps réel
+        this.orderForm.valueChanges.subscribe(val => {
+          const amountHt = this.orderForm.get("amountHt").value;
+          const externalContributorAmount = this.orderForm.get("externalContributorAmount").value;
+          const subcontractorAmount = this.orderForm.get("subcontractorAmount").value;
+          const benefitHT = amountHt - externalContributorAmount - subcontractorAmount;
+          this.orderForm.patchValue({benefit_ht: benefitHT}, {emitEvent: false});
         });
       }
 
@@ -363,6 +376,8 @@ export class OrderFormComponent implements OnInit {
         dataForSubmission['occupied'] = this.convertToBoolean(dataForSubmission['occupied']);
         dataForSubmission['trash'] = this.convertToBoolean(dataForSubmission['trash']);
         dataForSubmission['amount_ht'] = this.convertToNumber(dataForSubmission['amount_ht']);
+        dataForSubmission['external_contributor_amount'] = this.convertToNumber(dataForSubmission['external_contributor_amount']);
+        dataForSubmission['subcontractor_amount'] = this.convertToNumber(dataForSubmission['subcontractor_amount']);
         dataForSubmission['benefit_ht'] = this.convertToNumber(dataForSubmission['benefit_ht']);
         dataForSubmission['execution_data_day'] = this.convertToNumber(dataForSubmission['execution_data_day']);
         dataForSubmission['execution_data_hour'] = this.convertToNumber(dataForSubmission['execution_data_hour']);

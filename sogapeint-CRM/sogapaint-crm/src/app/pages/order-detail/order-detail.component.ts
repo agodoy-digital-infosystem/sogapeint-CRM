@@ -131,17 +131,6 @@ export class OrderDetailComponent implements OnInit {
         
   }
 
-  // getBenefitName(benefitId: string): string {
-  //   let benefitName = '';
-  //   this.contractService.getBenefitById(benefitId).subscribe({
-  //     next: (data) => {
-  //       benefitName = data.name;
-  //       console.log('Nom de la prestation chargé', benefitName);
-  //     },
-  //     error: (error) => console.error('Erreur lors du chargement du nom de la prestation', error)
-  //   });
-  //   return benefitName;
-  // }
   getBenefitName(benefitId: string): string {
     // Mapping des identifiants aux noms des bénéfices
     const benefitsMap: { [key: string]: string } = {
@@ -165,11 +154,11 @@ export class OrderDetailComponent implements OnInit {
   getStatus(value: string | null): string {
     // Dictionnaire de statuts
     const statusDict: { [key: string]: string } = {
+      'in_progress': 'En cours',
       'null': 'À réaliser', // Utiliser 'null' comme chaîne pour représenter la valeur null
       'achieve': 'Réalisé',
       'canceled': 'Annulé',
       'invoiced': 'Facturé',
-      'in_progress': 'En cours',
       'anomaly': 'Anomalie'
     };
   

@@ -551,7 +551,9 @@ exports.resetPasswordFromAdmin = async (req, res) => {
   exports.getContracts = async (req, res) => {
     try {
       // console.log('Récupération de tous les contrats');
-      // Récupère tous les contrats, remplace les objectId contenus dans customer, contact, external_contributor et subcontractor par les user complets
+      // Récupère tous les contrats, remplace les objectId contenus 
+      // dans customer, contact, external_contributor et 
+      // subcontractor par les user complets
       const contracts = await ContractModel.find()
       .populate('customer')
       .populate('contact')
@@ -845,23 +847,64 @@ exports.resetPasswordFromAdmin = async (req, res) => {
     try {
       // Extraction des champs nécessaires du corps de la requête
       const {
-        internal_number, customer, contact, internal_contributor, external_contributor, subcontractor, address, appartment_number, quote_number,
-        mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
-        status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
+        internal_number,
+        customer,
+        contact,
+        internal_contributor,
+        external_contributor,
+        external_contributor_amount,
+        subcontractor,
+        subcontractor_amount,
+        address,
+        appartment_number,
+        quote_number,
+        mail_sended,
+        invoice_number,
+        amount_ht,
+        benefit_ht,
+        execution_data_day,
+        execution_data_hour,
+        benefit,
+        status,
+        occupied,
+        start_date_works,
+        end_date_works,
+        end_date_customer,
+        trash,
+        date_cde,
       } = req.body;
-      // console.log('internal_number:', internal_number);
-      // Vérification de l'existence préalable du contrat via le numéro interne => désactivé car le numéro interne n'est pas unique
-      // let contract = await ContractModel.findOne({ internal_number });
-      // if (contract) {
-      //   return res.status(400).json({ message: 'Un contrat avec ce numéro interne existe déjà.'+JSON.stringify(contract) });
-      // }
+      
+  
       
       // Création d'un nouveau contrat avec les champs adaptés
       const newContract = new ContractModel({
-        internal_number, customer, contact, internal_contributor, external_contributor, subcontractor, address, appartment_number, quote_number,
-        mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
-        status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
+        internal_number,
+        customer,
+        contact,
+        internal_contributor,
+        external_contributor,
+        external_contributor_amount,
+        subcontractor,
+        subcontractor_amount,
+        address,
+        appartment_number,
+        quote_number,
+        mail_sended,
+        invoice_number,
+        amount_ht,
+        benefit_ht,
+        execution_data_day,
+        execution_data_hour,
+        benefit,
+        status,
+        occupied,
+        start_date_works,
+        end_date_works,
+        end_date_customer,
+        trash,
+        date_cde,
       });
+      
       
       // Enregistrement du nouveau contrat dans la base de données
       await newContract.save();
@@ -883,16 +926,65 @@ exports.resetPasswordFromAdmin = async (req, res) => {
     try {
       // console.log('Modification du contrat');
       const { contractId } = req.params;
-      const { internal_number, customer, contact, external_contributor, address, appartment_number, quote_number,
-        mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
-        status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde } = req.body;
-        // console.log('Contract id:', contractId);
-        // Mise à jour du contrat
-        const updatedContract = await ContractModel.findByIdAndUpdate(new mongoose.Types.ObjectId(contractId), {
-          internal_number, customer, contact, external_contributor, address, appartment_number, quote_number,
-          mail_sended, invoice_number, amount_ht, benefit_ht, execution_data_day, execution_data_hour, benefit,
-          status, occupied, start_date_works, end_date_works, end_date_customer, trash, date_cde
-        }, { new: true });
+      const {
+        internal_number,
+        customer,
+        contact,
+        external_contributor,
+        external_contributor_amount,
+        subcontractor,
+        subcontractor_amount,
+        address,
+        appartment_number,
+        quote_number,
+        mail_sended,
+        invoice_number,
+        amount_ht,
+        benefit_ht,
+        execution_data_day,
+        execution_data_hour,
+        benefit,
+        status,
+        occupied,
+        start_date_works,
+        end_date_works,
+        end_date_customer,
+        trash,
+        date_cde,
+      } = req.body;
+      
+      // Mise à jour du contrat
+      const updatedContract = await ContractModel.findByIdAndUpdate(
+        new mongoose.Types.ObjectId(contractId),
+        {
+          internal_number,
+          customer,
+          contact,
+          external_contributor,
+          external_contributor_amount,
+          subcontractor,
+          subcontractor_amount,
+          address,
+          appartment_number,
+          quote_number,
+          mail_sended,
+          invoice_number,
+          amount_ht,
+          benefit_ht,
+          execution_data_day,
+          execution_data_hour,
+          benefit,
+          status,
+          occupied,
+          start_date_works,
+          end_date_works,
+          end_date_customer,
+          trash,
+          date_cde,
+        },
+        { new: true }
+      );
+      
         
         if (!updatedContract) {
           return res.status(404).json({ message: 'Contrat non trouvé.' });

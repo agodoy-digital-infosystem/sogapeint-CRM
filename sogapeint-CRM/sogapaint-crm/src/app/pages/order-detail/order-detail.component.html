@@ -148,6 +148,16 @@
                                 <th scope="row">Montant HT</th>
                                 <td>{{ contract?.amount_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}</td>
                             </tr>
+                            <!-- montant contributeur externe (external_contributor_amount)-->
+                            <tr>
+                                <th scope="row">Montant Contributeur Externe</th>
+                                <td>{{ contract?.external_contributor_amount || 0 | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}</td>
+                            </tr>
+                            <!-- montant sous-traitant (subcontractor_amount) -->
+                            <tr>
+                                <th scope="row">Montant Sous-Traitant</th>
+                                <td>{{ contract?.subcontractor_amount || 0 | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}</td>
+                            </tr>
                             <tr>
                                 <th scope="row">Bénéfice HT</th>
                                 <td>{{ contract?.benefit_ht | currency:'EUR':'symbol-narrow':'1.2-2':'fr' }}</td>
